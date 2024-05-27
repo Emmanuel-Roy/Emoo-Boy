@@ -20,4 +20,6 @@ I have a lot of nostalgia for the system, and I figured creating an accurate sim
   * Implement Sound.
   * Implement Gameboy Color Compatibility.
 
+## Challenges
+
 ## Reference:
