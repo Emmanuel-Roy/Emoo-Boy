@@ -5,7 +5,9 @@
   * Pavan Patel
 
 ## Introduction:
-After writing my chip8 interpreter, I decided to work on a more advanced project, a complete simulation of the original Nintendo Gameboy system.
+The Nintendo Gameboy system is one of the most beloved devices of all time, selling a combined 118.69 million units worldwide, one of which ended up in the hands of my family. 
+
+I have a lot of nostalgia for the system, and I figured creating an accurate simulation of the hardware would be an incredibly challenging yet fulfilling technical achievement.
 
 ## Goals:
   * Pass the blarrg CPU unit tests.
@@ -13,7 +15,7 @@ After writing my chip8 interpreter, I decided to work on a more advanced project
   * Implement reading/writing save files.
   * Implement Graphics.
 
-## Stretch Goals:
+## Planned Editions:
   * Implement the Pixel FiFo-based graphics system for perfect compatibility.
   * Implement Sound.
   * Implement Gameboy Color Compatibility.
