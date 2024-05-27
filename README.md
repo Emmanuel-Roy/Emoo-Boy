@@ -13,10 +13,10 @@ I have a lot of nostalgia for the system, and I figured creating an accurate sim
   * Pass the blarrg CPU unit tests.
   * Boot commercial games like Tetris and Pokemon Red/Blue.
   * Implement reading/writing save files.
-  * Implement Graphics.
+  * Implement Graphics with basic accuracy.
 
 ## Planned Editions:
-  * Implement the Pixel FiFo-based graphics system for perfect compatibility.
+  * Implement the Pixel FiFo-based graphics for high accuracy.
   * Implement Sound.
   * Implement Gameboy Color Compatibility.
 
