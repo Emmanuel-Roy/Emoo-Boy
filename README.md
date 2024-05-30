@@ -19,6 +19,7 @@ I have a lot of nostalgia for the system, and I figured creating an accurate sim
   * Implement the Pixel FiFo-based graphics for high accuracy.
   * Implement Sound.
   * Implement Gameboy Color Compatibility.
+  * Make a physical device using a Raspberry Pi Zero with a custom PCB and Casing.
 
 ## Challenges
 
