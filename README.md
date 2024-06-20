@@ -27,7 +27,7 @@ My Ultimate Goal with this project is for the emulator to run the following game
   * Implement Gameboy Color Compatibility.
   * Make a physical device using a Raspberry Pi Zero with a custom PCB and Casing.
 
-## Challenges
+## My Process and Challenges.
 
 ## Reference:
    * https://github.com/jacoblister/emuboy <- I found his journey to create a Gameboy emulator incredibly useful in determining which order I tackled the technical problems in this project.
