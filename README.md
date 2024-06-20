@@ -9,6 +9,11 @@ The Nintendo Gameboy system is one of the most beloved devices of all time, sell
 
 I have a lot of nostalgia for the system, and I figured creating an accurate simulation of the hardware would be an incredibly challenging yet fulfilling technical achievement.
 
+My Ultimate Goal with this project is for the emulator to run the following games from my childhood with near-perfect accuracy.
+* Pokemon Gold
+* The Legend of Zelda Links Awakening
+* Kirby's Dream Land 2
+
 ## Goals:
   * Boot commercial games like Tetris and Pokemon Gold.
   * Custom Palette Support.
