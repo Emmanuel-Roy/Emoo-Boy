@@ -2,7 +2,9 @@
 
 ## Contributors:
   * Emmanuel Roy
-  * Pavan Patel
+    
+## Testers:
+  * 
 
 ## Introduction:
 The Nintendo Gameboy system is one of the most beloved devices of all time, selling a combined 118.69 million units worldwide, one of which ended up in the hands of my family. 
