@@ -29,6 +29,9 @@ My Ultimate Goal with this project is for the emulator to run the following game
 
 ## My Process and Challenges.
 
+### Initial Background Renderer Attempt.
+![image](https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/b88b7e96-f4ab-4963-be9f-74e88de82ec8)
+
 ## Reference:
    * https://github.com/jacoblister/emuboy <- I found his journey to create a Gameboy emulator incredibly useful in determining which order I tackled the technical problems in this project.
    * [Pandocs](https://gbdev.io/pandocs/)
