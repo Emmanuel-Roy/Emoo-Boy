@@ -30,7 +30,7 @@ My Ultimate Goal with this project is for the emulator to run the following game
 ## My Process and Challenges.
 
 ### Initial Background Renderer Attempt.
-![image](https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/b88b7e96-f4ab-4963-be9f-74e88de82ec8) -> ![image](https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/21f3ff0b-8fd9-4ebc-9d3f-259d480ec9bd)
+![image](https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/b88b7e96-f4ab-4963-be9f-74e88de82ec8 = 250x250) -> ![image](https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/21f3ff0b-8fd9-4ebc-9d3f-259d480ec9bd = 250x250)
 
 
 ## Reference:
