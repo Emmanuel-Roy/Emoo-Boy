@@ -25,7 +25,7 @@ My Ultimate Goal with this project is for the emulator to run the following game
   * Real Time Clock Support
   * Implement Sound.
   * Implement Gameboy Color Compatibility.
-  * Make a physical device using a Raspberry Pi Zero with a custom PCB and Casing.
+  * Make a physical device, hopefully around the size of a credit card, using a Raspberry Pi Zero with a custom PCB and Casing.
 
 ## My Process and Challenges.
 
