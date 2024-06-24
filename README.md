@@ -18,8 +18,8 @@ My Ultimate Goal with this project is for the emulator to run the following game
   * Boot commercial games like Tetris and Pokemon Gold.
   * Custom Palette Support.
   * Save Support
-  * Implement MBC1, MBC3, MBC5
-  * Implement all instructions and pass the Blargg CPU unit tests.
+  * Implement rendering based on the Pixel Fifo and pass the dmg-acid2 display test.
+  * Implement all instructions and pass the Blargg cpu_instrs test.
 
 ## Planned Editions:
   * Real Time Clock Support
