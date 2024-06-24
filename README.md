@@ -1,4 +1,4 @@
-# A Gameboy Emulator written in C
+# Emoo-Boy: A Gameboy Emulator written in C
 
 ## Contributors:
   * Emmanuel Roy
