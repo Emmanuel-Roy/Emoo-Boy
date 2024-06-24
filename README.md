@@ -1,4 +1,4 @@
-# Gameboy Emulator written in C
+# A Gameboy Emulator written in C
 
 ## Contributors:
   * Emmanuel Roy
