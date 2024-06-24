@@ -45,8 +45,6 @@ My Ultimate Goal with this project is for the emulator to run the following game
 <img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/b88b7e96-f4ab-4963-be9f-74e88de82ec8" width="320">
 <img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/21f3ff0b-8fd9-4ebc-9d3f-259d480ec9bd" width="320">
 <img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/7d745293-6f5f-4236-adc6-aa18fda82707" width="320">
-<img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/7e5e6cc2-6ce0-418a-a780-5b6eb17fd2ef" width="320">
-<img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/cfba859a-90dc-46a3-a1b5-432c63e53f4b" width="320">
 
 #### Background Scrolling
 <img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/fd14776d-09b6-4c5f-9d07-fb41d3166ddd" width="320">
