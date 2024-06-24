@@ -60,7 +60,7 @@ My Ultimate Goal with this project is for the emulator to run the following game
 
 ## Reference:
    * https://github.com/jacoblister/emuboy <- I found his journey to create a Gameboy emulator incredibly useful in determining which order I tackled the technical problems in this project.
-   * https://github.com/gameplaycolor/gameplaycolor <- Inspiration for this project, I have fond memories of using this emulator to play a dump of my brother's Pokemon Blue Cartridge on my school iPad back in Middle School.
+   * https://github.com/gameplaycolor/gameplaycolor <- Inspiration for this project, I have fond memories of using this emulator to play a dump of my brother's Pokemon Blue Cartridge on my middle school iPad.
    * [Pandocs](https://gbdev.io/pandocs/)
    * [Ultimate Gameboy Talk](https://www.youtube.com/watch?v=HyzD8pNlpwI)
    * r/EmuDev and the Emulator Development Discord Server.
