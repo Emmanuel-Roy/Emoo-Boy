@@ -29,18 +29,18 @@ My Ultimate Goal with this project is for the emulator to run the following game
 
 ## My Process and Challenges.
 
-### Why I chose C and not a more modern language.
+#### Why I chose C and not a more modern language.
+ *
 
-
-### Initial Renderer Attempts.
+#### Initial Renderer Attempts.
 <img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/b88b7e96-f4ab-4963-be9f-74e88de82ec8" width="320">
 <img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/21f3ff0b-8fd9-4ebc-9d3f-259d480ec9bd" width="320">
 <img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/7d745293-6f5f-4236-adc6-aa18fda82707" width="320">
 <img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/7e5e6cc2-6ce0-418a-a780-5b6eb17fd2ef" width="320">
 <img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/cfba859a-90dc-46a3-a1b5-432c63e53f4b" width="320">
 
-#### -I started this project by working on a basic renderer, and I did so because I thought this would be incredibly useful to help debug other components early on. To do this, I used mGBA to dump Memory Data while games were playing and created a renderer based on the information in the Gameboy Pandocs to reconstruct this memory data into actual frames.
-#### -This was useful in teaching me some basic system details, and it was awesome to see visual confirmation of my progress in real-time.
+ * I started this project by working on a basic renderer, and I did so because I thought this would be incredibly useful to help debug other components early on. To do this, I used mGBA to dump Memory Data while games were playing and created a renderer based on the information in the Gameboy Pandocs to reconstruct this memory data into actual frames.
+ * This was useful in teaching me some basic system details, and it was awesome to see visual confirmation of my progress in real-time.
 
 ### Designing the Software Structure.
 
