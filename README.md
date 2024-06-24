@@ -30,7 +30,8 @@ My Ultimate Goal with this project is for the emulator to run the following game
 ## My Process and Challenges.
 
 #### Why I chose C and not a more modern language.
- *
+ * In short, I wanted to reduce the amount of dependencies used and maximize compatibility on a wide range of systems. As mentioned in my planned editions, I want to eventually be able to run this emulator on its embedded system, and I feel that using C will open doors for this later on, even if the lack of classes and other object-oriented fundamentals lead to somewhat messier code.
+ * In addition, my current university courses focus on languages like C++ and Java, and I feel as if I have become somewhat complacent in maintaining my C programming skills.
 
 #### Initial Renderer Attempts.
 <img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/b88b7e96-f4ab-4963-be9f-74e88de82ec8" width="320">
