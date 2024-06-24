@@ -29,7 +29,7 @@ My Ultimate Goal with this project is for the emulator to run the following game
 
 ## My Process and Challenges.
 
-### Why I used C and not C++ or another modern language.
+### Why I chose C and not a more modern language.
 
 
 ### Initial Renderer Attempts.
