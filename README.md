@@ -42,8 +42,25 @@ My Ultimate Goal with this project is for the emulator to run the following game
 #### -I started this project by working on a basic renderer, and I did so because I thought this would be incredibly useful to help debug other components early on. To do this, I used mGBA to dump Memory Data while games were playing and created a renderer based on the information in the Gameboy Pandocs to reconstruct this memory data into actual frames.
 #### -This was useful in teaching me some basic system details, and it was awesome to see visual confirmation of my progress in real-time.
 
+### Designing the Software Structure.
+
+### Implementing the ROM and RAM
+
+### Implementing the CPU
+
+### Implementing Timer, Interrupt, and Gamepad Interactions
+
+### Implementing the Interrupt Service Routine in the CPU.
+
+### Completing the PPU and DMA
+
+### Adding Bank Switching Support
+
+### Audio Support (To Do)
+
 ## Reference:
    * https://github.com/jacoblister/emuboy <- I found his journey to create a Gameboy emulator incredibly useful in determining which order I tackled the technical problems in this project.
+   * https://github.com/gameplaycolor/gameplaycolor <- Inspiration for this project, I have fond memories of using this emulator to play a dump of my brother's Pokemon Blue Cartridge on my school iPad back in Middle School.
    * [Pandocs](https://gbdev.io/pandocs/)
    * [Ultimate Gameboy Talk](https://www.youtube.com/watch?v=HyzD8pNlpwI)
    * r/EmuDev and the Emulator Development Discord Server.
