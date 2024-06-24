@@ -36,10 +36,11 @@ My Ultimate Goal with this project is for the emulator to run the following game
 
 ### Initial Renderer Attempts.
  * I started this project by working on a basic renderer, and I did so because I thought this would be incredibly useful to help debug other components early on. To do this, I used mGBA to dump Memory Data while games were playing and created a renderer based on the information in the Gameboy Pandocs to reconstruct this memory data into actual frames.
- * This was useful in teaching me some basic system details, and it was awesome to see visual confirmation of my progress in real-time.
+ * This was useful in teaching me some basic system details, and it was awesome to see visual confirmation of my progress in real-time. Using memory dumps was also insightful to figure out what potential save state functionality could look like in the future. 
  * I started working on a renderer for the background, as seen by the first 5 images, and once I verified that worked I tested background scrolling.
  * After implementing the background, I sought to implement the window functionality.
  * Finally, to complete the basic renderer I implemented OAM scanning and sprite functionality.
+ * At this point, I tried to test the DMG-Acid2 ROM, however, the results and errors found from testing were most likely not problems with implementation, but rather the inherent problems from rendering out of a memory dump. Getting this test to render properly as a goal was moved to be done during PPU testing and evaluation.
 
 #### Background Renderer (1-3), Background Scrolling (4-5), Window Renderer (6), Sprite Renderer (7)
 <img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/b88b7e96-f4ab-4963-be9f-74e88de82ec8" width="200">
