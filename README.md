@@ -48,6 +48,7 @@ My Ultimate Goal with this project is for the emulator to run the following game
 
 #### Background Scrolling
 <img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/fd14776d-09b6-4c5f-9d07-fb41d3166ddd" width="320">
+<img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/55fd1cc6-2888-4f58-9a4d-d46c7210a715" width="320">
 
 #### Window Renderer
 
