@@ -42,16 +42,16 @@ My Ultimate Goal with this project is for the emulator to run the following game
  * Finally, to complete the basic renderer I implemented OAM scanning and sprite functionality.
 
 #### Background Renderer
-<img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/b88b7e96-f4ab-4963-be9f-74e88de82ec8" width="160">
-<img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/21f3ff0b-8fd9-4ebc-9d3f-259d480ec9bd" width="160">
-<img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/7d745293-6f5f-4236-adc6-aa18fda82707" width="160">
+<img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/b88b7e96-f4ab-4963-be9f-74e88de82ec8" width="200">
+<img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/21f3ff0b-8fd9-4ebc-9d3f-259d480ec9bd" width="200">
+<img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/7d745293-6f5f-4236-adc6-aa18fda82707" width="200">
 
 #### Background Scrolling
-<img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/fd14776d-09b6-4c5f-9d07-fb41d3166ddd" width="160">
-<img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/55fd1cc6-2888-4f58-9a4d-d46c7210a715" width="160">
+<img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/fd14776d-09b6-4c5f-9d07-fb41d3166ddd" width="200">
+<img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/55fd1cc6-2888-4f58-9a4d-d46c7210a715" width="200">
 
 #### Window Renderer
-<img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/f9ed6ac8-85ef-4395-bc62-1c14d558e0c8" width="160">
+<img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/f9ed6ac8-85ef-4395-bc62-1c14d558e0c8" width="200">
 
 #### Sprite Renderer
 
