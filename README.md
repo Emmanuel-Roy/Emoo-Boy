@@ -43,6 +43,9 @@ My Ultimate Goal with this project is for the emulator to run the following game
 
  * I started this project by working on a basic renderer, and I did so because I thought this would be incredibly useful to help debug other components early on. To do this, I used mGBA to dump Memory Data while games were playing and created a renderer based on the information in the Gameboy Pandocs to reconstruct this memory data into actual frames.
  * This was useful in teaching me some basic system details, and it was awesome to see visual confirmation of my progress in real-time.
+ * I started working on a renderer for the background, as seen by the first 5 images, and once I verified that worked I tested background scrolling.
+ * After implementing the background, I sought to implement the window functionality.
+ * Finally, to complete the basic renderer I implemented OAM scanning and sprite functionality.
 
 ### Designing the Software Structure.
 
