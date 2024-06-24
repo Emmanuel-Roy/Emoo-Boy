@@ -35,33 +35,42 @@ My Ultimate Goal with this project is for the emulator to run the following game
  * In addition, my current university courses focus on languages like C++ and Java, and I feel as if I have become somewhat complacent in maintaining my C programming skills.
 
 #### Initial Renderer Attempts.
-<img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/b88b7e96-f4ab-4963-be9f-74e88de82ec8" width="320">
-<img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/21f3ff0b-8fd9-4ebc-9d3f-259d480ec9bd" width="320">
-<img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/7d745293-6f5f-4236-adc6-aa18fda82707" width="320">
-<img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/7e5e6cc2-6ce0-418a-a780-5b6eb17fd2ef" width="320">
-<img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/cfba859a-90dc-46a3-a1b5-432c63e53f4b" width="320">
-
  * I started this project by working on a basic renderer, and I did so because I thought this would be incredibly useful to help debug other components early on. To do this, I used mGBA to dump Memory Data while games were playing and created a renderer based on the information in the Gameboy Pandocs to reconstruct this memory data into actual frames.
  * This was useful in teaching me some basic system details, and it was awesome to see visual confirmation of my progress in real-time.
  * I started working on a renderer for the background, as seen by the first 5 images, and once I verified that worked I tested background scrolling.
  * After implementing the background, I sought to implement the window functionality.
  * Finally, to complete the basic renderer I implemented OAM scanning and sprite functionality.
 
-### Designing the Software Structure.
+##### Background Renderer
+<img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/b88b7e96-f4ab-4963-be9f-74e88de82ec8" width="320">
+<img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/21f3ff0b-8fd9-4ebc-9d3f-259d480ec9bd" width="320">
+<img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/7d745293-6f5f-4236-adc6-aa18fda82707" width="320">
+<img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/7e5e6cc2-6ce0-418a-a780-5b6eb17fd2ef" width="320">
+<img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/cfba859a-90dc-46a3-a1b5-432c63e53f4b" width="320">
 
-### Implementing the ROM and RAM
+##### Background Scrolling
+<img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/fd14776d-09b6-4c5f-9d07-fb41d3166ddd" width="320">
 
-### Implementing the CPU
+##### Window Renderer
 
-### Implementing Timer, Interrupt, and Gamepad Interactions
+##### Sprite Renderer
 
-### Implementing the Interrupt Service Routine in the CPU.
 
-### Completing the PPU and DMA
+#### Designing the Software Structure.
 
-### Adding Bank Switching Support
+#### Implementing the ROM and RAM
 
-### Audio Support (To Do)
+#### Implementing the CPU
+
+#### Implementing Timer, Interrupt, and Gamepad Interactions
+
+#### Implementing the Interrupt Service Routine in the CPU.
+
+#### Completing the PPU and DMA
+
+#### Adding Bank Switching Support
+
+#### Audio Support (To Do)
 
 ## Reference:
    * https://github.com/jacoblister/emuboy <- I found his journey to create a Gameboy emulator incredibly useful in determining which order I tackled the technical problems in this project.
