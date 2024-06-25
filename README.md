@@ -46,6 +46,7 @@ My Ultimate Goal with this project is for the emulator to run the following game
 <img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/b88b7e96-f4ab-4963-be9f-74e88de82ec8" width="200">
 <img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/21f3ff0b-8fd9-4ebc-9d3f-259d480ec9bd" width="200">
 <img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/7d745293-6f5f-4236-adc6-aa18fda82707" width="200">
+<img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/91c77edd-2fde-484e-bc15-29d6b7a5dfcd" width="200">
 <img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/fd14776d-09b6-4c5f-9d07-fb41d3166ddd" width="200">
 <img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/55fd1cc6-2888-4f58-9a4d-d46c7210a715" width="200">
 <img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/f9ed6ac8-85ef-4395-bc62-1c14d558e0c8" width="200">
@@ -54,6 +55,10 @@ My Ultimate Goal with this project is for the emulator to run the following game
 <img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/667a08bb-2f81-42a0-ae47-6d1ab4028812" width="200">
 <img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/786f0790-cb0b-4328-9dda-c0ebaf986f2f" width="200">
 <img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/bfd2302e-87d3-4021-9ca6-f88d95e233c7" width="200">
+
+
+
+
 
 ### Designing the Software Structure.
 
