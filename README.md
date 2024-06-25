@@ -42,7 +42,7 @@ My Ultimate Goal with this project is for the emulator to run the following game
  * Finally, to complete the basic renderer I implemented OAM scanning and sprite functionality.
  * At this point, I tried to test the DMG-Acid2 ROM, however, the results and errors found from testing were most likely not problems with implementation, but rather the inherent problems from rendering out of a memory dump. Getting this test to render properly as a goal was moved to be done during PPU testing and evaluation.
 
-#### Background Renderer (1-3), Background Scrolling (4-5), Window Renderer (6), Sprite Renderer (7), Palette Support (8-10), DMG-Acid2 Test (11)
+#### Background Renderer (1-4), Background Scrolling (5-6), Window Renderer (7), Sprite Renderer (8), Palette Support (9-11), DMG-Acid2 Test (12)
 <img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/b88b7e96-f4ab-4963-be9f-74e88de82ec8" width="200">
 <img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/21f3ff0b-8fd9-4ebc-9d3f-259d480ec9bd" width="200">
 <img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/7d745293-6f5f-4236-adc6-aa18fda82707" width="200">
