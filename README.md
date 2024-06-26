@@ -61,8 +61,8 @@ My Ultimate Goal with this project is for the emulator to run the following game
 
 
 ### Designing the Software Structure.
-  *At this point in the project, I spent a lot of time researching the source code of more mature emulators to figure out how they were implemented. I'm not a fan of using many files, so I wanted to base everything on a few basic components. 
-  *These components would be held in individual.c and .h files, containing a struct definition for each component and the functions that allowed the components to work.
+  * At this point in the project, I spent a lot of time researching the source code of more mature emulators to figure out how they were implemented. I'm not a fan of using many files, so I wanted to base everything on a few basic components. 
+  * These components would be held in individual.c and .h files, containing a struct definition for each component and the functions that allowed the components to work.
   
 
 
