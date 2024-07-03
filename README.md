@@ -26,6 +26,7 @@ My Ultimate Goal with this project is for the emulator to run the following game
   * Implement Sound.
   * Implement Gameboy Color Compatibility.
   * Make a physical device, hopefully around the size of a credit card, using a Raspberry Pi Zero with a custom PCB and Casing.
+  * Swap from Scanline-Based Rendering to Pixel Fifo, to get better accuracy in edge case games.
 
 ## My Process and Challenges.
 
@@ -66,19 +67,25 @@ My Ultimate Goal with this project is for the emulator to run the following game
   
 
 
-### Implementing the ROM and RAM
+### Implementing the MMU (PT 1)
+
+### Implementing the PPU (PT 1)
+
+### Implementing the Gamepad
+
+### Implementing Timer and Interrupt (PT 1)
 
 ### Implementing the CPU
 
-### Implementing Timer, Interrupt, and Gamepad Interactions
+### Implementing the MMU (PT 2) (DMA)
 
-### Implementing the Interrupt Service Routine in the CPU.
-
-### Completing the PPU and DMA
-
-### Adding Bank Switching Support
+### Completing the PPU 
 
 ### Audio Support (To Do)
+
+### MBC Features (To Do)
+
+### Pixel Fifo (To Do)
 
 ## Reference:
    * https://github.com/jacoblister/emuboy <- I found his journey to create a Gameboy emulator incredibly useful in determining which order I tackled the technical problems in this project.
