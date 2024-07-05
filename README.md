@@ -92,6 +92,8 @@ My Ultimate Goal with this project is for the emulator to run the following game
 
 ### Implementing the CPU and Interrupt Handling
 
+### Testing
+
 ### Audio Support (To Do)
 
 ### MBC Features (To Do)
