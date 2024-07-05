@@ -1,4 +1,4 @@
-# Emoo-Boy: A Gameboy Emulator written in C
+-# Emoo-Boy: A Gameboy Emulator written in C
 
 ## Contributors:
   * Emmanuel Roy
@@ -64,7 +64,7 @@ My Ultimate Goal with this project is for the emulator to run the following game
 ### Designing the Software Structure.
   * At this point in the project, I spent a lot of time researching the source code of more mature emulators to figure out how they were implemented. I'm not a fan of using many files, so I wanted to base everything on a few basic components. 
   * These components would be held in individual.c and .h files, containing a struct definition for each element and the functions that allowed the components to work.
-  * One major difference between my emulator and a lot of others was the focus on using one large uint8_t SystemMemory array. The primary reason for this was to allow for easier implementation of save-state support later on, and also because it felt more true to the actual system as far as I read documentation-wise. While this was perhaps not the optimal choice for performance, I thought it was cool.
+  * One major difference between my emulator and a lot of others was the focus on using one large uint8_t SystemMemory[0x10000] array. The primary reason for this was to allow for easier implementation of save-state support later on, and also because it felt more true to the actual system as far as I read documentation-wise in terms of the way addressing modes and the Gameboy memory map worked. While this was perhaps not the optimal choice for performance, I thought it was cool.
   * Ultimately, after reading the Pan Docs a few times and cross-referencing other mature emulators, I decided on this software structure.
   
 ### Implementing Main
