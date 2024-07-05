@@ -71,11 +71,16 @@ My Ultimate Goal with this project is for the emulator to run the following game
   * Getting basic console functionality was imperative for this project. I wanted users to be able to choose ROM files, Save files, Palettes, Control help, and read cartridge information before actually launching the games.
   * Getting this done was rather simple, and only took a couple of hours. It also helped me understand how I would load and process files given by users, which was very useful for MMU implementation.
 
+![image](https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/a18875b6-0121-4220-bd59-7b8e54b965f1)
+
+
 ### Implementing the MMU 
   * The first major component I worked on in the system was the MMU. This was because I figured having the ability to load roms would be imperative for developing more difficult components later on.
   * The MMU ended up being one of the largest and most complicated components to implement by far, and I really enjoyed think about the challenges.
   * One of my favorite challenges was setting up Memory Banking support, and I chose to implement this by loading the ROM bank data from another array to the SystemMemory array when requested.
   * Aside from this, I wrote basic DMA functions and basic MMURead and MMUWrite functions for the CPU to use. This was interesting because I had most of the other components interface with system memory directly, but I figured that there were many cases (such as CPU reading/writing from VRAM in PPU mode 3) for me to justify writing dedicated functions.
+
+![image](https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/07adc605-a890-41aa-8c2b-78ae3cbd0bb1)
 
 ### Implementing the PPU 
   * Originally, I thought the PPU would be the component that would take the most time. I think was right, however, my previous implementation of the VRAM Reader made this component significantly easier to implement.
