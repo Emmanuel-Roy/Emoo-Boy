@@ -102,11 +102,12 @@ My Ultimate Goal with this project is for the emulator to run the following game
   * Next I tried to implement the instructions for "DMG-Acid2.gb", and it took a while to implement and ensure that the instructions WEREN'T the reason for test failures. Ultimately, I was searching the .asm file trying to see if fixing any CPU bugs would fix my poor PPU implementation.
   * Ultimately, I think having a rock-solid CPU implementation would have saved a ton of heartache, and I would recommend anyone starting an emulator to finish that first.
 
-<img src= "https://github.com/user-attachments/assets/25fed018-e827-4fc6-bc56-f727ce2be3fb)" width="200">
+<img src= "https://github.com/user-attachments/assets/25fed018-e827-4fc6-bc56-f727ce2be3fb" width="200">
 
 ### PPU Testing
   * I failed DMG-Acid2.gb a TON of times, and most of it had to do with my initial PPU implementation.
   * I changed gears, using the "The Gameboy Emulator Development Guide" for calculating offsets, adding tons of variables like the Window Line Counter.
+  * I went back to my VRAM testing application and used it to test new implementations. If it broke the VRAM reader, chances were that it wouldn't work in the emulator as well.
   * This was one of the hardest and longest parts of development, but I'm glad I got to make it in the end.
   * DON'T GIVE UP!!!
 
