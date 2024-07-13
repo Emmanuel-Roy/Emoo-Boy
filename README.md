@@ -108,6 +108,7 @@ My Ultimate Goal with this project is for the emulator to run the following game
   * I failed DMG-Acid2.gb a TON of times, and most of it had to do with my initial PPU implementation.
   * I changed gears, using the "The Gameboy Emulator Development Guide" for calculating offsets, adding tons of variables like the Window Line Counter.
   * I went back to my VRAM testing application and used it to test new implementations. If it broke the VRAM reader, chances were that it wouldn't work in the emulator as well.
+  * With the help of the emu dev discord, I ended up realizing one of the biggest mistakes I made was in calculating the LYC=LY interrupt, which seemed to be causing issues every vblank.
   * This was one of the hardest and longest parts of development, but I'm glad I got to make it in the end.
   * DON'T GIVE UP!!!
 
@@ -122,6 +123,7 @@ My Ultimate Goal with this project is for the emulator to run the following game
 
 <img src= "https://github.com/user-attachments/assets/a1fdda7f-56e1-45b2-b61e-999be34590ed" width="200">
 <img src= "https://github.com/user-attachments/assets/d513e35a-df24-4451-b2a8-2f2f9d5f84d5" width="200">
+<img src= "https://github.com/user-attachments/assets/959470c9-6edc-40cb-9722-9a5f4c23c871" width="200">
 
 
 ### Implementing the CPU (PT 2)
