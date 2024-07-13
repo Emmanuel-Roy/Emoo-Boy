@@ -98,9 +98,11 @@ My Ultimate Goal with this project is for the emulator to run the following game
 ### Implementing the CPU (PT 1) and Interrupt Handling
   * MANY Lessons learned here. Interrupt handling was surprisingly simple and took only an hour or so to set up.
   * It turns out there's a good reason why every emulator guide recommends completely the CPU first, it's tough to debug other components if you don't have good accuracy when implementing instructions.
-  * I implemented the first couple instructions required for the "hello-world.gb" rom, which took a couple of attempts to get right. Thankfully there wasn't anything wrong with my PPU for this test.
+  * I implemented the first couple of instructions required for the "hello-world.gb" rom, which took a couple of attempts to get right. Thankfully there wasn't anything wrong with my PPU for this test.
   * Next I tried to implement the instructions for "DMG-Acid2.gb", and it took a while to implement and ensure that the instructions WEREN'T the reason for test failures. Ultimately, I was searching the .asm file trying to see if fixing any CPU bugs would fix my poor PPU implementation.
   * Ultimately, I think having a rock-solid CPU implementation would have saved a ton of heartache, and I would recommend anyone starting an emulator to finish that first.
+
+<img src= "https://github.com/user-attachments/assets/25fed018-e827-4fc6-bc56-f727ce2be3fb)" width="200">
 
 ### PPU Testing
   * I failed DMG-Acid2.gb a TON of times, and most of it had to do with my initial PPU implementation.
@@ -108,13 +110,15 @@ My Ultimate Goal with this project is for the emulator to run the following game
   * This was one of the hardest and longest parts of development, but I'm glad I got to make it in the end.
   * DON'T GIVE UP!!!
 
-July 9th 2024:
+#### July 9th 2024:
+
 <img src= "https://github.com/user-attachments/assets/2f7e9594-d587-4faf-974a-17cb6f3413ee" width="200">
 <img src= "https://github.com/user-attachments/assets/03f71db7-b6fc-439c-955e-a84d0323012b" width="200">
 <img src= "https://github.com/user-attachments/assets/4c40c1ff-cc00-43c0-848a-3ae9ea73389d" width="200">
 <img src= "https://github.com/user-attachments/assets/477e40ee-9a63-41e2-a758-b26b5cf57bb9" width="200">
 
-July 13th, 2024:
+#### July 13th, 2024:
+
 <img src= "https://github.com/user-attachments/assets/a1fdda7f-56e1-45b2-b61e-999be34590ed" width="200">
 
 ### Implementing the CPU (PT 2)
