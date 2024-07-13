@@ -121,6 +121,8 @@ My Ultimate Goal with this project is for the emulator to run the following game
 #### July 13th, 2024:
 
 <img src= "https://github.com/user-attachments/assets/a1fdda7f-56e1-45b2-b61e-999be34590ed" width="200">
+<img src= "https://github.com/user-attachments/assets/d513e35a-df24-4451-b2a8-2f2f9d5f84d5" width="200">
+
 
 ### Implementing the CPU (PT 2)
 
