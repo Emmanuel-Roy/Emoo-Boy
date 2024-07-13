@@ -110,7 +110,7 @@ My Ultimate Goal with this project is for the emulator to run the following game
   * I went back to my VRAM testing application and used it to test new implementations. If it broke the VRAM reader, chances were that it wouldn't work in the emulator as well.
   * With the help of the emu dev discord, I ended up realizing one of the biggest mistakes I made was in calculating the LYC=LY interrupt, which seemed to be causing issues every vblank.
   * This was one of the hardest and longest parts of development, but I'm glad I got to make it in the end.
-  * DON'T GIVE UP!!!
+  * If you are reading this hoping to develop your own emulator, DON'T GIVE UP!!!
 
 #### July 9th 2024:
 
