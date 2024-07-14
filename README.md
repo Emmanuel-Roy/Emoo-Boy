@@ -128,18 +128,18 @@ My Ultimate Goal with this project is for the emulator to run the following game
 
 ### Implementing the CPU (PT 2)
 
+### Hardware
+
 ### Audio Support (To Do)
 
 ### MBC Features (To Do)
-
-### Pixel Fifo (To Do)
 
 ## Reference and Inspiration:
    * [Pandocs](https://gbdev.io/pandocs/) <- The best comprehensive reference in how the original Gameboy system operates.
    * [Ultimate Gameboy Talk](https://www.youtube.com/watch?v=HyzD8pNlpwI) <- A great video summary explaining the components of the Gameboy at a more technical level.
    * [GBDEV OPCODES](https://gbdev.io/gb-opcodes/optables/) <- OP Code Table, very useful for writing the CPU.
    * [Gameboy Emulator Development Guide](https://hacktix.github.io/GBEDG/ppu/) <- THE BEST REFERENCE for fixing PPU issues I could find.
-   * [MGBA](https://github.com/mgba-emu/mgba) <- Perhaps the most mature Gameboy emulator out there, and it was very useful in getting data dumps to test functions like my VRAM Reader and save file loading/saving.\
+   * [MGBA](https://github.com/mgba-emu/mgba) <- Perhaps the most mature Gameboy emulator out there, and it was very useful in getting data dumps to test functions like my VRAM Reader and save file loading/saving.
    * [Gameboy 2bpp](https://www.huderlem.com/demos/gameboy2bpp.html) <- Great reference in understanding how the tiles in the GameBoy are converted from bytes to actual pixels.
    * [Game Play Color](https://github.com/gameplaycolor/gameplaycolor) <- Inspiration for this project, I have fond memories of using this emulator to play a dump of my brother's Pokemon Blue Cartridge on my middle school iPad.
    * [emuboy Emulator](https://github.com/jacoblister/emuboy) <- I found his journey to create a Gameboy emulator incredibly useful in determining which order I tackled the technical problems in this project.
