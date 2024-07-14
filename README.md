@@ -137,8 +137,12 @@ My Ultimate Goal with this project is for the emulator to run the following game
 ### Pixel Fifo (To Do)
 
 ## Reference:
-   * https://github.com/jacoblister/emuboy <- I found his journey to create a Gameboy emulator incredibly useful in determining which order I tackled the technical problems in this project.
-   * https://github.com/gameplaycolor/gameplaycolor <- Inspiration for this project, I have fond memories of using this emulator to play a dump of my brother's Pokemon Blue Cartridge on my middle school iPad.
    * [Pandocs](https://gbdev.io/pandocs/)
    * [Ultimate Gameboy Talk](https://www.youtube.com/watch?v=HyzD8pNlpwI)
+   * [GBDEV OPCODES](https://gbdev.io/gb-opcodes/optables/) <- OP Code Table, very useful for writing the CPU.
+   * [Gameboy Emulator Development Guide](https://hacktix.github.io/GBEDG/ppu/) <- THE BEST REFERENCE for fixing PPU issues I could find.
+   * https://github.com/gameplaycolor/gameplaycolor <- Inspiration for this project, I have fond memories of using this emulator to play a dump of my brother's Pokemon Blue Cartridge on my middle school iPad.
+   * https://github.com/jacoblister/emuboy <- I found his journey to create a Gameboy emulator incredibly useful in determining which order I tackled the technical problems in this project.
+   * https://binji.github.io/posts/pokegb/ <- Another source of inspiration, and a great write-up on how certain opcodes were implemented.
+   * https://github.com/Ryuzaki-MrL/Espeon/tree/master <- Very interesting emulator, some inspiration for the hardware side of this project.
    * r/EmuDev and the Emulator Development Discord Server.
