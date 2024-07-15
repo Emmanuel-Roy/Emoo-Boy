@@ -129,7 +129,8 @@ My Ultimate Goal with this project is for the emulator to run the following game
 ### Implementing the CPU (PT 2)
   * After gaining back my confidence, I decided to implement and debug Tetris.
   * This ended up going quite horribly, so I decided to walk back a bit and pass some standardized CPU tests first.
-  * There are some great test roms, namely the Blargg's suite, and there's a useful tool called Gameboy Doctor that debugs instructions tick by tick.
+  * There are some great test roms, namely the Blargg's suite, and a useful tool called Gameboy Doctor debugs instructions tick by tick.
+  * GameBoy Doctor seemed to have some accuracy issues with some tests, namely test 2, so I also cross-referenced with some of the more accurate logs in the EmuDev Discord.
   * I decided to fork my code to a separate branch dedicated to Gameboy Doctor, with the intention to simply copy-paste the switch statement that passed all the instruction tests.
   * Here's what the terminal looked like for CPU testing.
 ![image](https://github.com/user-attachments/assets/86779d25-0d0e-46fe-8269-7461e04858c8)
