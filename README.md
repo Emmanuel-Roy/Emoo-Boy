@@ -158,8 +158,9 @@ My Ultimate Goal with this project is for the emulator to run the following game
 
 * Pokemon Red has some bugs, namely with the window layer causing text to be unreadable, but it seems to be playable. Also it seems that my save function works!
 <img src= "https://github.com/user-attachments/assets/ae84807a-b8a5-4b1a-95e9-ff1391464e3a" width="200">
+
 * However, other than a broken intro sequence and lack of RTC implementation, it seems that Pokemon Gold works perfectly!
-![image](https://github.com/user-attachments/assets/88b200d0-0d41-492b-a355-008cf4dfa77f)
+<img src= "https://github.com/user-attachments/assets/88b200d0-0d41-492b-a355-008cf4dfa77f" width="200">
 
 ### Audio Support (To Do)
 
