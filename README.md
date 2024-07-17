@@ -141,6 +141,9 @@ My Ultimate Goal with this project is for the emulator to run the following game
  * I had a couple of issues getting games to run, as it seemed like there were a ton of bugs with my code. While most of the games I tried ended up crashing at some point, I managed to get my first game playable!
  * I'm thrilled that this was the first game that worked, as Kirby's Dreamland 2 is one of my favorite childhood games!
 <img src= "https://github.com/user-attachments/assets/e4b71f77-9db0-40ba-a59a-86afe5dfc255" width="200">
+<img src= "https://github.com/user-attachments/assets/509be3f3-4c2a-471e-bca6-4bc66c7cb312" width="200">
+<img src= "https://github.com/user-attachments/assets/3ed8c715-af4a-4aba-b5e7-310bccf1b8b1" width="200">
+<img src= "https://github.com/user-attachments/assets/e9b111dc-6b36-4724-a690-f49c1022dab0" width="200">
 
  * Tetris and some other simple games worked well.
 <img src= "https://github.com/user-attachments/assets/420814a4-f11f-4d4a-bedd-1e14c9589d61" width="200">
