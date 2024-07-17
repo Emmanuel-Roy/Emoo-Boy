@@ -2,14 +2,6 @@
 
 ## Contributors:
   * Emmanuel Roy
-    
-## Build:
-
-### Windows
-* Run the "make Windows" command
-![image](https://github.com/user-attachments/assets/981d1bb5-4c8e-4b62-a4fe-180463a0defd)
-### Windows
-* Make sure you have SDL2 installed through sudo, and then run the "make Linux" command
 
 ## Introduction:
 The Nintendo Gameboy system is one of the most beloved devices of all time, selling a combined 118.69 million units worldwide, one of which ended up in the hands of my family. 
@@ -19,6 +11,13 @@ I have a lot of nostalgia for the system, and I figured creating an accurate sim
 My Ultimate Goal with this project is for the emulator to run the following games from my childhood with near-perfect accuracy.
 * Pokemon Gold and Silver
 * Kirby's Dream Land 2
+
+## Build:
+### Windows
+* Run the "make Windows" command
+![image](https://github.com/user-attachments/assets/981d1bb5-4c8e-4b62-a4fe-180463a0defd)
+### Windows
+* Make sure you have SDL2 installed through sudo, and then run the "make Linux" command
 
 ## Goals:
   * Boot commercial games like Tetris and Pokemon Gold.
