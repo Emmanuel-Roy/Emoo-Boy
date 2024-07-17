@@ -23,7 +23,7 @@ My Ultimate Goal with this project is for the emulator to run the following game
   * Boot commercial games like Tetris and Pokemon Gold.
   * Custom Palette Support.
   * Save Support
-  * Implement rendering based on the Pixel Fifo and pass the dmg-acid2 display test.
+  * Pass the dmg-acid2 display test.
   * Implement all instructions and pass the Blargg cpu_instrs test.
 
 ## Planned Editions:
@@ -31,7 +31,7 @@ My Ultimate Goal with this project is for the emulator to run the following game
   * Implement Sound.
   * Implement Gameboy Color Compatibility.
   * Make a physical device, hopefully around the size of a credit card, using a Raspberry Pi Zero with a custom PCB and Casing.
-  * Swap from Scanline-Based Rendering to Pixel Fifo, to get better accuracy in edge case games.
+  * Swap from Scanline-Based Rendering to Pixel Fifo, to get better accuracy in edge cases.
 
 ## My Process and Challenges.
 
