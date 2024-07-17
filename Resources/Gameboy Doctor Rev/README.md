@@ -1,1 +1,1 @@
-### Drag and drop the CPU.c into the main program.
+#### Drag and drop the CPU.c and CPU.h files into the main program.
