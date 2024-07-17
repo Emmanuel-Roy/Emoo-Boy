@@ -149,7 +149,7 @@ My Ultimate Goal with this project is for the emulator to run the following game
 <img src= "https://github.com/user-attachments/assets/cae6fbe2-59b5-4779-8236-5982ccc90c89" width="200">
 
 * Pokemon Gold has some odd quirks, and Pokemon Red's window layer sprites don't appear.
-![image](https://github.com/user-attachments/assets/6f630d01-20a3-48ec-98b9-4452fda89fd5)
+* <img src= "https://github.com/user-attachments/assets/6f630d01-20a3-48ec-98b9-4452fda89fd5" width="200">
 
 
 ### Audio Support (To Do)
