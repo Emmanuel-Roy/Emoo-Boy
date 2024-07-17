@@ -153,12 +153,13 @@ My Ultimate Goal with this project is for the emulator to run the following game
  * Metroid 2 had some major graphical glitches.
 <img src= "https://github.com/user-attachments/assets/cae6fbe2-59b5-4779-8236-5982ccc90c89" width="200">
 
-* Pokemon Gold and Links Awakening are unplayable, most likely due to MBC issues I will need to fix.
+* Links Awakening is unplayable, most likely due to MBC issues I will need to fix.
 <img src= "https://github.com/user-attachments/assets/6f630d01-20a3-48ec-98b9-4452fda89fd5" width="200">
 
 * Pokemon Red has some bugs, namely with the window layer causing text to be unreadable, but it seems to be playable. Also it seems that my save function works!
 <img src= "https://github.com/user-attachments/assets/ae84807a-b8a5-4b1a-95e9-ff1391464e3a" width="200">
-
+* However, other than a broken intro sequence and lack of RTC implementation, it seems that Pokemon Gold works perfectly!
+![image](https://github.com/user-attachments/assets/88b200d0-0d41-492b-a355-008cf4dfa77f)
 
 ### Audio Support (To Do)
 
