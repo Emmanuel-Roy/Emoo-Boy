@@ -57,14 +57,14 @@ My Ultimate Goal with this project is for the emulator to run the following game
 <img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/bfd2302e-87d3-4021-9ca6-f88d95e233c7" width="200">
 
 
-
-
-
 ### Designing the Software Structure.
   * At this point in the project, I spent a lot of time researching the source code of more mature emulators to figure out how they were implemented. I'm not a fan of using many files, so I wanted to base everything on a few basic components. 
   * These components would be held in individual.c and .h files, containing a struct definition for each element and the functions that allowed the components to work.
   * One major difference between my emulator and a lot of others was the focus on using one large uint8_t SystemMemory[0x10000] array. The primary reason for this was to allow for easier implementation of save-state support later on, and also because it felt more true to the actual system as far as I read documentation-wise in terms of the way addressing modes and the Gameboy memory map worked. While this was perhaps not the optimal choice for performance, I thought it was cool.
-  * Ultimately, after reading the Pan Docs a few times and cross-referencing other mature emulators, I decided on this software structure.
+  * Ultimately, after reading the Pan Docs a few times and cross-referencing other mature emulators, I decided on my current software structure.
+  * Essentially, the main would get information which was then passed into an overarching struct called GameBoy. This struct initializes all the other components (PPU, Timers, CPU, MMU, APU), loads in ROM and RAM data from the given save files, and then ticks itself and each component in an infinite loop until the user chooses to exit the program.
+  * While designing each underlying component, I needed to see what would change during each "tick" (Clock Cycle). Aside from this, I also needed to research on the pandocs and other emulators what registers and other variables were used by each component, and why.
+
   
 ### Implementing Main
   * Getting basic console functionality was imperative for this project. I wanted users to be able to choose ROM files, Save files, Palettes, Control help, and read cartridge information before actually launching the games.
@@ -75,7 +75,7 @@ My Ultimate Goal with this project is for the emulator to run the following game
 
 ### Implementing the MMU 
   * The first major component I worked on in the system was the MMU. This was because I figured having the ability to load roms would be imperative for developing more difficult components later on.
-  * The MMU ended up being one of the largest and most complicated components to implement by far, and I really enjoyed think about the challenges.
+  * The MMU ended up being one of the largest and most complicated components to implement by far, and I enjoyed thinking about the challenges.
   * One of my favorite challenges was setting up Memory Banking support, and I chose to implement this by loading the ROM bank data from another array to the SystemMemory array when requested.
   * Aside from this, I wrote basic DMA functions and basic MMURead and MMUWrite functions for the CPU to use. This was interesting because I had most of the other components interface with system memory directly, but I figured that there were many cases (such as CPU reading/writing from VRAM in PPU mode 3) for me to justify writing dedicated functions.
 
@@ -83,14 +83,14 @@ My Ultimate Goal with this project is for the emulator to run the following game
 
 ### Implementing the PPU 
   * Originally, I thought the PPU would be the component that would take the most time. I think was right, however, my previous implementation of the VRAM Reader made this component significantly easier to implement.
-  * In essence, I converted the functions in the VRAM reader to operate on a pixel-by-pixel basis, and I really only needed to implement correct timing for the modes alongside raising interrupt flags when necessary.
+  * In essence, I converted the functions in the VRAM reader to operate on a pixel-by-pixel basis, and I only needed to implement correct timing for the modes alongside raising interrupt flags when necessary.
   * I had some previous experience using SDL for the CHIP-8 emulator and VRAM Reader, so it was a breeze setting up the rendering and GUI this time. I found that rendering an image pixel by pixel was a bit too slow, so even though it could cause accuracy issues in edge-case games, I chose to only render on a scanline-by-scanline basis.
   * The PPU ended up also not using the MMURead and MMUWrite functions and instead interfaced with system memory directly. I did this because it was a little easier to code, and I figured all the extra function calls wouldn't be an issue down the line.
-  * One of the major things that the PPU got me to think of was the idea of Machine Cycles vs Ticks. It turns out that a lot of documentation on the Gameboy focuses on machine cycles, (4 system ticks), even though a lot of components rely on system ticks to operate. For example, a given opcode may take 1 machine cycle, but that would also activate 4 ticks on the ppu, drawing 4 pixels. Another opcode could take 2 machine cycles, and would as such activate 8 ticks on the PPU, drawing 8 pixels.
+  * One of the major things that the PPU got me to think of was the idea of Machine Cycles vs Ticks. It turns out that a lot of documentation on the Gameboy focuses on machine cycles, (4 system ticks), even though a lot of components rely on system ticks to operate. For example, a given opcode may take 1 machine cycle, but that would also activate 4 ticks on the PPU, drawing 4 pixels. Another opcode could take 2 machine cycles, and would as such activate 8 ticks on the PPU, drawing 8 pixels.
   * Thinking about this also helped me think about how I would fix timing issues if they occurred, and I ultimately just chose to loop the other system components for however many ticks the CPU took to operate a given opcode.
 
 ### Implementing the Gamepad and the timer
-  * The gamepad was a breeze, I just had SDL check the keyboard before each SystemTick and updated the appropriate register in system memory accordingly.
+  * The gamepad was a breeze, I just had SDL check the keyboard after each CPU cycle and updated the appropriate register in system memory accordingly.
   * I ended up adding it to MMU.c, as I figured opcodes like "stop" would rely on checking for an update to the gamepad.
   * The timer wasn't as easy, but it only took an hour or two to understand and set up. The previous knowledge I acquired about ticks vs machine cycles was also relevant here, and I thought it was an interesting technical challenge to convert the two.
 
@@ -173,6 +173,16 @@ My Ultimate Goal with this project is for the emulator to run the following game
 ### MBC Features (To Do)
 
 ### Hardware (To Do)
+
+### Takeaways.
+ * The project would have taken significantly longer without the vast amount of resources available on the internet.
+ * Roughly ~7000 lines of code were written (not including apu).
+ * Implementing the CPU is probably the best decision for future emulator development, it makes it significantly easier to isolate issues with each component during testing.
+ * Considering how many opcodes were practically the same, it would have been more useful to have planned out dedicated functions rather than copying and pasting code between opcodes. Ultimately, I think I definitely rushed the CPU implementation.
+ * Generative AI definitely won't be able to create a proper implementation for years to come, but it definitely can help reduce some of the tedium when developing components like the CPU.
+ * PPU testing/implementation should have probably waited until I got the CPU flawless. However, implementing the VRAM reader first was a fantastic idea in keeping up motivation for the project.
+ * Proper planning is imperative to saving time and fixing bugs in the long run.
+ * Tests aren't entirely comprehensive nor clear about errors, so asking others for assistance can help reduce a lot of the frustration from debugging.
 
 ## Reference and Inspiration:
    * [Pandocs](https://gbdev.io/pandocs/) <- The best comprehensive reference in how the original Gameboy system operates.
