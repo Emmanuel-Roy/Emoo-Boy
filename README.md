@@ -145,6 +145,7 @@ My Ultimate Goal with this project is for the emulator to run the following game
  * Tetris and some other simple games worked well.
 <img src= "https://github.com/user-attachments/assets/420814a4-f11f-4d4a-bedd-1e14c9589d61" width="200">
 <img src= "https://github.com/user-attachments/assets/068c0ca8-6392-4796-9326-c04d15225d37" width="200">
+<img src= "https://github.com/user-attachments/assets/4e87b52f-f818-474c-9377-a2751fcd3ec1" width="200">
 
  * Metroid 2 had some major graphical glitches.
 <img src= "https://github.com/user-attachments/assets/cae6fbe2-59b5-4779-8236-5982ccc90c89" width="200">
