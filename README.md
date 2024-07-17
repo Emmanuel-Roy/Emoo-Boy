@@ -166,6 +166,7 @@ My Ultimate Goal with this project is for the emulator to run the following game
 
 * It seems that a problem with my window layer caused the bugs in Pokemon Red, and now it works perfectly!
 <img src= "https://github.com/user-attachments/assets/d12bd933-9cef-415b-b3e8-56fbeaf14803" width="200">
+<img src= "https://github.com/user-attachments/assets/1f650c2e-a74f-45a9-87a2-7dbc86dd28e3" width="200">
 
 
 ### Audio Support (To Do)
