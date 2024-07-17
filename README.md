@@ -138,6 +138,9 @@ My Ultimate Goal with this project is for the emulator to run the following game
 <img src= "https://github.com/user-attachments/assets/cef5e427-0113-4e9b-97b6-b1b100f754f4" width="200">
 
 ### Testing Games
+ * I had a couple of issues getting games to run, as it seemed like there were a ton of bugs with my code. While most of the games I tried ended up crashing at some point, I managed to get my first game playable!
+<img src= "https://github.com/user-attachments/assets/e4b71f77-9db0-40ba-a59a-86afe5dfc255" width="200">
+ * I'm thrilled that this was the first game that worked, as its one of my favorite childhood games!
 
 ### Hardware
 
