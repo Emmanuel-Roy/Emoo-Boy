@@ -19,7 +19,7 @@ extern int RenderingMode;
     WX = MMU->SystemMemory[0xFF4B]; //Shows which area of Window is displayed  
 */
 
-/*PPU Tick (Needs a ton of work, need to fix timing issues and account for Mode 3 Penalities, aswell as stat blocking
+/*PPU Tick (Needs a ton of work, need to fix timing issues and account for Mode 3 Penalities.
   Time to Render One frame: 70224 dots or around 59.7 fps */
   //Roughly 456 cycles per scanline is around 114 CPU cycles per scanline.
 void PPUTick(PPU *PPU, MMU *MMU) {
@@ -146,19 +146,18 @@ void PPUTick(PPU *PPU, MMU *MMU) {
             PPUPushPixel(PPU); //Render Scanline
         }
         //if window pixels were drawn this scanline increment 
-        
-        /*This is what is causing the eye instead of */\
         if (PPU->haswindow > 0) {
             PPU->WindowLineCounter++;
         }
         PPU->haswindow = 0;
-        /*
+        
+        /* Original Buggy Implementation
         if ((MMU->SystemMemory[0xFF40] & 0x20) && (LY >= MMU->SystemMemory[0xFF4A])) {
             PPU->WindowLineCounter++;
         }
         */
         
-        //Move to next scanline
+        //Move to the next scanline
         PPU->CurrentX = 0;
         PPU->NumSpritePixels = 0; //Reset Sprite Pixel Count
         LY += 1;
