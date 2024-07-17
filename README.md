@@ -162,9 +162,14 @@ My Ultimate Goal with this project is for the emulator to run the following game
 * However, other than a broken intro sequence, a lack of RTC implementation, and issues preventing save files from working, it seems that Pokemon Gold works perfectly!
 <img src= "https://github.com/user-attachments/assets/88b200d0-0d41-492b-a355-008cf4dfa77f" width="200">
 
+### Fixes (To Do)
+
+* It seems that a problem with my window layer caused the bugs in Pokemon Red, and now it works perfectly!
+<img src= "https://github.com/user-attachments/assets/d12bd933-9cef-415b-b3e8-56fbeaf14803" width="200">
+
+
 ### Audio Support (To Do)
 
-### Fixes (To Do)
 
 ### MBC Features (To Do)
 
