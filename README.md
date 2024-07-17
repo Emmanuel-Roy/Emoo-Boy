@@ -13,14 +13,15 @@ My Ultimate Goal with this project is for the emulator to run the following game
 * Kirby's Dream Land 2
 
 ## Goals:
-  * Boot commercial games like Tetris and Pokemon Gold.
-  * Custom Palette Support.
-  * Save Support
-  * Pass the dmg-acid2 display test.
-  * Implement all instructions and pass the Blargg cpu_instrs test.
+  * Boot commercial games like Tetris and Pokemon Gold. ✅
+  * Custom Palette Support. ✅
+  * Save Support. ✅
+  * Pass the dmg-acid2 display test. ✅
+  * Implement all instructions and pass the Blargg cpu_instrs test. ✅
 
 ## Planned Editions:
-  * Real Time Clock Support
+  * Real Time Clock Support and other MBC additions
+  * Save States.
   * Implement Sound.
   * Implement Gameboy Color Compatibility.
   * Make a physical device, hopefully around the size of a credit card, using a Raspberry Pi Zero with a custom PCB and Casing.
@@ -28,14 +29,14 @@ My Ultimate Goal with this project is for the emulator to run the following game
 
 ## My Process and Challenges.
 
-### Why I chose C and not a more modern language.
+### Why I chose C and not a more modern language?
  * In short, I wanted to reduce the amount of dependencies used and maximize compatibility on a wide range of systems.
  * As mentioned in my planned editions, I want to eventually be able to run this emulator on its own embedded system, and I feel that using C will open doors for this later on, even if the lack of classes and other object-oriented fundamentals lead to somewhat messier code.
  * In addition, my current university courses focus on languages like C++ and Java, and I feel as if I have become somewhat complacent in maintaining my C programming skills.
 
 ### Initial Renderer Attempts.
  * I started this project by working on a basic renderer, and I did so because I thought this would be incredibly useful to help debug other components early on. To do this, I used mGBA to dump Memory Data while games were playing and created a renderer based on the information in the Gameboy Pandocs to reconstruct this memory data into actual frames.
- * This was useful in teaching me some basic system details, and it was awesome to see visual confirmation of my progress in real-time. Using memory dumps was also insightful to figure out what potential save state functionality could look like in the future. 
+ * This was useful in teaching me some basic system details, and it was awesome to see visual confirmation of my progress in real time. Using memory dumps was also insightful in figuring out what potential save state functionality could look like in the future. 
  * I started working on a renderer for the background, as seen by the first 5 images, and once I verified that worked I tested background scrolling.
  * After implementing the background, I sought to implement the window functionality.
  * Finally, to complete the basic renderer I implemented OAM scanning and sprite functionality.
