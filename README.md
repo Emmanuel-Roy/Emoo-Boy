@@ -139,17 +139,22 @@ My Ultimate Goal with this project is for the emulator to run the following game
 
 ### Testing Games
  * I had a couple of issues getting games to run, as it seemed like there were a ton of bugs with my code. While most of the games I tried ended up crashing at some point, I managed to get my first game playable!
- * I'm thrilled that this was the first game that worked, as its one of my favorite childhood games!
+ * I'm thrilled that this was the first game that worked, as Kirby's Dreamland 2 is one of my favorite childhood games!
 <img src= "https://github.com/user-attachments/assets/e4b71f77-9db0-40ba-a59a-86afe5dfc255" width="200">
+ * Tetris and some other simple games worked well.
 <img src= "https://github.com/user-attachments/assets/420814a4-f11f-4d4a-bedd-1e14c9589d61" width="200">
+ * Metroid 2 had some major graphical glitches.
+<img src= "https://github.com/user-attachments/assets/cae6fbe2-59b5-4779-8236-5982ccc90c89" width="200">
+* Pokemon Gold won't even boot, and red crashes during the intro sequence.
 
-
-
-### Hardware
 
 ### Audio Support (To Do)
 
+### Fixes (To Do)
+
 ### MBC Features (To Do)
+
+### Hardware (To Do)
 
 ## Reference and Inspiration:
    * [Pandocs](https://gbdev.io/pandocs/) <- The best comprehensive reference in how the original Gameboy system operates.
