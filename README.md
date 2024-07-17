@@ -135,8 +135,7 @@ My Ultimate Goal with this project is for the emulator to run the following game
   * Here's what the terminal looked like for CPU testing.
 ![image](https://github.com/user-attachments/assets/86779d25-0d0e-46fe-8269-7461e04858c8)
   * After a while, I managed to pass the tests and implement every instruction correctly.
-
-![image](https://github.com/user-attachments/assets/cef5e427-0113-4e9b-97b6-b1b100f754f4)
+<img src= "https://github.com/user-attachments/assets/cef5e427-0113-4e9b-97b6-b1b100f754f4" width="200">
 
 ### Testing Games
 
