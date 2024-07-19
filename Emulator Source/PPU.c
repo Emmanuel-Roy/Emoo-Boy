@@ -238,10 +238,10 @@ void PPUOAMSearch(PPU *PPU, MMU *MMU, uint8_t LY) {
 }
 
 /*Update Background or Window Maps
-    This function essentially updates the background and window map that the gameboy uses to render tiles based on the current pixel.
+    This function essentially updates the background and window map that the Gameboy uses to render tiles based on the current pixel.
 */
 void PPUUpdateMap(PPU *PPU, MMU *MMU, uint8_t MODE, uint8_t x, uint8_t y) { //0 for background, 1 for Window
-    //Need to fix for accuracy.
+
     
     //Initialize Variables
     uint16_t TMAPLocationStart, TDATALocationStart, TileLocation;
@@ -256,7 +256,12 @@ void PPUUpdateMap(PPU *PPU, MMU *MMU, uint8_t MODE, uint8_t x, uint8_t y) { //0 
 
     //If window mode change to WX WY
     if (MODE == 1) {
-        ViewPortX = MMU->SystemMemory[0xFF4B] - 7;
+        ViewPortX = MMU->SystemMemory[0xFF4B]-7;
+        
+        if (ViewPortX < 0) {
+            ViewPortX = 0;
+        }
+        
         ViewPortY = MMU->SystemMemory[0xFF4A];
         ChoiceMask = 0x40;
     }
