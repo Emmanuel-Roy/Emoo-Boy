@@ -172,6 +172,8 @@ My Ultimate Goal with this project is for the emulator to run the following game
 * It seemed that the Window was still bugged, and after consulting the Emudev discord, it seemed like the WY and WX viewports needed to be able to handle negative numbers. This was an easy fix, and I just changed uint8_t to int8_t for ViewportX and ViewportY.
 * Link's Awakening is now "playable" but there are still some issues with the palettes in the intro.
 
+* I realized that having a completely seperate branch for CPU logging was kinda dumb, so I decided to just include it in the program as a setting.
+
 ### Audio Support (In Progress)
 
 * Audio on the GameBoy isn't too complex from a hardware perspective, but from an emulation perspective, it's an enormous task that often gets skipped.
