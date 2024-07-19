@@ -10,7 +10,7 @@ I have a lot of nostalgia for the system, and I figured creating an accurate sim
 
 My Ultimate Goal with this project is for the emulator to run the following games from my childhood.
 * Pokemon Gold and Silver 🆗 (Saving the game doesn't work due to "No windows available for popping bug.")
-* Link's Awakening ✅ (Some issues with the Palettes in the opening, but otherwise perfect.)
+* Link's Awakening ✅ (Some issues with the Palettes in the opening and title screen, but otherwise perfect.)
 * Kirby's Dream Land 2 ✅
 
 ## Goals:
