@@ -10,7 +10,7 @@ I have a lot of nostalgia for the system, and I figured creating an accurate sim
 
 My Ultimate Goal with this project is for the emulator to run the following games from my childhood.
 * Pokemon Gold and Silver 🆗 (Saving the game doesn't work due to "No windows available for popping bug.")
-* Link's Awakening 🆗 (Issues when loading in map tiles, can be mitigated by opening the menu. Issues with the Palettes in the opening.)
+* Link's Awakening ✅ (Some issues with the Palettes in the opening, but otherwise perfect.)
 * Kirby's Dream Land 2 ✅
 
 ## Goals:
@@ -171,15 +171,10 @@ My Ultimate Goal with this project is for the emulator to run the following game
 #### Link's Awakening
 * Link's Awakening had a pretty interesting bug. It seemed to be consistently getting stuck on RST 38, an instruction that should not have been triggering. Upon further inspection, the routine at RST 00 was causing these. After inspecting the ROM file, there was a mismatch (0xFF instead of 0xC3) on the first byte of ROM data, which shouldn't have been happening. I checked the memory data and made sure the rom data was loaded properly, which it seemed to have been. This meant something was modifying this byte when it shouldn't have been, and I remembered that some games send RAM-enable requests this way. To fix this bug, I needed to add a case to MMUWrite where writes below 0x2000 don't do anything.
 * It seemed that the Window was still bugged, and after consulting the Emudev discord, it seemed like the WY and WX viewports needed to be able to handle negative numbers. This was an easy fix, and I just changed uint8_t to int8_t for ViewportX and ViewportY.
-* Link's Awakening is now "playable" but there are still some issues with the palettes in the intro. In addition, it seems that sometimes refreshing the memory is necessary by loading the map or going into a house. However, as these bugs can be mitigated fairly simply, I'd call this game "playable". I'm guessing this is a PPU timing bug, so I'll probably do this after I'm done with the remainder of the project.
+* Well, the fix ended up being harder than anticipated, and I had to adjust the code a lot, mainly because the behavior for the int8_t for the viewport was right for the window, but uint8_t was right for the background. Ultimately, I decided to just delete viewportX and viewportY, and just use different variables for the window and the background based on their respective int8_t and uint8_t types.
+* Link's Awakening is now "playable" but there are still some issues with the palettes in the intro.
+<img src= "https://github.com/user-attachments/assets/9ddb07b9-33f7-446e-a389-e287d69fa6fd" width="200">
 
-<img src= "https://github.com/user-attachments/assets/adcf3dd9-b078-4c8f-8bba-23130b6ed91f" width="200">
-
-* Going to a new area before loading in map.
-
-<img src= "https://github.com/user-attachments/assets/4deb1cbc-4898-4f68-8433-6520bcd404e5" width="200">
-
-* New area after loading in the map.
 
 #### General Fixes
 * I realized that having a completely separate branch for CPU logging was inefficent, so I decided to just include it in the program as a setting.
