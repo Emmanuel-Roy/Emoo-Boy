@@ -4,13 +4,19 @@
 #include "CPU.h"
 #include "MMU.h"
 
+extern int LOG;
+
 void CPUTick(CPU *CPU, MMU *MMU) {
     //If there are still ticks, count down
     if (MMU->Ticks > 0) {
         MMU->Ticks--;
         return;
     }
-
+	
+	if (CPU->LOG == 1) {
+		CPULOG(CPU, MMU);
+	}
+	
     //If there is an interrupt, disable halt
     uint8_t IF = MMU->SystemMemory[0xFF0F]; //IF
     uint8_t IE = MMU->SystemMemory[0xFFFF]; //IE
@@ -4933,4 +4939,22 @@ void CPUInit(CPU *CPU) {
     // Flags
     CPU->HALT = 0;
     CPU->IME = 0; // Interrupt Master Enable Flag
+	
+	CPU->LOG = LOG;
+}
+
+//For Debugging
+void CPULOG(CPU *CPU, MMU *MMU) {
+    FILE *logfile = fopen("log.log", "a");
+    // Get PC memory values
+    uint8_t pcMem[4];
+    for (int i = 0; i < 4; ++i) {
+        pcMem[i] = MMURead(MMU, CPU->PC + i);
+    }
+    
+    fprintf(logfile, "A:%02X F:%02X B:%02X C:%02X D:%02X E:%02X H:%02X L:%02X SP:%04X PC:%04X PCMEM:%02X,%02X,%02X,%02X\n",
+            CPU->RegA, CPU->RegF, CPU->RegB, CPU->RegC, CPU->RegD, CPU->RegE, CPU->RegH, CPU->RegL,
+            CPU->SP, (CPU->PC), pcMem[0], pcMem[1], pcMem[2], pcMem[3]);
+    
+    fclose(logfile);
 }

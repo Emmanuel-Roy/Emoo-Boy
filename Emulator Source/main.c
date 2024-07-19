@@ -15,6 +15,7 @@ int MBCType;
 int LoadSaveFile = 0;
 int Exit = 0;
 int RenderingMode = 1;
+int LOG = 0;
 //SDL Globals
 SDL_Window *window;
 SDL_Renderer *renderer;
@@ -51,7 +52,8 @@ int main(int argc, char *argv[])
 		printf("2. Update Palette\n");
 		printf("3. Update Scale Factor\n");
 		printf("4. Update Rendering Method\n");
-    	printf("5. Help/Controls\n \n");
+		printf("5. Help/Controls \n");
+		printf("6. Toggle CPU Logging \n \n");
 		
 		scanf("%d", &MenuChoice);
 		
@@ -113,6 +115,17 @@ int main(int argc, char *argv[])
 
 				printf("For any inquires, please contact the developer: royemmanuel39@gmail.com \n");
 
+				break;
+			}
+			case (6): {
+				if (LOG == 0) {
+					printf("CPU Logging Enabled \n");
+					LOG = 1;
+				}
+				else if (LOG == 1) {
+					printf("CPU Logging Disabled \n");
+					LOG = 0;
+				}
 				break;
 			}
 			default: {

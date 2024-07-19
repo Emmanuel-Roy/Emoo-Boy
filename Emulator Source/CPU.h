@@ -4,6 +4,8 @@
 #include <stdint.h> 
 #include "MMU.h"
 
+extern int LOG;
+
 typedef struct {
     //Registers
     uint8_t RegA;
@@ -24,6 +26,10 @@ typedef struct {
     // Flags
     uint8_t HALT;
     uint8_t IME; // Interrupt Master Enable Flag
+	
+	//LOG
+	uint8_t LOG;
+	
 } CPU;
 
 void CPUInit(CPU *CPU);
@@ -31,5 +37,7 @@ void CPUTick(CPU *CPU, MMU *MMU);
 uint8_t CPUExecuteInstruction(CPU *CPU, MMU *MMU);
 uint8_t CPUExecuteCB(CPU *CPU, MMU *MMU);
 
+//Gameboy Doctor Log
+void CPULOG(CPU *CPU, MMU *MMU);
 
 #endif 
