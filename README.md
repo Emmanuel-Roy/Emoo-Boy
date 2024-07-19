@@ -173,9 +173,11 @@ My Ultimate Goal with this project is for the emulator to run the following game
 * Link's Awakening is now "playable" but there are still some issues with the palettes in the intro. In addition, it seems that sometimes refreshing the memory is necessary by loading in the map or going into a house. However, as these bugs can be mitigated fairly simply, I'd call this game "playable".
 
 <img src= "https://github.com/user-attachments/assets/adcf3dd9-b078-4c8f-8bba-23130b6ed91f" width="200">
+
 * Going to a new area before loading in map.
 
 <img src= "https://github.com/user-attachments/assets/4deb1cbc-4898-4f68-8433-6520bcd404e5" width="200">
+
 * New area after loading in the map.
 
 * I realized that having a completely separate branch for CPU logging was kinda dumb, so I decided to just include it in the program as a setting.
