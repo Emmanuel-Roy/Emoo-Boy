@@ -167,8 +167,13 @@ My Ultimate Goal with this project is for the emulator to run the following game
 <img src= "https://github.com/user-attachments/assets/d12bd933-9cef-415b-b3e8-56fbeaf14803" width="200">
 <img src= "https://github.com/user-attachments/assets/1f650c2e-a74f-45a9-87a2-7dbc86dd28e3" width="200">
 
+### Audio Support (In Progress)
 
-### Audio Support (To Do)
+* Audio on the GameBoy isn't too complex from a hardware perspective, but from an emulation perspective, it's an enormous task that often gets skipped.
+* I've decided to implement audio because the system wouldn't be complete without it.
+* The pandocs explains the APU like this, which will be what my implementation is based upon.
+<img src= "https://github.com/user-attachments/assets/4cc47f24-f259-4565-a2d3-fca2d353693f" width="400">
+* 
 
 ### MBC Features (To Do)
 
