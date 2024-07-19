@@ -246,8 +246,8 @@ void PPUUpdateMap(PPU *PPU, MMU *MMU, uint8_t MODE, uint8_t x, uint8_t y) { //0 
     //Initialize Variables
     uint16_t TMAPLocationStart, TDATALocationStart, TileLocation;
     uint8_t ChoiceMask;
-    uint8_t ViewPortX;
-    uint8_t ViewPortY;
+    int8_t ViewPortX;
+    int8_t ViewPortY;
 
     //If background mode change to SCX SCY 
     ViewPortX = MMU->SystemMemory[0xFF43];  
