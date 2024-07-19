@@ -169,7 +169,8 @@ My Ultimate Goal with this project is for the emulator to run the following game
 <img src= "https://github.com/user-attachments/assets/1f650c2e-a74f-45a9-87a2-7dbc86dd28e3" width="200">
 
 * Link's Awakening had a pretty interesting bug. It seemed to be consistently getting stuck on RST 38, an instruction that should not have been triggering. Upon further inspection, the routine at RST 00 was causing these. After inspecting the ROM file, there was a mismatch (0xFF instead of 0xC3) on the first byte of ROM data, which shouldn't have been happening. I checked the memory data and made sure the rom data was loaded in properly, which it seemed to have been. This meant something was modifying this byte when it shouldn't have been, and I remembered that some games send RAM enable requests this way. To fix this bug, I needed to add a case to MMUWrite where writes below 0x2000 don't do anything.
-* Link's Awakening is now "playable" but there are still some issues with the palettes in the intro and the window appearing 6 pixels below where it should.
+* It seemed that the Window was still bugged, and after consulting the Emudev discord, it seemed like the WY and WX viewports needed to be able to handle negative numbers. This was an easy fix, and I just changed uint8_t to int8_t for ViewportX and ViewportY.
+* Link's Awakening is now "playable" but there are still some issues with the palettes in the intro.
 
 ### Audio Support (In Progress)
 
