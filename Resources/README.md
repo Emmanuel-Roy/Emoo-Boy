@@ -1,1 +1,1 @@
-## These folders include my VRAM Reader and the functions used for GameBoy Doctor.
+## This folder contains the VRAM Reader, and any other small programs I use for demoing purposes in the future.
