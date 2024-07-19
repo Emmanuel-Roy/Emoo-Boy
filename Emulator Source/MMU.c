@@ -157,9 +157,10 @@ uint8_t MMURead(MMU *MMU, uint16_t address) { //Used to prevent CPU Screwups wit
 void MMUWrite(MMU *MMU, uint16_t address, uint8_t value) { //Used to prevent CPU Screwups with Writes.
     //Check MBC Type and Write to the correct location. (This is needed for ROM Bank Functions)
 
-    //I'm not gonna bother implementing RAM enable for now, as it's not needed for the games I'm testing with.
-    //If the user wants to play a game that uses RAM enable, I'll implement it then.
-
+    //I'm not gonna bother implementing RAM enable, its fine even if games ignore it.
+    if (address >= 0x0000 & address <= 0x1FFF) {
+        return;
+    }
 
     if ((address >= 0x2000 & address <= 0x3FFF)) {
         if (MMU->NumROMBanks > 2) {
