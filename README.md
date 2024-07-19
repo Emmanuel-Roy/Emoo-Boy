@@ -182,7 +182,7 @@ My Ultimate Goal with this project is for the emulator to run the following game
 * New area after loading in the map.
 
 #### General Fixes
-* I realized that having a completely separate branch for CPU logging was kinda dumb, so I decided to just include it in the program as a setting.
+* I realized that having a completely separate branch for CPU logging was inefficent, so I decided to just include it in the program as a setting.
 
 ### Audio Support (In Progress)
 
