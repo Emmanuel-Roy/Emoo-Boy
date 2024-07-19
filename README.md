@@ -9,8 +9,8 @@ The Nintendo Gameboy system is one of the most beloved devices of all time, sell
 I have a lot of nostalgia for the system, and I figured creating an accurate simulation of the hardware would be an incredibly challenging yet fulfilling technical achievement.
 
 My Ultimate Goal with this project is for the emulator to run the following games from my childhood.
-* Pokemon Gold and Silver 
-* Link's Awakening 
+* Pokemon Gold and Silver 🆗 (Saving the game doesn't work due to "No windows available for popping bug.")
+* Link's Awakening 🆗 (Issues when loading in map tiles, can be mitigated by opening the menu. Issues with the Palettes in the opening.)
 * Kirby's Dream Land 2 ✅
 
 ## Goals:
