@@ -30,15 +30,15 @@ void PPUTick(PPU *PPU, MMU *MMU) {
 
     //Check if PPU is turned on (LCDC Bit 7)
     if ((MMU->SystemMemory[0xFF40] & (1 << 7)) == 0) {
-        PPU->CurrentX++;
-        if (PPU->CurrentX >= 456) {
-            PPU->CurrentX = 0;
-            MMU->SystemMemory[0xFF44] = MMU->SystemMemory[0xFF44] + 1; //Increment LYC
+        PPU->CurrentX = 0;
+        PPU->WindowLineCounter = 0;
 
-            if (MMU->SystemMemory[0xFF44] >= 154) {
-                MMU->SystemMemory[0xFF44] = 0;
-            }
-        }
+        MMU->SystemMemory[0xFF44] = 0;
+        PPU->Mode3Length = 252;
+
+        MMU->SystemMemory[0xFF41] = (MMU->SystemMemory[0xFF41] & ~0x03); //Set Mode to HBlank
+
+        
         return; //Break if PPU is disabled
     } 
 
@@ -246,32 +246,31 @@ void PPUUpdateMap(PPU *PPU, MMU *MMU, uint8_t MODE, uint8_t x, uint8_t y) { //0 
     //Initialize Variables
     uint16_t TMAPLocationStart, TDATALocationStart, TileLocation;
     uint8_t ChoiceMask;
-    int8_t ViewPortX;
-    int8_t ViewPortY;
-
-    //If background mode change to SCX SCY 
-    ViewPortX = MMU->SystemMemory[0xFF43];  
-    ViewPortY = MMU->SystemMemory[0xFF42];
-    ChoiceMask = 0x08;
-
-    //If window mode change to WX WY
-    if (MODE == 1) {
-        ViewPortX = MMU->SystemMemory[0xFF4B]-7;
-        
-        if (ViewPortX < 0) {
-            ViewPortX = 0;
-        }
-        
-        ViewPortY = MMU->SystemMemory[0xFF4A];
-        ChoiceMask = 0x40;
+    
+    uint8_t BackgroundPortX = MMU->SystemMemory[0xFF43];
+    uint8_t BackgroundPortY = MMU->SystemMemory[0xFF42];
+    
+    int8_t WindowPortX = MMU->SystemMemory[0xFF4B]-7;
+    //Ensure handling of Negative Numbers
+    if (WindowPortX < 0) {
+            WindowPortX = 0;
     }
+    int8_t WindowPortY = MMU->SystemMemory[0xFF4A];
 
-    //Calculate the actualX and Y value of the pixel based on the viewport
-    uint8_t pixelX = (x + ViewPortX) % 256;
-    uint8_t pixelY = (y + ViewPortY) % 256;
 
-    if (MODE == 1) { // Window mode
-        ViewPortY = PPU->WindowLineCounter;
+    //Calculate the actualX and Y value of the pixel based on the MODE
+    uint8_t pixelX;
+    uint8_t pixelY;
+
+    if (MODE == 0) {
+        ChoiceMask = 0x08; //Affects the Background Tile Map Location
+        pixelX = (x + BackgroundPortX) % 256;
+        pixelY = (y + BackgroundPortY) % 256;
+    }
+    else {
+        ChoiceMask = 0x40; //Affects the Window Tile Map Location
+        pixelX = (x + WindowPortX) % 256;
+        WindowPortY = PPU->WindowLineCounter;
         pixelY = PPU->WindowLineCounter;
     }
 
@@ -297,15 +296,19 @@ void PPUUpdateMap(PPU *PPU, MMU *MMU, uint8_t MODE, uint8_t x, uint8_t y) { //0 
 
     //Find tile and memory locations
     uint8_t MemLocation; 
-    uint16_t OFFSET = ((32 * (PPU->WindowLineCounter / 8) + (x+7-(ViewPortX+7))/8)  & 0x3FFF);
-    uint16_t TIleIndexLoc = TMAPLocationStart + ((32 * (PPU->WindowLineCounter / 8) + (x+7-(ViewPortX+7))/8)  & 0x3FFF);
+    uint16_t OFFSET;
+    uint16_t TIleIndexLoc;
+
     if (MODE == 0) {
+        OFFSET = ((32 * (PPU->WindowLineCounter / 8) + (x+7-(BackgroundPortX+7))/8)  & 0x3FFF);
+        TIleIndexLoc = TMAPLocationStart + ((32 * (PPU->WindowLineCounter / 8) + (x+7-(BackgroundPortX+7))/8)  & 0x3FFF);
         MemLocation = MMU->SystemMemory[TMAPLocationStart  + tileX + tileY * 32];
     }
     else {
-        MemLocation = MMU->SystemMemory[TMAPLocationStart + ((32 * (PPU->WindowLineCounter / 8) + (x+7-(ViewPortX+7))/8)  & 0x3FFF)];
+        OFFSET = ((32 * (PPU->WindowLineCounter / 8) + (x+7-(WindowPortY+7))/8)  & 0x3FFF);
+        TIleIndexLoc = TMAPLocationStart + ((32 * (PPU->WindowLineCounter / 8) + (x+7-(WindowPortY+7))/8)  & 0x3FFF);
+        MemLocation = MMU->SystemMemory[TMAPLocationStart + ((32 * (PPU->WindowLineCounter / 8) + (x+7-(WindowPortX+7))/8)  & 0x3FFF)];
     }
-
 
     if (TDATALocationStart == 0x8000) {
         TileLocation = TDATALocationStart + (MemLocation * 16);
@@ -314,14 +317,12 @@ void PPUUpdateMap(PPU *PPU, MMU *MMU, uint8_t MODE, uint8_t x, uint8_t y) { //0 
         TileLocation = 0x9000 + ((int8_t)MemLocation * 16);
     }
 
-    //Everything past here is correct
-
     uint8_t LowByte;
     uint8_t HighByte;
 
     if (MODE == 0) {
-        LowByte = MMU->SystemMemory[TileLocation + (((y + ViewPortY) % 8) * 2)];
-        HighByte = MMU->SystemMemory[TileLocation + (((y + ViewPortY) % 8) * 2) + 1];
+        LowByte = MMU->SystemMemory[TileLocation + (((y + BackgroundPortY) % 8) * 2)];
+        HighByte = MMU->SystemMemory[TileLocation + (((y + BackgroundPortY) % 8) * 2) + 1];
     }
     else {
         LowByte = MMU->SystemMemory[TileLocation + (((PPU->WindowLineCounter) % 8) * 2)];
