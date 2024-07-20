@@ -217,6 +217,15 @@ My Ultimate Goal with this project is for the emulator to run the following game
 
 ## Hardware (To Do)
 
+* I plan to use a Raspberry Pi Zero 2 W and a custom PCB to create a handheld capable of running the "EMOO-Boy" software.
+* For now though, I've tested running the program on my Steam deck through Proton, and it runs quite well.
+
+![image](https://github.com/user-attachments/assets/b275ef92-4bd6-4ac2-841f-f4a8a1eccfba)
+
+* I had to move the 1 ms delay to happen every 20 scanlines instead of every 13 like on my desktop, but it runs practically perfectly.
+* I assume running the program on a much weaker Raspberry Pi may cause the built-in delay to be unnecessary or perhaps once every 40 or so scanlines. 
+
+
 ## Takeaways.
  * The project would have taken significantly longer without the vast amount of resources available on the internet.
  * Roughly ~7000 lines of code were written (not including apu).
