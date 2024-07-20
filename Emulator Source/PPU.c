@@ -9,7 +9,7 @@ extern SDL_Renderer *renderer;
 extern SDL_Texture* texture;
 extern int SCALE;
 extern int DMGPalette[12];
-extern int RenderingMode;
+extern int RenderingSpeed;
 
 /*
     LCDC = MMU->SystemMemory[0xFF40]; //LCD Control Register
@@ -79,10 +79,6 @@ void PPUTick(PPU *PPU, MMU *MMU) {
             PPU->Mode3Length = 252;
         }
 
-        if (RenderingMode == 2) {
-                PPUPushPixel(PPU); //Render Frame
-        }
-        
         if (LY > 153) { //End of VBlank (4560 Cycles)
             PPU->CurrentX = 0;
             PPU->WindowLineCounter = 0;
@@ -119,9 +115,6 @@ void PPUTick(PPU *PPU, MMU *MMU) {
 
         if (PPU->CurrentX < 240) { //Draw only the 160 pixels, not the additional 12 needed for cycle accuracy.
             PPUDraw(PPU, MMU, (PPU->CurrentX - 80), LY);
-            if (RenderingMode == 0) {
-                PPUPushPixel(PPU); //Render Pixel
-            }
         }
         //Draw Each Pixel.
         PPU->CurrentX += 1;
@@ -142,8 +135,13 @@ void PPUTick(PPU *PPU, MMU *MMU) {
     }
 
     if (PPU->CurrentX == 456) { //End of Scanline
-        if (RenderingMode == 1) {
-            PPUPushPixel(PPU); //Render Scanline
+            //PPUPushPixel(PPU); //Render Scanline
+        if (PPU->ScanlineDelay == RenderingSpeed) {
+            SDL_Delay(1); //Delay for 1 ms
+            PPU->ScanlineDelay = 0;
+        } 
+        else {
+            PPU->ScanlineDelay++;
         }
         //if window pixels were drawn this scanline increment 
         if (PPU->haswindow > 0) {
@@ -191,6 +189,9 @@ void PPUInit(PPU *PPU, MMU *MMU) {
     PPU->DEBUG = 0;
     PPU->WindowLineCounter = 0;
     PPU->haswindow = 0;
+
+
+    PPU->ScanlineDelay = 0; //Delay every 9th scanline.
 
     for (int i = 0; i < 160; i++)
     {

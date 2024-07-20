@@ -68,11 +68,10 @@ void CPUTick(CPU *CPU, MMU *MMU) {
         MMU->Ticks = 4;
         return;
     }
-
     //Execute Instruction and return
     MMU->Ticks = CPUExecuteInstruction(CPU, MMU);
     
-    //Update GamePad State
+    //Update GamePad
     DMGUpdateGamePad(MMU);
     
     return;

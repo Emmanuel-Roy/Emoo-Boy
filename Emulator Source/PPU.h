@@ -9,7 +9,7 @@ extern SDL_Renderer *renderer;
 extern SDL_Texture* texture;
 extern int SCALE;
 extern int DMGPalette[12];
-extern int RenderingMode;
+extern int RenderingSpeed;
 
 typedef struct {
     uint8_t YPos;
@@ -34,6 +34,9 @@ typedef struct {
     uint8_t DEBUG; //Checks whether to print to console.
 
     uint8_t haswindow;
+
+    uint8_t ScanlineDelay;
+
 } PPU;
 
 

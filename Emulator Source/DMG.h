@@ -18,12 +18,12 @@ typedef struct {
     MMU DMG_MMU;
     Timer DMG_Timer;
     //APU DMG_APU;
-
 } DMG;
 
 
 void DMGInit(DMG *DMG);
 void DMGGraphicsInit();
 void DMGTick(DMG *DMG);
+int DMGRenderThread(void *data);
 
 #endif

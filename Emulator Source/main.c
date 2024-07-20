@@ -14,7 +14,7 @@ int RAMSize;
 int MBCType;
 int LoadSaveFile = 0;
 int Exit = 0;
-int RenderingMode = 1;
+int RenderingSpeed = 13;
 int LOG = 0;
 //SDL Globals
 SDL_Window *window;
@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
 		printf("1. Load ROM File\n");
 		printf("2. Update Colors\n");
 		printf("3. Update Scale Factor\n");
-		printf("4. Update Rendering Method\n");
+		printf("4. Update Rendering Speed\n");
 		printf("5. Help/Controls \n");
 		printf("6. Toggle CPU Logging \n \n");
 		
@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
 				break;
 			}
 			case (2): {
-				printf("\nPlease enter all values in hexadecimal, for example use 0xFFFFFF to represent white and 0x000000 to represent black. \n \n");
+				printf("Please enter all values in hexadecimal, for example use 0xFFFFFF to represent white and 0x000000 to represent black. \n \n");
 				printf("Please enter the value you wish to use for Background/Window Palette Color 0, currently 0x%x. \n", DMGPalette[0]);
 				scanf("%x", &DMGPalette[0]);
 				printf("Please enter the value you wish to use for Background/Window Palette Color 1, currently 0x%x. \n", DMGPalette[1]);
@@ -96,7 +96,7 @@ int main(int argc, char *argv[])
 				int CurrentHeight = 160 * SCALE;
 				int CurrentWidth = 144 * SCALE;
 				
-				printf("\nThe current scale factor is %d. \n", SCALE);
+				printf("The current scale factor is %d. \n", SCALE);
 				printf("The current window size is %d x %d. \n", CurrentWidth, CurrentHeight);
 
 				printf("Please enter the new scale factor value. \n \n");
@@ -111,41 +111,40 @@ int main(int argc, char *argv[])
 				break;
 			}
 			case (4): {
-				printf("\nEnter 0 for Per Pixel Rendering (VERY SLOW): \n");
-				printf("\nEnter 1 for Scanline Rendering (HBLANK) (Normal): \n");
-				printf("\nEnter 2 for Frame Rendering (VBLANK) (Unplayable): \n \n");
+				printf("Enter how many scanlines between delays. (Default is 13) \n");
+				printf("This function essentially controls the speed that games play at. \n");
 
-				scanf("%d", &RenderingMode);
+				scanf("%d", &RenderingSpeed);
 
-				printf("\n");
+				printf("\n \n");
 				break;
 
 			}
 			case (5): {
-				printf("\nThe controls for the emulator are as follows: \n");
+				printf("The controls for the emulator are as follows: \n");
 				printf("Arrow Keys: D-Pad\n");
 				printf("Z: A Button\n");
 				printf("X: B Button\n");
 				printf("C: Start Button\n");
 				printf("D: Select Button\n \n");
 
-				printf("For any inquires, please contact the developer: royemmanuel39@gmail.com \n");
+				printf("For any inquires, please contact the developer: royemmanuel39@gmail.com \n \n");
 
 				break;
 			}
 			case (6): {
 				if (LOG == 0) {
-					printf("CPU Logging Enabled \n");
+					printf("CPU Logging Enabled \n \n");
 					LOG = 1;
 				}
 				else if (LOG == 1) {
-					printf("CPU Logging Disabled \n");
+					printf("CPU Logging Disabled \n \n");
 					LOG = 0;
 				}
 				break;
 			}
 			default: {
-				printf("\nInput Invalid, please try again. \n");
+				printf("Input Invalid, please try again. \n \n");
 				break;
 			}
 		}
