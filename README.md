@@ -179,12 +179,21 @@ My Ultimate Goal with this project is for the emulator to run the following game
 <img src= "https://github.com/user-attachments/assets/322e767b-7f8b-43d7-b177-f687cb42ac9a" width="200">
 
 #### General Fixes
+##### CPU Logging
 * I realized that having a completely separate branch for CPU logging was inefficient, so I decided to just include it in the program as a setting.
+#### Multithreading
 * I discovered that performance was quite terrible, and it seems to be because SDL caps the framerate at 4000 or so FPS on Windows. This sounds great on paper until you realize that SDL renders a new frame for each scanline, meaning the actual framerate was around 29.7 fps.
 * To mitigate this, I implemented some basic multithreading using SDL. I made a separate thread that would consistently render the screen at 60 fps. While this is a little off the Gameboy's internal 59.7 fps, I felt as if this was close enough, and I prefer the faster speed.
 * This led to the internal game logic running a lot faster, so I had to include some form of an internal logic cap. To do this, I set up a system where SDL would delay for a millisecond after a user-specified amount of scanlines were rendered. On my desktop PC, I found the sweet spot to be around 1 millisecond for every 13 scanlines.
 * In the future, I will be creating a speed-up function that will work by adjusting this internal variable.
 * Adding multithreading also fixed the transitions between screens, as it was seemingly broken in games like Pokemon and Link's Awakening.
+##### Allowing for Custom OBJ Palette 0, and OBJ Palette 1 support.
+* While fixing Metroid 2, I realized that some games allow for these two palettes to be changed. This is seemingly because of the Super Gameboy and the Gameboy Color.
+* To add functionality, I figured it would be cool to allow users to adjust these as well to their liking.
+
+<img src= "https://github.com/user-attachments/assets/9958e738-e396-485d-9f4e-616a4b1845c0" width="200">
+<img src= "https://github.com/user-attachments/assets/2878f90a-3d2d-42af-98e3-227cb788837a" width="200">
+
 
 ### Audio Support (In Progress)
 
