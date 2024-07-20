@@ -28,14 +28,14 @@ My Ultimate Goal with this project is for the emulator to run the following game
   * Make a physical device, hopefully around the size of a credit card, using a Raspberry Pi Zero with a custom PCB and Casing.
   * Swap from Scanline-Based Rendering to Pixel Fifo, to get better accuracy in edge cases.
 
-## My Process and Challenges.
+# My Process and Challenges.
 
-### Why I chose C and not a more modern language?
+## Why I chose C and not a more modern language?
  * In short, I wanted to reduce the amount of dependencies used and maximize compatibility on a wide range of systems.
  * As mentioned in my planned editions, I want to eventually be able to run this emulator on its own embedded system, and I feel that using C will open doors for this later on, even if the lack of classes and other object-oriented fundamentals lead to somewhat messier code.
  * In addition, my current university courses focus on languages like C++ and Java, and I feel as if I have become somewhat complacent in maintaining my C programming skills.
 
-### Initial Renderer Attempts.
+## Initial Renderer Attempts.
  * I started this project by working on a basic renderer, and I did so because I thought this would be incredibly useful to help debug other components early on. To do this, I used mGBA to dump Memory Data while games were playing and created a renderer based on the information in the Gameboy Pandocs to reconstruct this memory data into actual frames.
  * This was useful in teaching me some basic system details, and it was awesome to see visual confirmation of my progress in real time. Using memory dumps was also insightful in figuring out what potential save state functionality could look like in the future. 
  * I started working on a renderer for the background, as seen by the first 5 images, and once I verified that worked I tested background scrolling.
@@ -43,7 +43,7 @@ My Ultimate Goal with this project is for the emulator to run the following game
  * Finally, to complete the basic renderer I implemented OAM scanning and sprite functionality.
  * At this point, I tried to test the DMG-Acid2 ROM, however, the results and errors found from testing were most likely not problems with implementation, but rather the inherent problems from rendering out of a memory dump. Getting this test to render properly as a goal was moved to be done during PPU testing and evaluation.
 
-#### Background Renderer (1-4), Background Scrolling (5-6), Window Renderer (7), Sprite Renderer (8), Palette Support (9-11), DMG-Acid2 Test (12)
+### Background Renderer (1-4), Background Scrolling (5-6), Window Renderer (7), Sprite Renderer (8), Palette Support (9-11), DMG-Acid2 Test (12)
 <img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/b88b7e96-f4ab-4963-be9f-74e88de82ec8" width="200">
 <img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/21f3ff0b-8fd9-4ebc-9d3f-259d480ec9bd" width="200">
 <img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/7d745293-6f5f-4236-adc6-aa18fda82707" width="200">
@@ -58,7 +58,7 @@ My Ultimate Goal with this project is for the emulator to run the following game
 <img src= "https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/bfd2302e-87d3-4021-9ca6-f88d95e233c7" width="200">
 
 
-### Designing the Software Structure.
+## Designing the Software Structure.
   * At this point in the project, I spent a lot of time researching the source code of more mature emulators to figure out how they were implemented. I'm not a fan of using many files, so I wanted to base everything on a few basic components. 
   * These components would be held in individual.c and .h files, containing a struct definition for each element and the functions that allowed the components to work.
   * One major difference between my emulator and a lot of others was the focus on using one large uint8_t SystemMemory[0x10000] array. The primary reason for this was to allow for easier implementation of save-state support later on, and also because it felt more true to the actual system as far as I read documentation-wise in terms of the way addressing modes and the Gameboy memory map worked. While this was perhaps not the optimal choice for performance, I thought it was cool.
@@ -67,14 +67,14 @@ My Ultimate Goal with this project is for the emulator to run the following game
   * While designing each underlying component, I needed to see what would change during each "tick" (Clock Cycle). Aside from this, I also needed to research on the pandocs and other emulators what registers and other variables were used by each component, and why.
 
   
-### Implementing Main
+## Implementing Main
   * Getting basic console functionality was imperative for this project. I wanted users to be able to choose ROM files, Save files, Palettes, Control help, and read cartridge information before actually launching the games.
   * Getting this done was rather simple, and only took a couple of hours. It also helped me understand how I would load and process files given by users, which was very useful for MMU implementation.
 
 ![image](https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/a18875b6-0121-4220-bd59-7b8e54b965f1)
 
 
-### Implementing the MMU 
+## Implementing the MMU 
   * The first major component I worked on in the system was the MMU. This was because I figured having the ability to load roms would be imperative for developing more difficult components later on.
   * The MMU ended up being one of the largest and most complicated components to implement by far, and I enjoyed thinking about the challenges.
   * One of my favorite challenges was setting up Memory Banking support, and I chose to implement this by loading the ROM bank data from another array to the SystemMemory array when requested.
@@ -82,7 +82,7 @@ My Ultimate Goal with this project is for the emulator to run the following game
 
 ![image](https://github.com/Emmanuel-Roy/Emoo-Boy/assets/54725843/07adc605-a890-41aa-8c2b-78ae3cbd0bb1)
 
-### Implementing the PPU 
+## Implementing the PPU 
   * Originally, I thought the PPU would be the component that would take the most time. I think was right, however, my previous implementation of the VRAM Reader made this component significantly easier to implement.
   * In essence, I converted the functions in the VRAM reader to operate on a pixel-by-pixel basis, and I only needed to implement correct timing for the modes alongside raising interrupt flags when necessary.
   * I had some previous experience using SDL for the CHIP-8 emulator and VRAM Reader, so it was a breeze setting up the rendering and GUI this time. I found that rendering an image pixel by pixel was a bit too slow, so even though it could cause accuracy issues in edge-case games, I chose to only render on a scanline-by-scanline basis.
@@ -90,12 +90,12 @@ My Ultimate Goal with this project is for the emulator to run the following game
   * One of the major things that the PPU got me to think of was the idea of Machine Cycles vs Ticks. It turns out that a lot of documentation on the Gameboy focuses on machine cycles, (4 system ticks), even though a lot of components rely on system ticks to operate. For example, a given opcode may take 1 machine cycle, but that would also activate 4 ticks on the PPU, drawing 4 pixels. Another opcode could take 2 machine cycles, and would as such activate 8 ticks on the PPU, drawing 8 pixels.
   * Thinking about this also helped me think about how I would fix timing issues if they occurred, and I ultimately just chose to loop the other system components for however many ticks the CPU took to operate a given opcode.
 
-### Implementing the Gamepad and the timer
+## Implementing the Gamepad and the timer
   * The gamepad was a breeze, I just had SDL check the keyboard after each CPU cycle and updated the appropriate register in system memory accordingly.
   * I ended up adding it to MMU.c, as I figured opcodes like "stop" would rely on checking for an update to the gamepad.
   * The timer wasn't as easy, but it only took an hour or two to understand and set up. The previous knowledge I acquired about ticks vs machine cycles was also relevant here, and I thought it was an interesting technical challenge to convert the two.
 
-### Implementing the CPU (PT 1) and Interrupt Handling
+## Implementing the CPU (PT 1) and Interrupt Handling
   * MANY Lessons learned here. Interrupt handling was surprisingly simple and took only an hour or so to set up.
   * It turns out there's a good reason why every emulator guide recommends completely the CPU first, it's tough to debug other components if you don't have good accuracy when implementing instructions.
   * I implemented the first couple of instructions required for the "hello-world.gb" rom, which took a couple of attempts to get right. Thankfully there wasn't anything wrong with my PPU for this test.
@@ -104,7 +104,7 @@ My Ultimate Goal with this project is for the emulator to run the following game
 
 <img src= "https://github.com/user-attachments/assets/25fed018-e827-4fc6-bc56-f727ce2be3fb" width="200">
 
-### PPU Testing
+## PPU Testing
   * I failed DMG-Acid2.gb a TON of times, and most of it had to do with my initial PPU implementation.
   * I changed gears, using the "The Gameboy Emulator Development Guide" for calculating offsets, adding tons of variables like the Window Line Counter.
   * I went back to my VRAM testing application and used it to test new implementations. If it broke the VRAM reader, chances were that it wouldn't work in the emulator as well.
@@ -112,21 +112,21 @@ My Ultimate Goal with this project is for the emulator to run the following game
   * This was one of the hardest and longest parts of development, but I'm glad I got to make it in the end.
   * If you are reading this hoping to develop your own emulator, DON'T GIVE UP!!!
 
-#### July 9th 2024:
+### July 9th 2024:
 
 <img src= "https://github.com/user-attachments/assets/2f7e9594-d587-4faf-974a-17cb6f3413ee" width="200">
 <img src= "https://github.com/user-attachments/assets/03f71db7-b6fc-439c-955e-a84d0323012b" width="200">
 <img src= "https://github.com/user-attachments/assets/4c40c1ff-cc00-43c0-848a-3ae9ea73389d" width="200">
 <img src= "https://github.com/user-attachments/assets/477e40ee-9a63-41e2-a758-b26b5cf57bb9" width="200">
 
-#### July 13th, 2024:
+### July 13th, 2024:
 
 <img src= "https://github.com/user-attachments/assets/a1fdda7f-56e1-45b2-b61e-999be34590ed" width="200">
 <img src= "https://github.com/user-attachments/assets/d513e35a-df24-4451-b2a8-2f2f9d5f84d5" width="200">
 <img src= "https://github.com/user-attachments/assets/959470c9-6edc-40cb-9722-9a5f4c23c871" width="200">
 <img src= "https://github.com/user-attachments/assets/5b32ef92-185f-4ee3-9dce-cae74921fcd8" width="200">
 
-### Implementing the CPU (PT 2)
+## Implementing the CPU (PT 2)
   * After gaining back my confidence, I decided to implement and debug Tetris.
   * This ended up going quite horribly, so I decided to walk back a bit and pass some standardized CPU tests first.
   * There are some great test roms, namely the Blargg's suite, and a useful tool called Gameboy Doctor debugs instructions tick by tick.
@@ -137,7 +137,7 @@ My Ultimate Goal with this project is for the emulator to run the following game
   * After a while, I managed to pass the tests and implement every instruction correctly.
 <img src= "https://github.com/user-attachments/assets/cef5e427-0113-4e9b-97b6-b1b100f754f4" width="200">
 
-### Testing Games
+## Testing Games
  * I had a couple of issues getting games to run, as it seemed like there were a ton of bugs with my code. While most of the games I tried ended up crashing at some point, I managed to get my first game playable!
  * I'm thrilled that this was the first game that worked, as Kirby's Dreamland 2 is one of my favorite childhood games!
 <img src= "https://github.com/user-attachments/assets/e4b71f77-9db0-40ba-a59a-86afe5dfc255" width="200">
@@ -162,24 +162,24 @@ My Ultimate Goal with this project is for the emulator to run the following game
 * However, other than a broken intro sequence, a lack of RTC implementation, and issues preventing save files from working, it seems that Pokemon Gold works perfectly!
 <img src= "https://github.com/user-attachments/assets/88b200d0-0d41-492b-a355-008cf4dfa77f" width="200">
 
-### Fixes (In Progress)
-#### Pokemon Red and Blue
+## Fixes (In Progress)
+### Pokemon Red and Blue
 * It seems that a problem with my window layer (replacing color 0 for transparency instead of white) caused the bugs in Pokemon Red, and now it works perfectly!
 <img src= "https://github.com/user-attachments/assets/d12bd933-9cef-415b-b3e8-56fbeaf14803" width="200">
 <img src= "https://github.com/user-attachments/assets/1f650c2e-a74f-45a9-87a2-7dbc86dd28e3" width="200">
 
-#### Link's Awakening
+### Link's Awakening
 * Link's Awakening had a pretty interesting bug. It seemed to be consistently getting stuck on RST 38, an instruction that should not have been triggering. Upon further inspection, the routine at RST 00 was causing these. After inspecting the ROM file, there was a mismatch (0xFF instead of 0xC3) on the first byte of ROM data, which shouldn't have been happening. I checked the memory data and made sure the rom data was loaded properly, which it seemed to have been. This meant something was modifying this byte when it shouldn't have been, and I remembered that some games send RAM-enable requests this way. To fix this bug, I needed to add a case to MMUWrite where writes below 0x2000 don't do anything.
 * It seemed that the Window was still bugged, and after consulting the Emudev discord, it seemed like the WY and WX viewports needed to be able to handle negative numbers. This was an easy fix, and I just changed uint8_t to int8_t for ViewportX and ViewportY.
 * Well, the fix ended up being harder than anticipated, and I had to adjust the code a lot, mainly because the behavior for the int8_t for the viewport was right for the window, but uint8_t was right for the background. Ultimately, I decided to just delete viewportX and viewportY, and just use different variables for the window and the background based on their respective int8_t and uint8_t types.
 <img src= "https://github.com/user-attachments/assets/9ddb07b9-33f7-446e-a389-e287d69fa6fd" width="200">
 
-#### Metroid 2
+### Metroid 2
 * Metroid 2 was a fairly easy fix, I just had to adjust the background/window pixel value by the first two bits of the actual palette stored in SystemMemory[FF47].
 <img src= "https://github.com/user-attachments/assets/322e767b-7f8b-43d7-b177-f687cb42ac9a" width="200">
 
-#### General Fixes
-##### CPU Logging
+### General Fixes
+#### CPU Logging
 * I realized that having a completely separate branch for CPU logging was inefficient, so I decided to just include it in the program as a setting.
 #### Multithreading
 * I discovered that performance was quite terrible, and it seems to be because SDL caps the framerate at 4000 or so FPS on Windows. This sounds great on paper until you realize that SDL renders a new frame for each scanline, meaning the actual framerate was around 29.7 fps.
@@ -187,7 +187,7 @@ My Ultimate Goal with this project is for the emulator to run the following game
 * This led to the internal game logic running a lot faster, so I had to include some form of an internal logic cap. To do this, I set up a system where SDL would delay for a millisecond after a user-specified amount of scanlines were rendered. On my desktop PC, I found the sweet spot to be around 1 millisecond for every 13 scanlines.
 * In the future, I will be creating a speed-up function that will work by adjusting this internal variable.
 * Adding multithreading also fixed the transitions between screens, as it was seemingly broken in games like Pokemon and Link's Awakening.
-##### Allowing for Custom OBJ Palette 0, and OBJ Palette 1 support.
+#### Allowing for Custom OBJ Palette 0, and OBJ Palette 1 support.
 * While fixing Metroid 2, I realized that some games allow for these two palettes to be changed. This is seemingly because of the Super Gameboy and the Gameboy Color.
 * To add functionality, I figured it would be cool to allow users to adjust these as well to their liking.
 
@@ -195,7 +195,7 @@ My Ultimate Goal with this project is for the emulator to run the following game
 <img src= "https://github.com/user-attachments/assets/2878f90a-3d2d-42af-98e3-227cb788837a" width="200">
 
 
-### Audio Support (In Progress)
+## Audio Support (In Progress)
 
 * Audio on the GameBoy isn't too complex from a hardware perspective, but from an emulation perspective, it's an enormous task that often gets skipped.
 * I've decided to implement audio because the system wouldn't be complete without it.
@@ -203,11 +203,11 @@ My Ultimate Goal with this project is for the emulator to run the following game
 <img src= "https://github.com/user-attachments/assets/4cc47f24-f259-4565-a2d3-fca2d353693f" width="400">
 * 
 
-### MBC Features (To Do)
+## MBC Features (To Do)
 
-### Hardware (To Do)
+## Hardware (To Do)
 
-### Takeaways.
+## Takeaways.
  * The project would have taken significantly longer without the vast amount of resources available on the internet.
  * Roughly ~7000 lines of code were written (not including apu).
  * Implementing the CPU is probably the best decision for future emulator development, it makes it significantly easier to isolate issues with each component during testing.
