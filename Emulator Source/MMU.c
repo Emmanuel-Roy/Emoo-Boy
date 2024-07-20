@@ -33,6 +33,9 @@ void MMUInit(MMU *MMU) {
     MMU->CurrentRAMBank = 0;
     MMU->Ticks = 0;
 
+    for (int i = 0; i < 8; i++) {
+        MMU->GameBoyController[i] = 1;
+    }
 }
 void MMUFree(MMU *MMU) {
     free(MMU->ROMFile);
