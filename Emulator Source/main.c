@@ -8,7 +8,7 @@
 //System Globals.
 char ROMFilePath[512]; 
 char RAMFilePath[512]; 
-int DMGPalette[4] = {0xFFFFFF, 0xb6b6b6, 0x676767, 0x000000}; //Default DMG Colors
+int DMGPalette[12] = {0xFFFFFF, 0xb6b6b6, 0x676767, 0x000000, 0xFFFFFF, 0xb6b6b6, 0x676767, 0x000000, 0xFFFFFF, 0xb6b6b6, 0x676767, 0x000000}; //Default DMG Colors
 int ROMSize;
 int RAMSize;
 int MBCType;
@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
     while (flag != 1) {
 		printf("Please select an option:\n");
 		printf("1. Load ROM File\n");
-		printf("2. Update Palette\n");
+		printf("2. Update Colors\n");
 		printf("3. Update Scale Factor\n");
 		printf("4. Update Rendering Method\n");
 		printf("5. Help/Controls \n");
@@ -65,14 +65,30 @@ int main(int argc, char *argv[])
 			}
 			case (2): {
 				printf("\nPlease enter all values in hexadecimal, for example use 0xFFFFFF to represent white and 0x000000 to represent black. \n \n");
-				printf("Please enter the value you wish to use for Palette Color 0, currently 0x%x. \n", DMGPalette[0]);
+				printf("Please enter the value you wish to use for Background/Window Palette Color 0, currently 0x%x. \n", DMGPalette[0]);
 				scanf("%x", &DMGPalette[0]);
-				printf("Please enter the value you wish to use for Palette Color 1, currently 0x%x. \n", DMGPalette[1]);
+				printf("Please enter the value you wish to use for Background/Window Palette Color 1, currently 0x%x. \n", DMGPalette[1]);
 				scanf("%x", &DMGPalette[1]);
-				printf("Please enter the value you wish to use for Palette Color 2, currently 0x%x. \n", DMGPalette[2]);
+				printf("Please enter the value you wish to use for Background/Window Palette Color 2, currently 0x%x. \n", DMGPalette[2]);
 				scanf("%x", &DMGPalette[2]);
-				printf("Please enter the value you wish to use for Palette Color 3, currently 0x%x. \n", DMGPalette[3]);
+				printf("Please enter the value you wish to use for Background/Window Palette Color 3, currently 0x%x. \n", DMGPalette[3]);
 				scanf("%x", &DMGPalette[3]);
+				printf("Please enter the value you wish to use for OBJP0 (Sprite) Palette Color 0, currently 0x%x. \n", DMGPalette[4]);
+				scanf("%x", &DMGPalette[4]);
+				printf("Please enter the value you wish to use for OBJP0 (Sprite) Palette Color 1, currently 0x%x. \n", DMGPalette[5]);
+				scanf("%x", &DMGPalette[5]);
+				printf("Please enter the value you wish to use for OBJP0 (Sprite) Palette Color 2, currently 0x%x. \n", DMGPalette[6]);
+				scanf("%x", &DMGPalette[6]);
+				printf("Please enter the value you wish to use for OBJP0 (Sprite) Palette Color 3, currently 0x%x. \n", DMGPalette[7]);
+				scanf("%x", &DMGPalette[7]);
+				printf("Please enter the value you wish to use for OBJP1 (Sprite) Palette Color 0, currently 0x%x. \n", DMGPalette[8]);
+				scanf("%x", &DMGPalette[8]);
+				printf("Please enter the value you wish to use for OBJP1 (Sprite) Palette Color 1, currently 0x%x. \n", DMGPalette[9]);
+				scanf("%x", &DMGPalette[9]);
+				printf("Please enter the value you wish to use for OBJP1 (Sprite) Palette Color 2, currently 0x%x. \n", DMGPalette[10]);
+				scanf("%x", &DMGPalette[10]);
+				printf("Please enter the value you wish to use for OBJP1 (Sprite) Palette Color 3, currently 0x%x. \n", DMGPalette[11]);
+				scanf("%x", &DMGPalette[11]);
 				printf("Palette Updated! \n \n");
 				break;
 			}
@@ -96,8 +112,8 @@ int main(int argc, char *argv[])
 			}
 			case (4): {
 				printf("\nEnter 0 for Per Pixel Rendering (VERY SLOW): \n");
-				printf("\nEnter 1 for Scanline Rendering (HBLANK) (SLOW): \n");
-				printf("\nEnter 2 for Frame Rendering (VBLANK) (FAST): \n \n");
+				printf("\nEnter 1 for Scanline Rendering (HBLANK) (Normal): \n");
+				printf("\nEnter 2 for Frame Rendering (VBLANK) (Unplayable): \n \n");
 
 				scanf("%d", &RenderingMode);
 

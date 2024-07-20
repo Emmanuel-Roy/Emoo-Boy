@@ -8,7 +8,7 @@ extern SDL_Window *window;
 extern SDL_Renderer *renderer;
 extern SDL_Texture* texture;
 extern int SCALE;
-extern int DMGPalette[4];
+extern int DMGPalette[12];
 extern int RenderingMode;
 
 typedef struct {

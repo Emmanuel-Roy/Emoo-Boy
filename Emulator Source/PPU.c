@@ -8,7 +8,7 @@ extern SDL_Window *window;
 extern SDL_Renderer *renderer;
 extern SDL_Texture* texture;
 extern int SCALE;
-extern int DMGPalette[4];
+extern int DMGPalette[12];
 extern int RenderingMode;
 
 /*
@@ -331,7 +331,9 @@ void PPUUpdateMap(PPU *PPU, MMU *MMU, uint8_t MODE, uint8_t x, uint8_t y) { //0 
     
     //Calculate Color Value based on these bytes
     uint8_t pixelValue = ((HighByte >> (7 - DisplaypixelX)) & 1) << 1 | ((LowByte >> (7 - DisplaypixelX)) & 1);
+
     pixelValue = MMU->SystemMemory[0xFF47] >> (pixelValue * 2) & 0x03; //Fix Background Palettes.
+
     //Update the correct map
     if (MODE == 1) {
         PPU->WindowPixel = pixelValue;
@@ -443,14 +445,14 @@ void PPUDraw(PPU *PPU, MMU *MMU, int x, int y) {
                             
             //Get the proper Palette Color
             if (Flags & 0x10) {
-                PaletteColor = (MMU->SystemMemory[0xFF49] >> (pixel * 2)) & 0x03;
+                PaletteColor = ((MMU->SystemMemory[0xFF49] >> (pixel * 2)) & 0x03) + 8; // Use OBP1
             }
             else {
-                PaletteColor = (MMU->SystemMemory[0xFF48] >> (pixel * 2)) & 0x03;
+                PaletteColor = ((MMU->SystemMemory[0xFF48] >> (pixel * 2)) & 0x03) + 4; // Use OBP0
             }
 
             //Draw Sprite over if not transparent.
-            if (pixel != 0) {
+            if ((pixel != 0)) {
                 //Check for OAM overlap, SpriteDrawn is just used to account for OAM Priority
                 if ((!spriteDrawn) || (z == 0 || XPos < PPU->SpriteMap[z - 1].XPos)) {
                     //Check if Background or Window is Transparent.
@@ -486,6 +488,17 @@ void PPUPushPixel(PPU *PPU) {
                 case 1: color = DMGPalette[1]; break; // Light Gray
                 case 2: color = DMGPalette[2]; break; // Dark Gray
                 case 3: color = DMGPalette[3]; break; // Black
+                //Add support for different OBJ Palettes
+                //OBJ Palette 0
+                case 4: color = DMGPalette[4]; break; // White
+                case 5: color = DMGPalette[5]; break; // Light Gray
+                case 6: color = DMGPalette[6]; break; // Dark Gray
+                case 7: color = DMGPalette[7]; break; // Black
+                //OBJ Palette 1
+                case 8: color = DMGPalette[8]; break; // White
+                case 9: color = DMGPalette[9]; break; // Light Gray
+                case 10: color = DMGPalette[10]; break; // Dark Gray
+                case 11: color = DMGPalette[11]; break; // Black
             }
             pixels[y * (pitch / sizeof(uint32_t)) + x] = color;
         }
