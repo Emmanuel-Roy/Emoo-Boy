@@ -177,7 +177,11 @@ My Ultimate Goal with this project is for the emulator to run the following game
 
 
 #### General Fixes
-* I realized that having a completely separate branch for CPU logging was inefficent, so I decided to just include it in the program as a setting.
+* I realized that having a completely separate branch for CPU logging was inefficient, so I decided to just include it in the program as a setting.
+* I discovered that performance was quite terrible, and it seems to be because SDL caps the framerate at 4000 or so FPS on Windows. This sounds great on paper until you realize that SDL renders a new frame for each scanline, meaning the actual framerate was around 29.7 fps.
+* To mitigate this, I implemented some basic multithreading using SDL. I made a separate thread that would consistently render the screen at 60 fps. While this is a little off the Gameboy's internal 59.7 fps, I felt as if this was close enough, and I prefer the faster speed.
+* This led to the internal game logic running a lot faster, so I had to include some form of an internal logic cap. To do this, I set up a system where SDL would delay for a millisecond after a user-specified amount of scanlines were rendered. On my desktop PC, I found the sweet spot to be around 1 millisecond for every 13 scanlines.
+* In the future, I will be creating a speed-up function that will work by adjusting this internal variable.
 
 ### Audio Support (In Progress)
 
