@@ -331,7 +331,7 @@ void PPUUpdateMap(PPU *PPU, MMU *MMU, uint8_t MODE, uint8_t x, uint8_t y) { //0 
     
     //Calculate Color Value based on these bytes
     uint8_t pixelValue = ((HighByte >> (7 - DisplaypixelX)) & 1) << 1 | ((LowByte >> (7 - DisplaypixelX)) & 1);
-
+    pixelValue = MMU->SystemMemory[0xFF47] >> (pixelValue * 2) & 0x03; //Fix Background Palettes.
     //Update the correct map
     if (MODE == 1) {
         PPU->WindowPixel = pixelValue;
