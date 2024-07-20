@@ -162,7 +162,7 @@ My Ultimate Goal with this project is for the emulator to run the following game
 * However, other than a broken intro sequence, a lack of RTC implementation, and issues preventing save files from working, it seems that Pokemon Gold works perfectly!
 <img src= "https://github.com/user-attachments/assets/88b200d0-0d41-492b-a355-008cf4dfa77f" width="200">
 
-## Fixes (In Progress)
+## Fixes 
 
 ### Pokemon Red and Blue
 * It seems that a problem with my window layer (replacing color 0 for transparency instead of white) caused the bugs in Pokemon Red, and now it works perfectly!
@@ -178,6 +178,10 @@ My Ultimate Goal with this project is for the emulator to run the following game
 ### Metroid 2
 * Metroid 2 was a fairly easy fix, I just had to adjust the background/window pixel value by the first two bits of the actual palette stored in SystemMemory[FF47].
 <img src= "https://github.com/user-attachments/assets/322e767b-7f8b-43d7-b177-f687cb42ac9a" width="200">
+
+### Pokemon Gold and Silver
+* I honestly have no idea how to fix the "no window available for popping" error at this point, I plan to revisit this after implementing the RTC MBC feature.
+
 
 ### General Fixes
 
