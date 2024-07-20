@@ -90,7 +90,7 @@ My Ultimate Goal with this project is for the emulator to run the following game
   * One of the major things that the PPU got me to think of was the idea of Machine Cycles vs Ticks. It turns out that a lot of documentation on the Gameboy focuses on machine cycles, (4 system ticks), even though a lot of components rely on system ticks to operate. For example, a given opcode may take 1 machine cycle, but that would also activate 4 ticks on the PPU, drawing 4 pixels. Another opcode could take 2 machine cycles, and would as such activate 8 ticks on the PPU, drawing 8 pixels.
   * Thinking about this also helped me think about how I would fix timing issues if they occurred, and I ultimately just chose to loop the other system components for however many ticks the CPU took to operate a given opcode.
 
-## Implementing the Gamepad and the timer
+## Implementing the Gamepad and the Timer
   * The gamepad was a breeze, I just had SDL check the keyboard after each CPU cycle and updated the appropriate register in system memory accordingly.
   * I ended up adding it to MMU.c, as I figured opcodes like "stop" would rely on checking for an update to the gamepad.
   * The timer wasn't as easy, but it only took an hour or two to understand and set up. The previous knowledge I acquired about ticks vs machine cycles was also relevant here, and I thought it was an interesting technical challenge to convert the two.
@@ -163,6 +163,7 @@ My Ultimate Goal with this project is for the emulator to run the following game
 <img src= "https://github.com/user-attachments/assets/88b200d0-0d41-492b-a355-008cf4dfa77f" width="200">
 
 ## Fixes (In Progress)
+
 ### Pokemon Red and Blue
 * It seems that a problem with my window layer (replacing color 0 for transparency instead of white) caused the bugs in Pokemon Red, and now it works perfectly!
 <img src= "https://github.com/user-attachments/assets/d12bd933-9cef-415b-b3e8-56fbeaf14803" width="200">
@@ -179,21 +180,23 @@ My Ultimate Goal with this project is for the emulator to run the following game
 <img src= "https://github.com/user-attachments/assets/322e767b-7f8b-43d7-b177-f687cb42ac9a" width="200">
 
 ### General Fixes
+
 #### CPU Logging
 * I realized that having a completely separate branch for CPU logging was inefficient, so I decided to just include it in the program as a setting.
+
 #### Multithreading
 * I discovered that performance was quite terrible, and it seems to be because SDL caps the framerate at 4000 or so FPS on Windows. This sounds great on paper until you realize that SDL renders a new frame for each scanline, meaning the actual framerate was around 29.7 fps.
 * To mitigate this, I implemented some basic multithreading using SDL. I made a separate thread that would consistently render the screen at 60 fps. While this is a little off the Gameboy's internal 59.7 fps, I felt as if this was close enough, and I prefer the faster speed.
 * This led to the internal game logic running a lot faster, so I had to include some form of an internal logic cap. To do this, I set up a system where SDL would delay for a millisecond after a user-specified amount of scanlines were rendered. On my desktop PC, I found the sweet spot to be around 1 millisecond for every 13 scanlines.
 * In the future, I will be creating a speed-up function that will work by adjusting this internal variable.
 * Adding multithreading also fixed the transitions between screens, as it was seemingly broken in games like Pokemon and Link's Awakening.
+
 #### Allowing for Custom OBJ Palette 0, and OBJ Palette 1 support.
 * While fixing Metroid 2, I realized that some games allow for these two palettes to be changed. This is seemingly because of the Super Gameboy and the Gameboy Color.
 * To add functionality, I figured it would be cool to allow users to adjust these as well to their liking.
 
 <img src= "https://github.com/user-attachments/assets/9958e738-e396-485d-9f4e-616a4b1845c0" width="200">
 <img src= "https://github.com/user-attachments/assets/2878f90a-3d2d-42af-98e3-227cb788837a" width="200">
-
 
 ## Audio Support (In Progress)
 
