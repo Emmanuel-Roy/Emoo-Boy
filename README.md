@@ -180,7 +180,8 @@ My Ultimate Goal with this project is for the emulator to run the following game
 <img src= "https://github.com/user-attachments/assets/322e767b-7f8b-43d7-b177-f687cb42ac9a" width="200">
 
 ### Pokemon Gold and Silver
-* I honestly have no idea how to fix the "no window available for popping" error at this point, I plan to revisit this after implementing the RTC MBC feature.
+* I honestly have no idea how to fix the "no window available for popping" error.
+* At this point, I plan to revisit this after implementing the RTC MBC feature.
 
 
 ### General Fixes
