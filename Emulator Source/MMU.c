@@ -153,10 +153,8 @@ uint8_t MMURead(MMU *MMU, uint16_t address) { //Used to prevent CPU Screwups wit
                     return 0xFF;
             }
         }
-        else {
-            return MMU->SystemMemory[address]; //Fixes the unable to load save file issue.
-        }
     }
+
     if (address >= 0xE000 && address <= 0xFDFF) {
         return MMU->SystemMemory[address - 0x2000];
     }
@@ -216,11 +214,10 @@ void MMUWrite(MMU *MMU, uint16_t address, uint8_t value) { //Used to prevent CPU
             //Pokemon Annoyances
             if (value > 0x07) {
                 MMU->RTCMode = value;
-                return; //Add support for reading from RTC here later.
+                return; 
             }
             else {
                 MMU->RTCMode = 0;
-                MMUSwapRAMBank(MMU, value & 0x03);
             }
         }
         if (MMU->NumRAMBanks > 1) {
@@ -296,6 +293,7 @@ void DMGUpdateGamePad(MMU *MMU) {
                 }
                 if (event.key.keysym.sym == SDLK_ESCAPE) {
                     MMUSaveFile(MMU);
+                    MMUFree(MMU);
                     exit(0);
                 }
             }
