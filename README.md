@@ -203,6 +203,10 @@ My Ultimate Goal with this project is for the emulator to run the following game
 <img src= "https://github.com/user-attachments/assets/9958e738-e396-485d-9f4e-616a4b1845c0" width="200">
 <img src= "https://github.com/user-attachments/assets/2878f90a-3d2d-42af-98e3-227cb788837a" width="200">
 
+
+#### Custom Framerate Support.
+* As stated in the multithreading portion, I created a separate thread that would constantly render the display at a rate of 60 frames per second. I figured it would be fun to add, so I have allowed users to set custom frame rates for how the display refreshes. Since this doesn't actually affect the internal game logic, I figure this method of increasing framerates is somewhat similar to interpolation.
+
 ## Audio Support (In Progress)
 
 * Audio on the GameBoy isn't too complex from a hardware perspective, but from an emulation perspective, it's an enormous task that often gets skipped.
