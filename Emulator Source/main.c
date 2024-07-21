@@ -16,11 +16,13 @@ int LoadSaveFile = 0;
 int Exit = 0;
 int RenderingSpeed = 13;
 int LOG = 0;
+int SCALE = 5;
+int TargetFPS = 60;
+
 //SDL Globals
 SDL_Window *window;
 SDL_Renderer *renderer;
 SDL_Texture* texture;
-int SCALE = 5;
 
 /*
   I tend to avoid using global variables in my code, after all, it does lead to a variety of performance problems and can hurt maintainability.
@@ -51,9 +53,10 @@ int main(int argc, char *argv[])
 		printf("1. Load ROM File\n");
 		printf("2. Update Colors\n");
 		printf("3. Update Scale Factor\n");
-		printf("4. Update Rendering Speed\n");
-		printf("5. Help/Controls \n");
-		printf("6. Toggle CPU Logging \n \n");
+		printf("4. Update Internal Game Logic\n");
+		printf("5. Update Rendering FPS\n");
+		printf("6. Help/Controls \n");
+		printf("7. Toggle CPU Logging \n \n");
 		
 		scanf("%d", &MenuChoice);
 		
@@ -111,7 +114,7 @@ int main(int argc, char *argv[])
 				break;
 			}
 			case (4): {
-				printf("Enter how many scanlines between delays. (Default is 13) \n");
+				printf("Enter how many scanlines between 1 ms delays. (Default is 13, 20 is good if using proton.) \n");
 				printf("This function essentially controls the speed that games play at. \n");
 
 				scanf("%d", &RenderingSpeed);
@@ -121,6 +124,15 @@ int main(int argc, char *argv[])
 
 			}
 			case (5): {
+				printf("Enter the new target FPS for rendering. (Default is 60) \n");
+				printf("This function only changes the speed of the display rendering, not the internal game logic. \n");
+				printf("It's essentially interpolation. \n");
+				scanf("%d", &TargetFPS);
+
+				printf("\n \n");
+				break;
+			}
+			case (6): {
 				printf("The controls for the emulator are as follows: \n");
 				printf("Arrow Keys: D-Pad\n");
 				printf("Z: A Button\n");
@@ -132,7 +144,7 @@ int main(int argc, char *argv[])
 
 				break;
 			}
-			case (6): {
+			case (7): {
 				if (LOG == 0) {
 					printf("CPU Logging Enabled \n \n");
 					LOG = 1;

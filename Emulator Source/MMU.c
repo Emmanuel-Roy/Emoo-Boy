@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <SDL2/SDL.h>
 #include "MMU.h"
+#include <time.h>
 
 extern int ROMSize; 
 extern int RAMSize; 
@@ -10,6 +11,7 @@ extern char ROMFilePath[512];
 extern char RAMFilePath[512]; 
 extern int MBCType;
 extern int Exit;
+extern int RenderingSpeed;
 
 //Memory Management Functions
 void MMUInit(MMU *MMU) {
@@ -19,7 +21,7 @@ void MMUInit(MMU *MMU) {
     
     //Initialize the System Memory (Set Everything to xFF)
     for (int i = 0; i < 0x10000; i++) {
-        MMU->SystemMemory[i] = 0x00;
+        MMU->SystemMemory[i] = 0xFF;
     }
     
     MMU->SystemMemory[0xFF00] = 0x0F; //Set GamePad State to 0
@@ -32,6 +34,9 @@ void MMUInit(MMU *MMU) {
     MMU->CurrentROMBank = 1;
     MMU->CurrentRAMBank = 0;
     MMU->Ticks = 0;
+    MMU->PrevInstruct = 0;
+    MMU->RTCMode = 0;
+    MMU->DEBUGMODE = 0;
 
     for (int i = 0; i < 8; i++) {
         MMU->GameBoyController[i] = 1;
@@ -41,7 +46,6 @@ void MMUFree(MMU *MMU) {
     free(MMU->ROMFile);
     free(MMU->RAMFile);
 }
-
 
 //File Functions
 void MMULoadFile(MMU *MMU) {
@@ -70,8 +74,10 @@ void MMULoadFile(MMU *MMU) {
 }
 void MMUSaveFile(MMU *MMU) {
     if (RAMSize > 0 && LoadSaveFile) {
+        //Write Current RAM Bank to RAM File
+        size_t CurrentBaseAddress = 0x2000 * MMU->CurrentRAMBank;
+        memcpy(MMU->RAMFile + CurrentBaseAddress, MMU->SystemMemory + 0xA000, 0x2000);
         //Save the RAM data to the given file
-        MMU->RAMFile[0] = 0x2E;
         if (RAMSize > 0 && LoadSaveFile) {
             FILE *ramfile = fopen(RAMFilePath, "wb");
             fwrite(MMU->RAMFile, 1, RAMSize, ramfile);
@@ -101,7 +107,7 @@ void MMUSwapRAMBank(MMU *MMU, int bank) {
     //Write Current RAM Bank to RAM File
     bank = bank & (MMU->NumRAMBanks-1);
     if (bank == 0) {
-        bank = 1; //Prevent accesses to the first bank of ROM.
+        bank = 1; //Prevent accesses to the first bank of RAM.
     }
     size_t CurrentBaseAddress = 0x2000 * MMU->CurrentRAMBank;
     memcpy(MMU->RAMFile + CurrentBaseAddress, MMU->SystemMemory + 0xA000, 0x2000);
@@ -119,10 +125,42 @@ void MMUSwapRAMBank(MMU *MMU, int bank) {
 uint8_t MMURead(MMU *MMU, uint16_t address) { //Used to prevent CPU Screwups with reads (VRAM).
     //Check MBC Type and Read from the correct location. (This is needed for ROM Bank Functions)
 
-    //Echo RAM
+    //RTC Functions
+    if ((MMU->MBC == 0x10) && (address >= 0xA000 && address <= 0xBFFF)) {
+        //RTC Register Locations
+        if (MMU->RTCMode != 0) {
+            //Get system time
+            time_t t = time(NULL);
+            struct tm tm = *localtime(&t);
+
+            //Split day into two 8 bit values
+            uint8_t DayLower = tm.tm_mday & 0xFF;
+            uint8_t DayHigher = (tm.tm_mday & 0x100) >> 8; //Get the 9th bit of the day.
+
+            //Worst RTC Implementation Ever!!!
+            switch (MMU->RTCMode) {
+                case 0x08:
+                    return tm.tm_sec & 0xFF; //Seconds
+                case 0x09:
+                    return tm.tm_min & 0xFF; //Minutes
+                case 0x0A:
+                    return tm.tm_hour & 0xFF; //Hours
+                case 0x0B:
+                    return DayLower & 0xFF; //Day Lower 8 Bits
+                case 0x0C:
+                    return DayHigher & 0xFF; //Day Higher 1 Bit, Halt, Day Carry
+                default:
+                    return 0xFF;
+            }
+        }
+        else {
+            return MMU->SystemMemory[address]; //Fixes the unable to load save file issue.
+        }
+    }
     if (address >= 0xE000 && address <= 0xFDFF) {
         return MMU->SystemMemory[address - 0x2000];
     }
+
     /* PPU Timing too inaccurate to implement this properly. (Maybe later)
     //If PPU Mode is 3, return 0xFF to VRAM. (Prevents CPU from doing unintended writes to VRAM.)
     if (address >= 0x8000 && address <= 0x9FFF) {
@@ -131,6 +169,7 @@ uint8_t MMURead(MMU *MMU, uint16_t address) { //Used to prevent CPU Screwups wit
         }
     }
     */
+
     if (address == 0xFF00) {
         uint8_t GamepadState = 0xFF;
 
@@ -161,7 +200,7 @@ void MMUWrite(MMU *MMU, uint16_t address, uint8_t value) { //Used to prevent CPU
     //Check MBC Type and Write to the correct location. (This is needed for ROM Bank Functions)
 
     //I'm not gonna bother implementing RAM enable, its fine even if games ignore it.
-    if (address >= 0x0000 & address <= 0x1FFF) {
+    if (address <= 0x1FFF) {
         return;
     }
 
@@ -173,8 +212,26 @@ void MMUWrite(MMU *MMU, uint16_t address, uint8_t value) { //Used to prevent CPU
     }
     
     else if (address >= 0x4000 & address <= 0x5FFF & (MMU->NumRAMBanks > 0)) {
+        if (MMU->MBC == 0x10) {
+            //Pokemon Annoyances
+            if (value > 0x07) {
+                MMU->RTCMode = value;
+                return; //Add support for reading from RTC here later.
+            }
+            else {
+                MMU->RTCMode = 0;
+                MMUSwapRAMBank(MMU, value & 0x03);
+            }
+        }
         if (MMU->NumRAMBanks > 1) {
             MMUSwapRAMBank(MMU, value & 0x03);
+        }
+        return;
+    }
+
+    if (address >= 0x6000 && address <= 0x7FFF) {
+        if (MMU->MBC == 0x10) {
+            return; //Add support for latching here.
         }
         return;
     }
@@ -229,12 +286,17 @@ void DMGUpdateGamePad(MMU *MMU) {
     while (SDL_PollEvent(&event)) {
         if (event.type == SDL_QUIT) {
             MMUSaveFile(MMU);
+            MMUFree(MMU);
             exit(0);
         }
         if (event.type == SDL_KEYDOWN) {
             for (int i = 0; i < 8; i++) {
                 if (event.key.keysym.sym == MMU->GameBoyKeyMap[i]) {
                     MMU->GameBoyController[i] = 0;
+                }
+                if (event.key.keysym.sym == SDLK_ESCAPE) {
+                    MMUSaveFile(MMU);
+                    exit(0);
                 }
             }
         }
@@ -257,7 +319,6 @@ void printFirstFewBytesOfROM(MMU *MMU, int numBytes) {
     }
     printf("\n");
 }
-
 void printFirstFewBytesOfRAM(MMU *MMU, int numBytes) {
     printf("First %d bytes of RAM:\n", numBytes);
     for (int i = 0; i < numBytes && i < RAMSize; i++) {
@@ -265,7 +326,6 @@ void printFirstFewBytesOfRAM(MMU *MMU, int numBytes) {
     }
     printf("\n");
 }
-
 void MMUDumpVRAM(MMU *MMU) {
     FILE *f = fopen("vram.bin", "wb");
     fwrite(&MMU->SystemMemory[0x8000], 1, 0x2000, f);

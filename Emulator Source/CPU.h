@@ -39,5 +39,6 @@ uint8_t CPUExecuteCB(CPU *CPU, MMU *MMU);
 
 //Gameboy Doctor Log
 void CPULOG(CPU *CPU, MMU *MMU);
+void CPUPrint(CPU *CPU, MMU *MMU);
 
 #endif 

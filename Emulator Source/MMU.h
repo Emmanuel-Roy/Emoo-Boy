@@ -45,6 +45,9 @@ typedef struct {
     //Checks for the number of CPU Cycles that have passed since the last instruction
     uint8_t Ticks;
     uint8_t PrevInstruct;
+    
+    uint8_t RTCMode;
+    uint8_t DEBUGMODE;
 
     //KeyMap
     int GameBoyController[8]; //Up, Down, Left, Right, A, B, Start, Select
@@ -52,7 +55,6 @@ typedef struct {
         SDLK_UP, SDLK_DOWN, SDLK_LEFT, SDLK_RIGHT,
         SDLK_z, SDLK_x, SDLK_a, SDLK_s
     };
-    
 } MMU;
 
 //Setup Functions

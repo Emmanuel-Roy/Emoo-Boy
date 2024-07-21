@@ -7,6 +7,8 @@ extern SDL_Window *window;
 extern SDL_Renderer *renderer;
 extern SDL_Texture* texture;
 extern int SCALE;
+extern int TargetFPS;
+
 
 void DMGTick(DMG *DMG) {
     //M Cycle = 4 Ticks
@@ -70,8 +72,8 @@ int DMGRenderThread(void *data) {
         FrameStart = SDL_GetTicks() - FrameStart;
 
         // Cap the frame rate to 60 FPS
-        if (FrameTime < (1000.0 / 60)) {
-            SDL_Delay((1000.0 / 60) - FrameTime);
+        if (FrameTime < (1000.0 / TargetFPS)) {
+            SDL_Delay((1000.0 / TargetFPS) - FrameTime);
         }
     }
     SDL_DestroyTexture(texture);

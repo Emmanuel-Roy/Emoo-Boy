@@ -136,13 +136,15 @@ void PPUTick(PPU *PPU, MMU *MMU) {
 
     if (PPU->CurrentX == 456) { //End of Scanline
             //PPUPushPixel(PPU); //Render Scanline
-        if (PPU->ScanlineDelay == RenderingSpeed) {
+
+        if (PPU->ScanlineDelay == 13) {
             SDL_Delay(1); //Delay for 1 ms
             PPU->ScanlineDelay = 0;
         } 
         else {
             PPU->ScanlineDelay++;
         }
+
         //if window pixels were drawn this scanline increment 
         if (PPU->haswindow > 0) {
             PPU->WindowLineCounter++;
