@@ -181,7 +181,9 @@ My Ultimate Goal with this project is for the emulator to run the following game
 
 ### Pokemon Gold and Silver
 * I honestly have no idea how to fix the "no window available for popping" error.
-* At this point, I plan to revisit this after implementing the RTC MBC feature.
+
+* I implemented a basic RTC, it's not very accurate and doesn't use latching, just reads from the system clock whenever an RTC value is needed. However, it works fine enough for this game.
+* I fixed the save loading error by allowing the game to read from RAM if reading from the RTC didn't work.
 
 
 ### General Fixes
