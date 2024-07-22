@@ -182,15 +182,13 @@ My Ultimate Goal with this project is for the emulator to run the following game
 ### Pokemon Gold and Silver
 * I spent a long time trying to fix the "no window available for popping" error.
 * If anyone came here attempting to figure it out, the long and short of it is that it's most likely a problem with your SRAM implementation, namely the method of bank switching you are using. Otherwise, it may be an issue with your RTC implementation.
-
-* Here are the steps I tried to implement to fix this.
-* I implemented a basic RTC, it's not very accurate and doesn't use latching, just reads from the system clock whenever an RTC value is needed. However, it works fine enough for this game.
-* I fixed the save loading error by allowing the game to read from RAM if reading from the RTC didn't work.
+* Here was the process in which how I tried to fix this.
+* I implemented a basic RTC, it's not very accurate and doesn't use latching, just works by reading from the system clock whenever an RTC value is needed. However, it works fine enough for this game.
 * I still had the saving bug and spent a ton of time debugging and going through CPU logs tirelessly.
 * It got to the point where I have a Google Doc 17 pages long trying to reverse engineer the cause of the issue, even going through the Pokemon Gold decompilation.
-
-* Well, it turns out the fix was easy. The extra failsafes I had implemented in MMUSwapRAMBank() were the cause of the issue, namely the "bank = bank & (MMU->NumRAMBanks-1)" and the "if (bank == 0) {bank = 1}" pieces of code respectively.
+* Well, it turns out the fix was easy. The extra fail-safes I had implemented in MMUSwapRAMBank() were the cause of the issue, namely the "bank = bank & (MMU->NumRAMBanks-1)" and the "if (bank == 0) {bank = 1}" pieces of code respectively.
 * I believe I made this error because I falsely assumed RAM Bank switching was practically the same as ROM bank switching, but it turns out that it is not.
+* Pokemon Gold and Silver now work perfectly!
 
 
 ### General Fixes
