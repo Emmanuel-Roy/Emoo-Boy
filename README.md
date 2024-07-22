@@ -190,7 +190,6 @@ My Ultimate Goal with this project is for the emulator to run the following game
 * I believe I made this error because I falsely assumed RAM Bank switching was practically the same as ROM bank switching, but it turns out that it is not.
 * Pokemon Gold and Silver now work perfectly!
 
-
 ### General Fixes
 
 #### CPU Logging
@@ -223,8 +222,6 @@ My Ultimate Goal with this project is for the emulator to run the following game
 * To prevent bugs, audio will most likely need to be handled on a separate thread.
 * This is because the display already has a separate thread keeping it running at 60 fps, and the internal game logic has a delay that could cause issues with audio playback.
 
-## MBC Features (To Do)
-
 ## Hardware (To Do)
 
 * I plan to use a Raspberry Pi Zero 2 W and a custom PCB to create a handheld capable of running the "EMOO-Boy" software.
@@ -254,8 +251,8 @@ My Ultimate Goal with this project is for the emulator to run the following game
    * [MGBA](https://github.com/mgba-emu/mgba) <- Perhaps the most mature Gameboy emulator out there, and it was very useful in getting data dumps to test functions like my VRAM Reader and save file loading/saving.
    * [Gameboy 2bpp](https://www.huderlem.com/demos/gameboy2bpp.html) <- Great reference in understanding how the tiles in the GameBoy are converted from bytes to actual pixels.
    * [Game Play Color](https://github.com/gameplaycolor/gameplaycolor) <- Inspiration for this project, I have fond memories of using this emulator to play a dump of my brother's Pokemon Blue Cartridge on my middle school iPad.
-   * [emuboy Emulator](https://github.com/jacoblister/emuboy) <- I found his journey to create a Gameboy emulator incredibly useful in determining which order I tackled the technical problems in this project. I also found his implementation of the DMA transfer process to be quite insightful.
-   * [PokeGB](https://binji.github.io/posts/pokegb/) <- Another source of inspiration, and a great write-up on how certain opcodes were implemented.
+   * [emuboy Emulator](https://github.com/jacoblister/emuboy) <- I found his journey to create a Gameboy emulator incredibly useful in determining which order I tackled the technical problems in this project. I also found his implementation of the DMA transfer process to be quite insightful, and I tried to implement his technique for it in my emulator.
+   * [PokeGB](https://binji.github.io/posts/pokegb/) <- Another source of inspiration, and a great write-up on how certain opcodes were implemented. This helped a lot when I was confused on how certain opcodes were implemented.
    * [Espeon ESP32 Gameboy Emulator](https://github.com/Ryuzaki-MrL/Espeon/tree/master) <- Very interesting emulator, some inspiration for the hardware side of this project.
    * [Low-Level Devel - Gameboy Emulator Development Youtube Series](https://www.youtube.com/playlist?list=PLVxiWMqQvhg_yk4qy2cSC3457wZJga_e5) <- Very useful to see the thought process behind emulator development.
    * [r/EmuDev](https://www.reddit.com/r/EmuDev/) and the Emulator Development Discord Server.
