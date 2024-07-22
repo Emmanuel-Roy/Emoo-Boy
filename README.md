@@ -190,7 +190,7 @@ My Ultimate Goal with this project is for the emulator to run the following game
 * Pokemon Gold and Silver now work perfectly!
 <img src= "https://github.com/user-attachments/assets/cbcc740f-02f2-4671-930d-00e0e9cbee8a" width="200">
 
-### General Fixes
+### Additions/General Fixes
 
 #### CPU Logging
 * I realized that having a completely separate branch for CPU logging was inefficient, so I decided to just include it in the program as a setting.
