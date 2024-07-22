@@ -26,7 +26,6 @@ My Ultimate Goal with this project is for the emulator to run the following game
   * Implement Sound.
   * Implement Gameboy Color Compatibility.
   * Make a physical device, hopefully around the size of a credit card, using a Raspberry Pi Zero with a custom PCB and Casing.
-  * Swap from Scanline-Based Rendering to Pixel Fifo, to get better accuracy in edge cases.
 
 # My Process and Challenges.
 
