@@ -212,6 +212,9 @@ My Ultimate Goal with this project is for the emulator to run the following game
 #### Custom Framerate Support.
 * As stated in the multithreading portion, I created a separate thread that would constantly render the display at a rate of 60 frames per second. I figured it would be fun to add, so I have allowed users to set custom frame rates for how the display refreshes. Since this doesn't actually affect the internal game logic, I figure this method of increasing framerates is somewhat similar to interpolation.
 
+#### Fast Forward Support.
+* This was really simple to implement, I basically just allowed users to adjust when the SDL_Delay would occur by pressing the Q, W, and E keys to Slow, Speed Up, and Reset the game speed respectively.
+
 ## Audio Support (To Do)
 
 * Audio on the GameBoy isn't too complex from a hardware perspective, but from an emulation perspective, it's an enormous task that often gets skipped.
