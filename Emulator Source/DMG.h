@@ -7,11 +7,6 @@
 #include "Timer.h"
 //#include "APU
 
-extern SDL_Window *window;
-extern SDL_Renderer *renderer;
-extern SDL_Texture* texture;
-extern int SCALE;
-
 typedef struct {
     CPU DMG_CPU;
     PPU DMG_PPU;

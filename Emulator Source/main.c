@@ -5,6 +5,18 @@
 #include "DMG.h"
 
 
+
+/*
+  I tend to avoid using global variables in my code, after all, it does lead to a variety of performance problems and can hurt maintainability.
+  
+  However, in this case, I'm using them to store the information that the user inputs and I'm not going to be changing them at all after the user inputs them.
+  While I could pass them as arguments to the functions that need them, I feel that it would be a bit overkill for this program.
+  I also doubt that I will be creating similar variables in each struct or function that I create, so I feel that this is an acceptable use of global variables.
+
+  In addition, I plan to use functions like ROMSize and RAMSize in the creation of arrays, primarily in the MMU Struct, and I feel that it would be easier to use them as global variables in comparison to a lengthy pointer implementation.
+  I may revisit this code and implement those structures using pointers, but for now I have decided to use global variables.
+*/
+
 //System Globals.
 char ROMFilePath[512]; 
 char RAMFilePath[512]; 
@@ -23,18 +35,6 @@ int TargetFPS = 60;
 SDL_Window *window;
 SDL_Renderer *renderer;
 SDL_Texture* texture;
-
-/*
-  I tend to avoid using global variables in my code, after all, it does lead to a variety of performance problems and can hurt maintainability.
-  
-  However, in this case, I'm using them to store the ROM and Palette information that the user inputs and I'm not going to be changing them at all after the user inputs them.
-  
-  In addition, I plan to use functions like ROMSize and RAMSize in the creation of arrays, primarily in the MMU Struct, and I feel that it would be easier to use them as global variables in comparison to a lengthy pointer implementation.
-  I may revisit this code and implement those structures using pointers, but for now I have decided to use global variables.
-
-  While I could pass them as arguments to the functions that need them, I feel that it would be a bit overkill for this program.
-  I also doubt that I will be creating similar variables in each struct or function that I create, so I feel that this is an acceptable use of global variables.
-*/
 
 
 //Used Function for Readability Purposes.
@@ -352,10 +352,6 @@ void GetROMInfo() {
 		printf("Note: The Save File has been loaded, and will be updated when you choose to exit the emulator. \n");
 	}
 
-	/*Files Located at
-	printf("%s\n\n", ROMFilePath);
-	printf("%s\n\n", RAMFilePath); 
-	*/
     // Pause Program
 	printf("\nPress Enter to Start Game...\n");
 

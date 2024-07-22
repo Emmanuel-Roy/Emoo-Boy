@@ -95,7 +95,7 @@ void MMUSaveFile(MMU *MMU) {
 void MMUSwapROMBank(MMU *MMU, int bank) {
     bank = bank & (MMU->NumROMBanks-1);
     if (bank == 0) {
-        bank = 1; //Prevent accesses to the first bank of ROM.
+        bank = 1; //Prevent accesses to the first bank of ROM. Bank 0 is always at 0x0000 - 0x3FFF
     }
     size_t BaseAddress = 0x4000 * bank;
     // Copy the bank data into the system memory at 0x4000-0x7FFF
@@ -104,22 +104,20 @@ void MMUSwapROMBank(MMU *MMU, int bank) {
     MMU->CurrentROMBank = bank;
 }
 void MMUSwapRAMBank(MMU *MMU, int bank) {
+    //Copy Current Bank to the RAMFile Pointer
     size_t CurrentBaseAddress = 0x2000 * MMU->CurrentRAMBank;
     memcpy(MMU->RAMFile + CurrentBaseAddress, MMU->SystemMemory + 0xA000, 0x2000);
-
-
+    //Swap the RAM Bank into System Memory
     size_t BaseAddress = 0x2000 * bank;
-    // Copy the bank data into the system memory at 0xA000-0xBFFF
     memcpy(MMU->SystemMemory + 0xA000, MMU->RAMFile + BaseAddress, 0x2000);
     // Update the current RAM bank
     MMU->CurrentRAMBank = bank;
 }
 
 
-//Read Write functions.
-uint8_t MMURead(MMU *MMU, uint16_t address) { //Used to prevent CPU Screwups with reads (VRAM).
-    //Check MBC Type and Read from the correct location. (This is needed for ROM Bank Functions)
-
+//Read Write functions for the CPU.
+uint8_t MMURead(MMU *MMU, uint16_t address) { 
+    
     //RTC Functions
     if ((MMU->MBC == 0x10) && (address >= 0xA000 && address <= 0xBFFF)) {
         //RTC Register Locations
@@ -154,14 +152,7 @@ uint8_t MMURead(MMU *MMU, uint16_t address) { //Used to prevent CPU Screwups wit
         return MMU->SystemMemory[address - 0x2000];
     }
 
-    /* PPU Timing too inaccurate to implement this properly. (Maybe later)
-    //If PPU Mode is 3, return 0xFF to VRAM. (Prevents CPU from doing unintended writes to VRAM.)
-    if (address >= 0x8000 && address <= 0x9FFF) {
-        if (MMU->SystemMemory[0xFF40] & 0x80) {
-            return 0xFF;
-        }
-    }
-    */
+    /* PPU Timing too inaccurate to implement MODE 3 Blocking. */
 
     if (address == 0xFF00) {
         uint8_t GamepadState = 0xFF;
@@ -189,10 +180,7 @@ uint8_t MMURead(MMU *MMU, uint16_t address) { //Used to prevent CPU Screwups wit
 
     return MMU->SystemMemory[address];
 }
-void MMUWrite(MMU *MMU, uint16_t address, uint8_t value) { //Used to prevent CPU Screwups with Writes.
-    //Check MBC Type and Write to the correct location. (This is needed for ROM Bank Functions)
-
-    //I'm not gonna bother implementing RAM enable, its fine even if games ignore it.
+void MMUWrite(MMU *MMU, uint16_t address, uint8_t value) { 
     if (address <= 0x1FFF) {
         return;
     }
@@ -203,8 +191,8 @@ void MMUWrite(MMU *MMU, uint16_t address, uint8_t value) { //Used to prevent CPU
         }
         return;
     }
-    
-    else if (address >= 0x4000 & address <= 0x5FFF & (MMU->NumRAMBanks > 0)) {
+
+    if (address >= 0x4000 & address <= 0x5FFF & (MMU->NumRAMBanks > 0)) {
         if (MMU->MBC == 0x10) {
             //Pokemon Annoyances
             if (value > 0x07) {
@@ -215,9 +203,7 @@ void MMUWrite(MMU *MMU, uint16_t address, uint8_t value) { //Used to prevent CPU
                 MMU->RTCMode = 0;
             }
         }
-        if (MMU->NumRAMBanks > 1) {
-            MMUSwapRAMBank(MMU, value & 0x03);
-        }
+        MMUSwapRAMBank(MMU, value & 0x03);
         return;
     }
 
@@ -241,28 +227,31 @@ void MMUWrite(MMU *MMU, uint16_t address, uint8_t value) { //Used to prevent CPU
 
     else if (address == 0xFF46) {
         //DMA Transfer
-        MMU->DMASource = value << 8;
+        MMU->DMASource = value * 0x100;
+
+        //Reset Destination and DMA Counter
         MMU->DMADestination = 0xFE00;
         MMU->DMACount = 0xA0;
     }
 
-    /*/* PPU Timing too inaccurate to implement this properly. (Maybe later)
-    //If PPU Mode is 3, don't write anything to VRAM. (Prevents CPU from doing unintended writes to VRAM.)
-    if (address >= 0x8000 && address <= 0x9FFF) {
-        if (MMU->SystemMemory[0xFF40] & 0x80) {
-            return;
-        }
-    }
-    */
+    /* PPU Timing too inaccurate to implement MODE 3 Blocking */
+
     if (address > 0xFFFF) {
         return; //Prevent writes to invalid memory locations.
     }
+
     //Otherwise, just update the given address in the system memory.
     MMU->SystemMemory[address] = value;
 }
 
-//MMU Tick Function (DMA) 
-void MMUTick(MMU *MMU) {
+/*
+External Components that need the entire address bus.
+Theoretically both of these could have there own implementation, but they are dead simple to implement as basic functions here.
+*/
+
+//DMA Transfer
+void DMATick(MMU *MMU) {
+    //Transfer 160 bytes of data from DMA Source to 0xFE00-0xFEA0
     if (MMU->DMACount > 0) {
         MMU->SystemMemory[MMU->DMADestination] = MMU->SystemMemory[MMU->DMASource];
         MMU->DMASource++;
@@ -270,9 +259,7 @@ void MMUTick(MMU *MMU) {
         MMU->DMACount--;
     }
 }
-
-
-//Update gamepad (Kept in this file because the CPU uses it for HALT and STOP instructions)
+//Update gamepad (Kept in this file instead of DMG.C because the CPU updates it after every instruction)
 void DMGUpdateGamePad(MMU *MMU) {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
@@ -303,24 +290,3 @@ void DMGUpdateGamePad(MMU *MMU) {
     }
 }
 
-
-//Debug Functions (Delete Later.)
-void printFirstFewBytesOfROM(MMU *MMU, int numBytes) {
-    printf("First %d bytes of ROM:\n", numBytes);
-    for (int i = 0; i < numBytes && i < ROMSize; i++) {
-        printf("%02X ", MMU->SystemMemory[i]);
-    }
-    printf("\n");
-}
-void printFirstFewBytesOfRAM(MMU *MMU, int numBytes) {
-    printf("First %d bytes of RAM:\n", numBytes);
-    for (int i = 0; i < numBytes && i < RAMSize; i++) {
-        printf("%02X ", MMU->SystemMemory[0xA000 + i]);
-    }
-    printf("\n");
-}
-void MMUDumpVRAM(MMU *MMU) {
-    FILE *f = fopen("vram.bin", "wb");
-    fwrite(&MMU->SystemMemory[0x8000], 1, 0x2000, f);
-    fclose(f);
-}

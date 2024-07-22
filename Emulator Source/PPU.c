@@ -32,16 +32,11 @@ void PPUTick(PPU *PPU, MMU *MMU) {
     if ((MMU->SystemMemory[0xFF40] & (1 << 7)) == 0) {
         PPU->CurrentX = 0;
         PPU->WindowLineCounter = 0;
-
         MMU->SystemMemory[0xFF44] = 0;
         PPU->Mode3Length = 252;
-
-        MMU->SystemMemory[0xFF41] = (MMU->SystemMemory[0xFF41] & ~0x03); //Set Mode to HBlank
-
-        
+        MMU->SystemMemory[0xFF41] = (MMU->SystemMemory[0xFF41] & ~0x03); //Set Mode to 0       
         return; //Break if PPU is disabled
     } 
-
 
     //Check if LY == LYC
     if (LY == LYC) {
@@ -97,7 +92,7 @@ void PPUTick(PPU *PPU, MMU *MMU) {
             }
         }
         if (PPU->CurrentX == 0) {
-            PPUOAMSearch(PPU, MMU, LY); //Scan memory and add to sprite map during last tick of OAM Scan.
+            PPUOAMSearch(PPU, MMU, LY); //Scan memory and add to sprite map during first tick of OAM Scan.
         }
         
         PPU->CurrentX += 1;
@@ -108,15 +103,13 @@ void PPUTick(PPU *PPU, MMU *MMU) {
     if (PPU->CurrentX >= 80 && PPU->CurrentX < PPU->Mode3Length) {  
         //Drawing Pixels (Always takes from 172-289 Cycles)
         //For Simplicities sake, I am assuming each drawing session takes 172 Cycles.
-        //I will come back and account for timing penelties later.
-        //Mode 3
 
         MMU->SystemMemory[0xFF41] = (MMU->SystemMemory[0xFF41] & 0xFC) | (3 & 0x03);  //Set Mode to Drawing Pixels (This way the MMU can block off access to VRAM)
 
-        if (PPU->CurrentX < 240) { //Draw only the 160 pixels, not the additional 12 needed for cycle accuracy.
+        if (PPU->CurrentX < 240) { //Draw only the 160 pixels, don't draw for the rest of the MODE 3 time.
             PPUDraw(PPU, MMU, (PPU->CurrentX - 80), LY);
         }
-        //Draw Each Pixel.
+   
         PPU->CurrentX += 1;
         return;
     }
@@ -151,12 +144,6 @@ void PPUTick(PPU *PPU, MMU *MMU) {
         }
         PPU->haswindow = 0;
         
-        /* Original Buggy Implementation
-        if ((MMU->SystemMemory[0xFF40] & 0x20) && (LY >= MMU->SystemMemory[0xFF4A])) {
-            PPU->WindowLineCounter++;
-        }
-        */
-        
         //Move to the next scanline
         PPU->CurrentX = 0;
         PPU->NumSpritePixels = 0; //Reset Sprite Pixel Count
@@ -180,19 +167,14 @@ void PPUInit(PPU *PPU, MMU *MMU) {
     MMU->SystemMemory[0xFF4A] = 0x00; //WY
     MMU->SystemMemory[0xFF4B] = 0x00; //WX
 
-
     PPU->CurrentX = 252;
-    //Clear Displays.
     PPU->BackgroundPixel = 0;
     PPU->WindowPixel = 0;
     PPU->Mode3Length = 252;
     PPU->NumSpritePixels = 0;
     PPU->CurrentX = 0;
-    PPU->DEBUG = 0;
     PPU->WindowLineCounter = 0;
     PPU->haswindow = 0;
-
-
     PPU->ScanlineDelay = 0; //Delay every 9th scanline.
 
     for (int i = 0; i < 160; i++)
@@ -343,34 +325,6 @@ void PPUUpdateMap(PPU *PPU, MMU *MMU, uint8_t MODE, uint8_t x, uint8_t y) { //0 
     } 
     else {
         PPU->BackgroundPixel = pixelValue;
-    }
-
-    if (PPU->DEBUG) {
-        /*
-        printf("LCDC: %x \n", MMU->SystemMemory[0xFF40]);
-        printf("ViewPortX: %d, ViewPortY: %d\n", ViewPortX, ViewPortY);
-        printf("pixelX: %d, pixelY: %d\n", pixelX, pixelY);
-        printf("DisplaypixelX: %d, DisplaypixelY: %d\n", DisplaypixelX, DisplaypixelY);
-        printf("tileX: %d, tileY: %d\n", tileX, tileY);
-        printf("\n");
-        printf("TMAPLocationStart: %04X, TDATALocationStart: %04X\n", TMAPLocationStart, TDATALocationStart);
-        */
-        printf("MemLocation: %02X\n", MemLocation);
-        printf("TileLocation: %04X\n", TileLocation);
-        printf("0x9C00 val is %x \n",MMU->SystemMemory[0x9C00]);
-        printf("OFFSET: %04X\n", OFFSET);
-        printf("TIleIndexLoc: %04X\n", TIleIndexLoc);
-        printf("x: %d, y: %d\n", x, y);
-        printf("\n");
-        printf("Window Line Counter: %d\n", PPU->WindowLineCounter);
-        /*
-        printf("LowByte: %02X, HighByte: %02X\n", LowByte, HighByte);
-        printf("\n");
-        printf("pixelValue: %d\n", pixelValue);
-        printf("WindowPixel: %d\n", PPU->WindowPixel);
-        printf("BackgroundPixel: %d\n", PPU->BackgroundPixel);
-        */
-        printf("Mode: %d\n", MODE);
     }
 }
 

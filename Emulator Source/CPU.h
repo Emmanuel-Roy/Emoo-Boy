@@ -4,8 +4,6 @@
 #include <stdint.h> 
 #include "MMU.h"
 
-extern int LOG;
-
 typedef struct {
     //Registers
     uint8_t RegA;

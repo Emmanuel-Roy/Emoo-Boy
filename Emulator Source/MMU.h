@@ -3,14 +3,6 @@
 
 #include <stdio.h>
 
-//Globals defined and updated in main
-extern int ROMSize; 
-extern int RAMSize; 
-extern int LoadSaveFile;
-extern char ROMFilePath[512]; 
-extern char RAMFilePath[512]; 
-extern int MBCType;
-
 typedef struct {
     /*Gameboy Memory Map
     0x0000 - 0x3FFF: 16KB ROM Bank 0
@@ -75,14 +67,9 @@ uint8_t MMURead(MMU *MMU, uint16_t address); //Reads a byte from the given addre
 void MMUWrite(MMU *MMU, uint16_t address, uint8_t value); //Writes a byte to the given address in the system memory.
 
 //DMA Functions
-void MMUTick(MMU *MMU); //Ticks the MMU, and if a DMA transfer is in progress, it will transfer the next byte of data.
+void DMATick(MMU *MMU); //Ticks the MMU, and if a DMA transfer is in progress, it will transfer the next byte of data.
 
 //Update Gamepad Functions (Kept in this file because the CPU uses it for HALT and STOP instructions)
 void DMGUpdateGamePad(MMU *MMU);
-
-//Debug Functions
-void printFirstFewBytesOfROM(MMU *MMU, int numBytes) ;
-void printFirstFewBytesOfRAM(MMU *MMU, int numBytes) ;
-void MMUDumpVRAM(MMU *MMU);
 
 #endif // MMU_H

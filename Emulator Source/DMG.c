@@ -19,8 +19,8 @@ void DMGTick(DMG *DMG) {
     //Update PPU (Later on potentially set rendering to happen after all ticks are done and the system in mode 3 instead of only on a scanline by scanline basis.)
     PPUTick(&DMG->DMG_PPU, &DMG->DMG_MMU);
         
-    //Update OAM in MMU
-    MMUTick(&DMG->DMG_MMU);
+    //Update DMA
+    DMATick(&DMG->DMG_MMU);
         
     //Update Timer
     TimerTick(&DMG->DMG_Timer, &DMG->DMG_MMU);
