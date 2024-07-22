@@ -130,7 +130,7 @@ void PPUTick(PPU *PPU, MMU *MMU) {
     if (PPU->CurrentX == 456) { //End of Scanline
             //PPUPushPixel(PPU); //Render Scanline
 
-        if (PPU->ScanlineDelay == 13) {
+        if (PPU->ScanlineDelay == RenderingSpeed) { //Delay every user defined scanline.
             SDL_Delay(1); //Delay for 1 ms
             PPU->ScanlineDelay = 0;
         } 

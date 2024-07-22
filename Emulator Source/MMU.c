@@ -278,6 +278,15 @@ void DMGUpdateGamePad(MMU *MMU) {
                     MMUFree(MMU);
                     exit(0);
                 }
+                if (event.key.keysym.sym == SDLK_q) {
+                    RenderingSpeed--;
+                }
+                if (event.key.keysym.sym == SDLK_w) {
+                    RenderingSpeed++;
+                }
+                if (event.key.keysym.sym == SDLK_e) {
+                    RenderingSpeed = 13;
+                }
             }
         }
         if (event.type == SDL_KEYUP) {

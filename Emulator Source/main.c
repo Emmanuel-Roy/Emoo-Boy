@@ -20,7 +20,17 @@
 //System Globals.
 char ROMFilePath[512]; 
 char RAMFilePath[512]; 
-int DMGPalette[12] = {0xFFFFFF, 0xb6b6b6, 0x676767, 0x000000, 0xFFFFFF, 0xb6b6b6, 0x676767, 0x000000, 0xFFFFFF, 0xb6b6b6, 0x676767, 0x000000}; //Default DMG Colors
+int DMGPalette[12] = {
+	0xF8F8C0, 0xE0B068, 0xB07820, 0x504870, //Background/Window Palette
+	0xF8D8A8, 0xE0A878, 0x785888, 0x002030, //OBJP0 (Sprite) Palette
+	0xF8F8C0, 0xE0B068, 0xB07820, 0x504870  //OBJP1 (Sprite) Palette
+}; 
+
+/* Default Black and White Colors
+	0xFFFFFF, 0xb6b6b6, 0x676767, 0x000000, //Background/Window Palette
+	0xFFFFFF, 0xb6b6b6, 0x676767, 0x000000, //OBJP0 (Sprite) Palette
+	0xFFFFFF, 0xb6b6b6, 0x676767, 0x000000  //OBJP1 (Sprite) Palette
+*/
 int ROMSize;
 int RAMSize;
 int MBCType;
@@ -29,7 +39,7 @@ int Exit = 0;
 int RenderingSpeed = 13;
 int LOG = 0;
 int SCALE = 5;
-int TargetFPS = 60;
+int TargetFPS = 120;
 
 //SDL Globals
 SDL_Window *window;
@@ -137,8 +147,12 @@ int main(int argc, char *argv[])
 				printf("Arrow Keys: D-Pad\n");
 				printf("Z: A Button\n");
 				printf("X: B Button\n");
-				printf("C: Start Button\n");
-				printf("D: Select Button\n \n");
+				printf("A: Start Button\n");
+				printf("S: Select Button\n");
+				printf("ESC: Exit Emulator and Save Game.\n");
+				printf("Q: Slow Down Emulator\n");
+				printf("W: Speed Up Emulator\n");
+				printf("R: Reset Emulation Speed\n \n");
 
 				printf("For any inquires, please contact the developer: royemmanuel39@gmail.com \n \n");
 
