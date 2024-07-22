@@ -104,11 +104,6 @@ void MMUSwapROMBank(MMU *MMU, int bank) {
     MMU->CurrentROMBank = bank;
 }
 void MMUSwapRAMBank(MMU *MMU, int bank) {
-    //Write Current RAM Bank to RAM File
-    bank = bank & (MMU->NumRAMBanks-1);
-    if (bank == 0) {
-        bank = 1; //Prevent accesses to the first bank of RAM.
-    }
     size_t CurrentBaseAddress = 0x2000 * MMU->CurrentRAMBank;
     memcpy(MMU->RAMFile + CurrentBaseAddress, MMU->SystemMemory + 0xA000, 0x2000);
 
