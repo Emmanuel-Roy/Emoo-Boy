@@ -21,7 +21,7 @@ My Ultimate Goal with this project is for the emulator to run the following game
   * Implement all instructions and pass the Blargg cpu_instrs test. ✅
 
 ## Planned Editions:
-  * Real Time Clock Support and other MBC additions
+  * Real Time Clock Support. ✅
   * Save States.
   * Implement Sound.
   * Implement Gameboy Color Compatibility.
