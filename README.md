@@ -188,6 +188,7 @@ My Ultimate Goal with this project is for the emulator to run the following game
 * Well, it turns out the fix was easy. The extra fail-safes I had implemented in MMUSwapRAMBank() were the cause of the issue, namely the "bank = bank & (MMU->NumRAMBanks-1)" and the "if (bank == 0) {bank = 1}" pieces of code respectively.
 * I believe I made this error because I falsely assumed RAM Bank switching was practically the same as ROM bank switching, but it turns out that it is not.
 * Pokemon Gold and Silver now work perfectly!
+<img src= "https://github.com/user-attachments/assets/cbcc740f-02f2-4671-930d-00e0e9cbee8a" width="200">
 
 ### General Fixes
 
