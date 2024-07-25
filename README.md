@@ -217,13 +217,7 @@ My Ultimate Goal with this project is for the emulator to run the following game
 
 ## Audio Support (To Do)
 
-* Audio on the GameBoy isn't too complex from a hardware perspective, but from an emulation perspective, it's an enormous task that often gets skipped.
-* I've decided to implement audio because the system wouldn't be complete without it.
-* The pandocs explains the APU like this, which will be what my implementation is based upon.
-<img src= "https://github.com/user-attachments/assets/4cc47f24-f259-4565-a2d3-fca2d353693f" width="400">
-
-* To prevent bugs, audio will most likely need to be handled on a separate thread.
-* This is because the display already has a separate thread keeping it running at 60 fps, and the internal game logic has a delay that could cause issues with audio playback.
+* Audio will take a while to properly implement, please give me some time to work on it. 😅
 
 ## Hardware (To Do)
 
