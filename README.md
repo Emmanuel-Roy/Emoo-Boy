@@ -22,7 +22,7 @@ My Ultimate Goal with this project is for the emulator to run the following game
 
 ## Planned Editions:
   * Real Time Clock Support. ✅
-  * Save States.
+  * Fast Forward. ✅
   * Implement Sound.
   * Implement Gameboy Color Compatibility.
   * Make a physical device, hopefully around the size of a credit card, using a Raspberry Pi Zero with a custom PCB and Casing.
