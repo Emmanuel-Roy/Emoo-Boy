@@ -249,7 +249,9 @@ My Ultimate Goal with this project is for the emulator to run the following game
    * [Ultimate Gameboy Talk](https://www.youtube.com/watch?v=HyzD8pNlpwI) <- A great video summary explaining the components of the Gameboy at a more technical level.
    * [GBDEV OPCODES](https://gbdev.io/gb-opcodes/optables/) <- OP Code Table, very useful for writing the CPU.
    * [Gameboy Emulator Development Guide](https://hacktix.github.io/GBEDG/ppu/) <- THE BEST REFERENCE for fixing PPU issues I could find.
-   * [GhostBoy](https://github.com/GhostSonic21/GhostBoy/tree/68a6b5ccddf3b6b3216681c47b615e66e0c7a968) Fantastic emulator I referenced when working on the APU! 
+   * [GhostBoy](https://github.com/GhostSonic21/GhostBoy/tree/68a6b5ccddf3b6b3216681c47b615e66e0c7a968) Fantastic emulator I referenced when working on the APU!
+   * [GhostBoy APU Explanation](https://www.reddit.com/r/EmuDev/comments/5gkwi5/comment/dat3zni/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button)I also found the GhostBoy emulator developers introduction to the APU hardware very very useful.
+   * [Azayaka](https://github.com/7thSamurai/Azayaka/tree/master) Another source of reference I used for APU emulation.
    * [emuboy Emulator](https://github.com/jacoblister/emuboy) <- I found his devlogs to create a Gameboy emulator incredibly useful in determining which order I tackled the technical problems in this project. I also found his implementation of the DMA transfer process quite insightful, and I tried to implement his technique in my emulator. I also found his APU source to be very useful as well.
    * [MGBA](https://github.com/mgba-emu/mgba) <- Perhaps the most mature Gameboy emulator out there, and it was very useful in getting data dumps to test functions like my VRAM Reader and save file loading/saving.
    * [Gameboy 2bpp](https://www.huderlem.com/demos/gameboy2bpp.html) <- Great reference in understanding how the tiles in the GameBoy are converted from bytes to actual pixels.
