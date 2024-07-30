@@ -217,7 +217,10 @@ My Ultimate Goal with this project is for the emulator to run the following game
 
 ## Audio Support (To Do)
 
-* Audio will take a while to properly implement, please give me some time to work on it. 😅
+* Audio will take a while to implement properly, please give me some time to work on it. 😅
+* To be honest, it's a bit too time-consuming for me to understand right now without just copying and pasting code, so I'll probably leave this as a goal for later.
+* I've written some of the basic framework, but I still need to implement the Triggering of Channels, The Channel Ticks, and what happens when on Length CLK, Sweep CLK, and Envelope CLK.
+* SDL is also giving me a major headache, so we will see when I feel like completing this feature.
 
 ## Hardware (To Do)
 
@@ -227,7 +230,8 @@ My Ultimate Goal with this project is for the emulator to run the following game
 ![image](https://github.com/user-attachments/assets/b275ef92-4bd6-4ac2-841f-f4a8a1eccfba)
 
 * I had to move the 1 ms delay to happen every 20 scanlines instead of every 13 like on my desktop, but it runs practically perfectly.
-* I assume running the program on a much weaker Raspberry Pi may cause the built-in delay to be unnecessary or perhaps once every 40 or so scanlines. 
+* I assume running the program on a much weaker Raspberry Pi may cause the built-in delay to be unnecessary or perhaps once every 40 or so scanlines.
+* I'll probably finish this portion of the project when I have more free time and disposable income.
 
 
 ## Takeaways.
@@ -245,7 +249,8 @@ My Ultimate Goal with this project is for the emulator to run the following game
    * [Ultimate Gameboy Talk](https://www.youtube.com/watch?v=HyzD8pNlpwI) <- A great video summary explaining the components of the Gameboy at a more technical level.
    * [GBDEV OPCODES](https://gbdev.io/gb-opcodes/optables/) <- OP Code Table, very useful for writing the CPU.
    * [Gameboy Emulator Development Guide](https://hacktix.github.io/GBEDG/ppu/) <- THE BEST REFERENCE for fixing PPU issues I could find.
-   * [emuboy Emulator](https://github.com/jacoblister/emuboy) <- I found his devlogs to create a Gameboy emulator incredibly useful in determining which order I tackled the technical problems in this project. I also found his implementation of the DMA transfer process quite insightful, and I tried to implement his technique in my emulator. In addition, when I got stuck trying to implement audio, I tried to understand how the system worked by going through his APU source. Without the writeup or source, this emulator would have taken significantly longer to develop.
+   * [GhostBoy](https://github.com/GhostSonic21/GhostBoy/tree/68a6b5ccddf3b6b3216681c47b615e66e0c7a968) Fantastic emulator I referenced when working on the APU! 
+   * [emuboy Emulator](https://github.com/jacoblister/emuboy) <- I found his devlogs to create a Gameboy emulator incredibly useful in determining which order I tackled the technical problems in this project. I also found his implementation of the DMA transfer process quite insightful, and I tried to implement his technique in my emulator. I also found his APU source to be very useful as well.
    * [MGBA](https://github.com/mgba-emu/mgba) <- Perhaps the most mature Gameboy emulator out there, and it was very useful in getting data dumps to test functions like my VRAM Reader and save file loading/saving.
    * [Gameboy 2bpp](https://www.huderlem.com/demos/gameboy2bpp.html) <- Great reference in understanding how the tiles in the GameBoy are converted from bytes to actual pixels.
    * [Game Play Color](https://github.com/gameplaycolor/gameplaycolor) <- Inspiration for this project, I have fond memories of using this emulator to play a dump of my brother's Pokemon Blue Cartridge on my middle school iPad.
