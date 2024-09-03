@@ -8,7 +8,7 @@ The Nintendo Gameboy system is one of the most beloved devices of all time, sell
 
 I have a lot of nostalgia for the system, and I figured creating an accurate simulation of the hardware would be an incredibly challenging yet fulfilling technical achievement.
 
-My Ultimate Goal with this project is for the emulator to run the following games from my childhood.
+My Ultimate Goal with this project is for the emulator to run the following games from my childhood to completion.
 * Pokemon Gold and Silver ✅
 <img src= "https://github.com/user-attachments/assets/11d494e6-4d78-4def-861c-1f17fc49889e" width="250">
 <img src= "https://github.com/user-attachments/assets/0c47c87e-9304-42ed-acfe-88d957846c06" width="250">
