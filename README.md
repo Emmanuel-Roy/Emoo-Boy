@@ -10,6 +10,9 @@ I have a lot of nostalgia for the system, and I figured creating an accurate sim
 
 My Ultimate Goal with this project is for the emulator to run the following games from my childhood.
 * Pokemon Gold and Silver ✅
+<img src= "https://github.com/user-attachments/assets/11d494e6-4d78-4def-861c-1f17fc49889e" width="200">
+
+
 * Link's Awakening ✅ 
 * Kirby's Dream Land 2 ✅
 
