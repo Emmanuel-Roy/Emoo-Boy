@@ -8,6 +8,8 @@ The Nintendo Gameboy system is one of the most beloved devices of all time, sell
 
 I have a lot of nostalgia for the system, and I figured creating an accurate simulation of the hardware would be an incredibly challenging yet fulfilling technical achievement.
 
+ALL THE GAMES SHOWN AND TESTED ARE ONES THAT I OWNED AND DUMPED. I do NOT advocate for piracy or any unauthorized use of Nintendo Intellectual Property.
+
 My Ultimate Goal with this project is for the emulator to run the following games from my childhood to completion.
 * Pokemon Gold and Silver ✅
 <img src= "https://github.com/user-attachments/assets/11d494e6-4d78-4def-861c-1f17fc49889e" width="250">
@@ -183,7 +185,7 @@ My Ultimate Goal with this project is for the emulator to run the following game
 * Metroid 2 was a fairly easy fix, I just had to adjust the background/window pixel value by the first two bits of the actual palette stored in SystemMemory[FF47].
 <img src= "https://github.com/user-attachments/assets/322e767b-7f8b-43d7-b177-f687cb42ac9a" width="200">
 
-### Pokemon Gold and Silver
+### Pokemon Gold
 * I spent a long time trying to fix the "no window available for popping" error.
 * If anyone came here attempting to figure it out, the long and short of it is that it's most likely a problem with your SRAM implementation, namely the method of bank switching you are using. Otherwise, it may be an issue with your RTC implementation.
 * Here was the process in which how I tried to fix this.
