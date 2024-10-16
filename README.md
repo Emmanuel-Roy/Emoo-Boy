@@ -1,8 +1,5 @@
 # Emoo-Boy: A Gameboy Emulator written in C
 
-## Contributors:
-  * Emmanuel Roy
-
 ## Foreword:
 
 ### ALL THE GAMES SHOWN AND TESTED ARE ONES THAT I OWN AND DUMPED.
