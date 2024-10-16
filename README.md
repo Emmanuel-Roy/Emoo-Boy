@@ -3,12 +3,14 @@
 ## Contributors:
   * Emmanuel Roy
 
+## Foreword:
+
+### ALL THE GAMES SHOWN AND TESTED ARE ONES THAT I OWNED AND DUMPED. I do NOT advocate for piracy or any unauthorized use of Nintendo Intellectual Property.
+
 ## Introduction:
 The Nintendo Gameboy system is one of the most beloved devices of all time, selling a combined 118.69 million units worldwide, one of which ended up in the hands of my family. 
 
 I have a lot of nostalgia for the system, and I figured creating an accurate simulation of the hardware would be an incredibly challenging yet fulfilling technical achievement.
-
-ALL THE GAMES SHOWN AND TESTED ARE ONES THAT I OWNED AND DUMPED. I do NOT advocate for piracy or any unauthorized use of Nintendo Intellectual Property.
 
 My Ultimate Goal with this project is for the emulator to run the following games from my childhood to completion.
 * Pokemon Gold and Silver ✅
