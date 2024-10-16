@@ -2,8 +2,11 @@
 
 ## Foreword:
 
-### ALL THE GAMES SHOWN AND TESTED ARE ONES THAT I OWN AND DUMPED.
+### ALL THE GAMES SHOWN AND TESTED ARE ONES THAT I OWN AND DUMPED PERSONALLY!
+
 ### I do NOT advocate for piracy or any unauthorized use of Nintendo Intellectual Property.
+
+### ALL RIGHTS RESERVED TO NINTENDO
 
 ## Introduction:
 The Nintendo Gameboy system is one of the most beloved devices of all time, selling a combined 118.69 million units worldwide, one of which ended up in the hands of my family. 
