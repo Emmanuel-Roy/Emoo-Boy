@@ -2,13 +2,13 @@
 
 ## Foreword:
 
-### ALL THE GAMES SHOWN AND TESTED ARE LEGAL COPIES I OWN AND WERE DUMPED PERSONALLY FROM A REAL NINTENDO 3DS RUNNING VIRTUAL CONSOLE SOFTWARE. 
+### ALL THE GAMES SHOWN AND TESTED ARE FROM FULLY LEGAL COPIES I OWN AND WERE DUMPED PERSONALLY FROM A REAL NINTENDO 3DS RUNNING VIRTUAL CONSOLE SOFTWARE. 
+
+### These ROMS are thus legal under Section 117 of the U.S. Copyright Act.
 
 ### No ROM files are or will ever be included, I do NOT advocate for piracy or any unauthorized use of Nintendo Intellectual Property.
 
 ### This project is intended to be used for educational purposes only.
-
-### ALL RIGHTS RESERVED TO NINTENDO.
 
 ## Introduction:
 The Nintendo Gameboy system is one of the most beloved devices of all time, selling a combined 118.69 million units worldwide, one of which ended up in the hands of my family. 
