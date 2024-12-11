@@ -2,9 +2,11 @@
 
 ## Foreword:
 
-### ALL THE GAMES SHOWN AND TESTED ARE ONES THAT I OWN AND DUMPED PERSONALLY!
+### ALL THE GAMES SHOWN AND TESTED ARE LEGAL COPIES I OWN AND WERE DUMPED PERSONALLY FROM A REAL NINTENDO 3DS RUNNING VIRTUAL CONSOLE SOFTWARE. 
 
-### I do NOT advocate for piracy or any unauthorized use of Nintendo Intellectual Property.
+### No ROM files are or will ever be included, I do NOT advocate for piracy or any unauthorized use of Nintendo Intellectual Property.
+
+### This project is intended to be used for educational purposes only.
 
 ### ALL RIGHTS RESERVED TO NINTENDO.
 
