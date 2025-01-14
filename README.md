@@ -12,6 +12,8 @@
 
 ## Build:
 
+Open the Emulator Source folder in your IDE and run
+
 ```
 make Windows
 ```
