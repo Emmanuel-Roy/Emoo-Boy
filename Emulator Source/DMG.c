@@ -6,6 +6,10 @@
 extern SDL_Window *window;
 extern SDL_Renderer *renderer;
 extern SDL_Texture* texture;
+extern SDL_AudioSpec audio;
+extern SDL_AudioSpec audio2;
+extern SDL_AudioDeviceID audioDevice;
+
 extern int SCALE;
 extern int TargetFPS;
 
@@ -25,8 +29,8 @@ void DMGTick(DMG *DMG) {
     //Update Timer
     TimerTick(&DMG->DMG_Timer, &DMG->DMG_MMU);
         
-    //Update APU
-    //APUStep(&DMG->DMG_APU, &DMG->DMG_MMU);
+    //Update APU (Every 64 Ticks)
+    APUTick(&DMG->DMG_APU, &DMG->DMG_MMU);
 }
 
 
@@ -43,7 +47,7 @@ void DMGInit(DMG *DMG) {
     //Set up PPU, APU and Timers.
     TimerInit(&DMG->DMG_Timer, &DMG->DMG_MMU);
     PPUInit(&DMG->DMG_PPU, &DMG->DMG_MMU);
-    //APUInit() //Not implemented yet
+    APUInit(&DMG->DMG_APU, &DMG->DMG_MMU); 
     
     //Create a thread for rendering, this speeds up emulation considerably.
     SDL_Thread *thread = SDL_CreateThread(DMGRenderThread, "PPUPushPixelThread", (void*)&DMG->DMG_PPU);
@@ -55,6 +59,17 @@ void DMGGraphicsInit() {
     window = SDL_CreateWindow("Emoo-Boy", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, (160 * SCALE), (144 * SCALE), SDL_WINDOW_ALLOW_HIGHDPI);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_STREAMING, 160, 144);
+    // Audio initialization
+    audio.freq = 44100;
+    audio.format = AUDIO_S32SYS;
+    audio.channels = 2;
+    audio.samples = 95; //Adjust to user preference, this is about a frames worth of audio.
+    audio.callback = NULL;
+    audio.userdata = NULL;
+
+    audioDevice = SDL_OpenAudioDevice(NULL, 0, &audio, &audio2, 0);
+
+    SDL_PauseAudioDevice(audioDevice, 0);
 }
 
 int DMGRenderThread(void *data) {

@@ -38,6 +38,10 @@ void MMUInit(MMU *MMU) {
     MMU->RTCMode = 0;
     MMU->DEBUGMODE = 0;
 
+    MMU->DMASource = 0;
+    MMU->DMADestination = 0;
+    MMU->DMACount = 0;
+
     for (int i = 0; i < 8; i++) {
         MMU->GameBoyController[i] = 1;
     }
@@ -258,6 +262,7 @@ void DMATick(MMU *MMU) {
         MMU->DMADestination++;
         MMU->DMACount--;
     }
+    return;
 }
 //Update gamepad (Kept in this file instead of DMG.C because the CPU updates it after every instruction)
 void DMGUpdateGamePad(MMU *MMU) {

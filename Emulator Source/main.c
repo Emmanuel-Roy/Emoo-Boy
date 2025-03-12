@@ -6,6 +6,19 @@
 
 
 
+//We are all gonna make it.
+//If you have anything you wanna do, do it!
+//Believe in yourself!
+
+
+
+
+
+
+
+
+
+
 /*
   I tend to avoid using global variables in my code, after all, it does lead to a variety of performance problems and can hurt maintainability.
   
@@ -18,38 +31,36 @@
 */
 
 //System Globals.
+char ROMFilePath[512]; 
+char RAMFilePath[512]; 
 int DMGPalette[12] = {
-	//I like using this palette for Pokemon Gold, Link's Awakening, and Kirby's Dreamland 2. I would encourage you to find one that you personally like!
 	0xF8F8C0, 0xE0B068, 0xB07820, 0x504870, //Background/Window Palette
 	0xF8D8A8, 0xE0A878, 0x785888, 0x002030, //OBJP0 (Sprite) Palette
-	0xF8F8C0, 0xE0B068, 0xB07820, 0x504870  //OBJP1 (Sprite) Palette
+	0xFFFFFF, 0xb6b6b6, 0x676767, 0x000000  //OBJP1 (Sprite) Palette
 }; 
 
-/* Default Black and White Color Palette.
+/* Default Black and White Colors
 	0xFFFFFF, 0xb6b6b6, 0x676767, 0x000000, //Background/Window Palette
 	0xFFFFFF, 0xb6b6b6, 0x676767, 0x000000, //OBJP0 (Sprite) Palette
 	0xFFFFFF, 0xb6b6b6, 0x676767, 0x000000  //OBJP1 (Sprite) Palette
 */
-
+int ROMSize;
+int RAMSize;
+int MBCType;
 int LoadSaveFile = 0;
 int Exit = 0;
 int RenderingSpeed = 13;
 int LOG = 0;
 int SCALE = 5;
 int TargetFPS = 120;
-char ROMFilePath[512]; 
-char RAMFilePath[512]; 
-
-//Used for MMU Construction.
-int ROMSize;
-int RAMSize;
-int MBCType;
 
 //SDL Globals
 SDL_Window *window;
 SDL_Renderer *renderer;
 SDL_Texture* texture;
-
+SDL_AudioSpec audio;
+SDL_AudioSpec audio2;
+SDL_AudioDeviceID audioDevice;
 
 //Used Function for Readability Purposes.
 void GetROMInfo();

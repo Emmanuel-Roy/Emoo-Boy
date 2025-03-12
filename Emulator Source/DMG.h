@@ -5,6 +5,7 @@
 #include "PPU.h"
 #include "MMU.h"
 #include "Timer.h"
+#include "APU.h"
 //#include "APU
 
 typedef struct {
@@ -12,7 +13,7 @@ typedef struct {
     PPU DMG_PPU;
     MMU DMG_MMU;
     Timer DMG_Timer;
-    //APU DMG_APU;
+    APU DMG_APU;
 } DMG;
 
 
