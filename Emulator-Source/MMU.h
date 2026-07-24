@@ -29,6 +29,8 @@ typedef struct {
     uint8_t NumROMBanks;
     uint8_t NumRAMBanks;
     uint8_t MBC;
+    uint8_t MBC5LowBank;
+    uint8_t MBC5HighBank;
     
     int DMASource;
     int DMADestination;

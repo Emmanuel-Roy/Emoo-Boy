@@ -340,7 +340,7 @@ void GetROMInfo() {
 		ROMSize = 1048576 + 524288;
 		break;
 	default:
-		ROMSize = 32768;
+		ROMSize = FileSize > 0 ? FileSize : 32768;
 		break;
 	} 
 

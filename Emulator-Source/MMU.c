@@ -136,8 +136,11 @@ void MMUSaveFile(MMU *MMU) {
 
 //Banking Functions
 void MMUSwapROMBank(MMU *MMU, int bank) {
-    if (MMU->MBC != 0x19) { // Unless MBC5
-        if ((bank & 0x1F) == 0) bank |= 1;
+    uint8_t mbc = MMU->MBC;
+    int isMBC5 = (mbc >= 0x19 && mbc <= 0x1E);
+
+    if (!isMBC5) {
+        if ((bank & 0x7F) == 0) bank |= 1;
     }
     if (MMU->NumROMBanks > 0) bank = bank % MMU->NumROMBanks;
     size_t BaseAddress = (size_t)0x4000 * bank;
@@ -263,7 +266,16 @@ void MMUWrite(MMU *MMU, uint16_t address, uint8_t value) {
     }
 
     if (address >= 0x2000 && address <= 0x3FFF) {
-        if (MMU->NumROMBanks > 2) {
+        uint8_t mbc = MMU->MBC;
+        if (mbc >= 0x19 && mbc <= 0x1E) { // MBC5
+            if (address <= 0x2FFF) {
+                MMU->MBC5LowBank = value;
+            } else {
+                MMU->MBC5HighBank = value & 0x01;
+            }
+            uint16_t fullBank = (MMU->MBC5HighBank << 8) | MMU->MBC5LowBank;
+            MMUSwapROMBank(MMU, fullBank);
+        } else {
             MMUSwapROMBank(MMU, value);
         }
         return;
