@@ -59,6 +59,9 @@ void PPUTick(PPU *PPU, MMU *MMU) {
             if (STAT & 0x10) {
                 MMU->SystemMemory[0xFF0F] |= 0x02; //Set STAT Interrupt
             }
+
+            // Render complete frame at VBlank
+            PPUPushPixel(PPU);
         }
 
         MMU->SystemMemory[0xFF41] = (MMU->SystemMemory[0xFF41] & 0xFC) | (1 & 0x03);  //Set Mode to VBlank
@@ -128,16 +131,6 @@ void PPUTick(PPU *PPU, MMU *MMU) {
     }
 
     if (PPU->CurrentX == 456) { //End of Scanline
-            //PPUPushPixel(PPU); //Render Scanline
-
-        if (PPU->ScanlineDelay == RenderingSpeed) { //Delay every user defined scanline.
-            SDL_Delay(1); //Delay for 1 ms
-            PPU->ScanlineDelay = 0;
-        } 
-        else {
-            PPU->ScanlineDelay++;
-        }
-
         //if window pixels were drawn this scanline increment 
         if (PPU->haswindow > 0) {
             PPU->WindowLineCounter++;
@@ -431,41 +424,24 @@ void PPUDraw(PPU *PPU, MMU *MMU, int x, int y) {
 
 //Render a pixel to the screen, probably update the screen every scanline.
 void PPUPushPixel(PPU *PPU) {
-
     uint32_t* pixels;
     int pitch;
     
-    SDL_LockTexture(texture, NULL, (void**)&pixels, &pitch);
-    
-    for (int y = 0; y < 144; y++) {
-        for (int x = 0; x < 160; x++) {
-            uint32_t color;
-            switch (PPU->GameBoyDisplay[x][y]) {
-                case 0: color = DMGPalette[0]; break; // White
-                case 1: color = DMGPalette[1]; break; // Light Gray
-                case 2: color = DMGPalette[2]; break; // Dark Gray
-                case 3: color = DMGPalette[3]; break; // Black
-                //Add support for different OBJ Palettes
-                //OBJ Palette 0
-                case 4: color = DMGPalette[4]; break; // White
-                case 5: color = DMGPalette[5]; break; // Light Gray
-                case 6: color = DMGPalette[6]; break; // Dark Gray
-                case 7: color = DMGPalette[7]; break; // Black
-                //OBJ Palette 1
-                case 8: color = DMGPalette[8]; break; // White
-                case 9: color = DMGPalette[9]; break; // Light Gray
-                case 10: color = DMGPalette[10]; break; // Dark Gray
-                case 11: color = DMGPalette[11]; break; // Black
+    if (SDL_LockTexture(texture, NULL, (void**)&pixels, &pitch) == 0) {
+        int pitchPixels = pitch / sizeof(uint32_t);
+        for (int y = 0; y < 144; y++) {
+            for (int x = 0; x < 160; x++) {
+                int palIdx = PPU->GameBoyDisplay[x][y];
+                if (palIdx < 0) palIdx = 0;
+                if (palIdx > 11) palIdx = 11;
+                pixels[y * pitchPixels + x] = DMGPalette[palIdx];
             }
-            pixels[y * (pitch / sizeof(uint32_t)) + x] = color;
         }
+        SDL_UnlockTexture(texture);
+
+        SDL_RenderClear(renderer);
+        SDL_Rect UpscaledImage = {0, 0, (160 * SCALE), (144 * SCALE)};
+        SDL_RenderCopy(renderer, texture, NULL, &UpscaledImage);
+        SDL_RenderPresent(renderer);
     }
-    SDL_UnlockTexture(texture);
-    SDL_RenderCopy(renderer, texture, NULL, NULL);
-    
-    // Scale rendering
-    SDL_Rect BaseImage = {0, 0, 160, 144};
-    SDL_Rect UpscaledImage = {0, 0, (160 * SCALE), (144 * SCALE)};
-    SDL_RenderCopy(renderer, texture, &BaseImage, &UpscaledImage);
-    SDL_RenderPresent(renderer);
 }

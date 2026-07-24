@@ -20,6 +20,5 @@ typedef struct {
 void DMGInit(DMG *DMG);
 void DMGGraphicsInit();
 void DMGTick(DMG *DMG);
-int DMGRenderThread(void *data);
 
 #endif

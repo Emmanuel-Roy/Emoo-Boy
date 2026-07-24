@@ -48,16 +48,13 @@ void DMGInit(DMG *DMG) {
     TimerInit(&DMG->DMG_Timer, &DMG->DMG_MMU);
     PPUInit(&DMG->DMG_PPU, &DMG->DMG_MMU);
     APUInit(&DMG->DMG_APU, &DMG->DMG_MMU); 
-    
-    //Create a thread for rendering, this speeds up emulation considerably.
-    SDL_Thread *thread = SDL_CreateThread(DMGRenderThread, "PPUPushPixelThread", (void*)&DMG->DMG_PPU);
 }
 
 void DMGGraphicsInit() {
     // SDL initialization and window + renderer creation
     SDL_Init(SDL_INIT_EVERYTHING);
     window = SDL_CreateWindow("Emoo-Boy", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, (160 * SCALE), (144 * SCALE), SDL_WINDOW_ALLOW_HIGHDPI);
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_STREAMING, 160, 144);
     // Audio initialization
     audio.freq = 44100;
@@ -70,28 +67,4 @@ void DMGGraphicsInit() {
     audioDevice = SDL_OpenAudioDevice(NULL, 0, &audio, &audio2, 0);
 
     SDL_PauseAudioDevice(audioDevice, 0);
-}
-
-int DMGRenderThread(void *data) {
-    PPU *ppu = (PPU*)data;
-    int FrameStart;
-    int FrameTime;
-    while (1) {
-        //Find the start of each frame.
-        FrameStart = SDL_GetTicks();
-        
-        // Render a frame
-        PPUPushPixel(ppu);
-        
-        //How long it takes to render each frame.
-        FrameStart = SDL_GetTicks() - FrameStart;
-
-        // Cap the frame rate to 60 FPS
-        if (FrameTime < (1000.0 / TargetFPS)) {
-            SDL_Delay((1000.0 / TargetFPS) - FrameTime);
-        }
-    }
-    SDL_DestroyTexture(texture);
-    SDL_DestroyRenderer(renderer);
-    return 0;
 }
