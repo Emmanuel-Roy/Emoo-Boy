@@ -288,3 +288,7 @@ My Ultimate Goal with this project is for the emulator to run the following game
    * [Espeon ESP32 Gameboy Emulator](https://github.com/Ryuzaki-MrL/Espeon/tree/master) <- Very interesting emulator, some inspiration for the hardware side of this project.
    * [Low-Level Devel - Gameboy Emulator Development Youtube Series](https://www.youtube.com/playlist?list=PLVxiWMqQvhg_yk4qy2cSC3457wZJga_e5) <- Very useful to see the thought process behind emulator development.
    * [r/EmuDev](https://www.reddit.com/r/EmuDev/) and the Emulator Development Discord Server.
+
+## Recent Updates & AI Note
+Recently had a bit of time to update the emulator, used Gemini to add ARM64 and Audio support. My AI use is due to being busy with my current internship as well as school. This was the only part AI was used for, and served more as a "Proof of Concept" rather than to showcase my development skills.
+
