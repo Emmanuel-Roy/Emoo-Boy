@@ -161,8 +161,22 @@ void MMUSwapRAMBank(MMU *MMU, int bank) {
 }
 
 
-//Read Write functions for the CPU.
 uint8_t MMURead(MMU *MMU, uint16_t address) { 
+    // ROM Bank 0 (0x0000 - 0x3FFF)
+    if (address <= 0x3FFF) {
+        return MMU->ROMFile[address];
+    }
+
+    // Switchable ROM Bank (0x4000 - 0x7FFF)
+    if (address >= 0x4000 && address <= 0x7FFF) {
+        size_t bank = MMU->CurrentROMBank;
+        if (bank == 0 && (MMU->MBC < 0x19 || MMU->MBC > 0x1E)) bank = 1;
+        size_t offset = (size_t)0x4000 * bank + (address - 0x4000);
+        if (offset < (size_t)ROMSize) {
+            return MMU->ROMFile[offset];
+        }
+        return 0xFF;
+    }
     
     //RTC Functions
     if ((MMU->MBC == 0x10) && (address >= 0xA000 && address <= 0xBFFF)) {
