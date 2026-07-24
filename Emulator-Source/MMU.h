@@ -43,6 +43,7 @@ typedef struct {
 
     // CGB (Game Boy Color) Support
     int isCGB;
+    void *ppuPtr;              // Pointer to PPU struct for palette writes
     uint8_t VRAM[2][0x2000];  // 2 VRAM Banks (8KB each)
     uint8_t WRAM[8][0x1000];  // 8 WRAM Banks (4KB each)
     uint8_t VBK;               // 0xFF4F VRAM Bank Select

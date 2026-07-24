@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <SDL2/SDL.h>
 #include "MMU.h"
+#include "PPU.h"
 #include <time.h>
 
 extern int ROMSize; 
@@ -127,14 +128,14 @@ void MMUSaveFile(MMU *MMU) {
 
 //Banking Functions
 void MMUSwapROMBank(MMU *MMU, int bank) {
-    bank = bank & (MMU->NumROMBanks-1);
-    if (bank == 0) {
-        bank = 1; //Prevent accesses to the first bank of ROM. Bank 0 is always at 0x0000 - 0x3FFF
+    if (MMU->MBC != 0x19) { // Unless MBC5
+        if ((bank & 0x1F) == 0) bank |= 1;
     }
-    size_t BaseAddress = 0x4000 * bank;
-    // Copy the bank data into the system memory at 0x4000-0x7FFF
-    memcpy(MMU->SystemMemory + 0x4000, MMU->ROMFile + BaseAddress, 0x4000);
-    // Update the current ROM bank
+    if (MMU->NumROMBanks > 0) bank = bank % MMU->NumROMBanks;
+    size_t BaseAddress = (size_t)0x4000 * bank;
+    if (BaseAddress + 0x4000 <= (size_t)ROMSize) {
+        memcpy(MMU->SystemMemory + 0x4000, MMU->ROMFile + BaseAddress, 0x4000);
+    }
     MMU->CurrentROMBank = bank;
 }
 void MMUSwapRAMBank(MMU *MMU, int bank) {
@@ -206,6 +207,13 @@ uint8_t MMURead(MMU *MMU, uint16_t address) {
         if (address == 0xFF4F) return MMU->VBK | 0xFE;
         if (address == 0xFF70) return MMU->SVBK | 0xF8;
         if (address == 0xFF55) return MMU->HDMA5;
+        if (MMU->ppuPtr) {
+            PPU *ppu = (PPU*)MMU->ppuPtr;
+            if (address == 0xFF68) return ppu->BCPS;
+            if (address == 0xFF69) return ppu->BGPRAM[ppu->BCPS & 0x3F];
+            if (address == 0xFF6A) return ppu->OCPS;
+            if (address == 0xFF6B) return ppu->OBPRAM[ppu->OCPS & 0x3F];
+        }
     }
 
     if (address == 0xFF00) {
@@ -239,14 +247,14 @@ void MMUWrite(MMU *MMU, uint16_t address, uint8_t value) {
         return;
     }
 
-    if ((address >= 0x2000 & address <= 0x3FFF)) {
+    if (address >= 0x2000 && address <= 0x3FFF) {
         if (MMU->NumROMBanks > 2) {
-            MMUSwapROMBank(MMU, (value));
+            MMUSwapROMBank(MMU, value);
         }
         return;
     }
 
-    if (address >= 0x4000 & address <= 0x5FFF & (MMU->NumRAMBanks > 0)) {
+    if (address >= 0x4000 && address <= 0x5FFF && (MMU->NumRAMBanks > 0)) {
         if (MMU->MBC == 0x10) {
             if (value > 0x07) {
                 MMU->RTCMode = value;
@@ -304,9 +312,28 @@ void MMUWrite(MMU *MMU, uint16_t address, uint8_t value) {
                 uint8_t val = MMURead(MMU, src + i);
                 MMUWrite(MMU, dst + i, val);
             }
-            MMU->HDMA5 = 0xFF; // Complete
         }
         return;
+    }
+
+    if (MMU->ppuPtr) {
+        PPU *ppu = (PPU*)MMU->ppuPtr;
+        if (address == 0xFF68) { ppu->BCPS = value; return; }
+        if (address == 0xFF69) {
+            ppu->BGPRAM[ppu->BCPS & 0x3F] = value;
+            if (ppu->BCPS & 0x80) {
+                ppu->BCPS = (ppu->BCPS & 0x80) | ((ppu->BCPS + 1) & 0x3F);
+            }
+            return;
+        }
+        if (address == 0xFF6A) { ppu->OCPS = value; return; }
+        if (address == 0xFF6B) {
+            ppu->OBPRAM[ppu->OCPS & 0x3F] = value;
+            if (ppu->OCPS & 0x80) {
+                ppu->OCPS = (ppu->OCPS & 0x80) | ((ppu->OCPS + 1) & 0x3F);
+            }
+            return;
+        }
     }
 
     //Echo RAM

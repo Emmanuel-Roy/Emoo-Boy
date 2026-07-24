@@ -61,6 +61,8 @@ void DMGInit(DMG *DMG) {
     TimerInit(&DMG->DMG_Timer, &DMG->DMG_MMU);
     PPUInit(&DMG->DMG_PPU, &DMG->DMG_MMU);
     APUInit(&DMG->DMG_APU, &DMG->DMG_MMU); 
+
+    DMG->DMG_MMU.ppuPtr = &DMG->DMG_PPU;
 }
 
 void DMGGraphicsInit() {
