@@ -41,12 +41,17 @@ typedef struct {
     uint8_t RTCMode;
     uint8_t DEBUGMODE;
 
+    // CGB (Game Boy Color) Support
+    int isCGB;
+    uint8_t VRAM[2][0x2000];  // 2 VRAM Banks (8KB each)
+    uint8_t WRAM[8][0x1000];  // 8 WRAM Banks (4KB each)
+    uint8_t VBK;               // 0xFF4F VRAM Bank Select
+    uint8_t SVBK;              // 0xFF70 WRAM Bank Select
+    uint8_t HDMA1, HDMA2, HDMA3, HDMA4, HDMA5; // CGB DMA Registers
+
     //KeyMap
     int GameBoyController[8]; //Up, Down, Left, Right, A, B, Start, Select
-    int GameBoyKeyMap[8] = {
-        SDLK_UP, SDLK_DOWN, SDLK_LEFT, SDLK_RIGHT,
-        SDLK_z, SDLK_x, SDLK_a, SDLK_s
-    };
+    int GameBoyKeyMap[8];
 } MMU;
 
 //Setup Functions

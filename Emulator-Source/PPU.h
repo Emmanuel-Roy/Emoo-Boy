@@ -27,6 +27,15 @@ typedef struct {
     uint8_t haswindow;
     uint8_t ScanlineDelay;
 
+    // CGB Color Support
+    uint32_t GameBoyDisplayCGB[160][144]; // 32-bit ARGB output for CGB
+    uint8_t BGPRAM[64]; // 8 BG Palettes (64 Bytes)
+    uint8_t OBPRAM[64]; // 8 OBJ Palettes (64 Bytes)
+    uint8_t BCPS;       // 0xFF68 BG Palette Index
+    uint8_t BCPD;       // 0xFF69 BG Palette Data
+    uint8_t OCPS;       // 0xFF6A OBJ Palette Index
+    uint8_t OCPD;       // 0xFF6B OBJ Palette Data
+
 } PPU;
 
 

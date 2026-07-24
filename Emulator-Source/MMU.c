@@ -43,8 +43,23 @@ void MMUInit(MMU *MMU) {
     MMU->DMADestination = 0;
     MMU->DMACount = 0;
 
+    // CGB Initializations
+    MMU->isCGB = 0;
+    MMU->VBK = 0;
+    MMU->SVBK = 1;
+    MMU->HDMA1 = MMU->HDMA2 = MMU->HDMA3 = MMU->HDMA4 = 0;
+    MMU->HDMA5 = 0xFF;
+    for (int b = 0; b < 2; b++) {
+        for (int i = 0; i < 0x2000; i++) MMU->VRAM[b][i] = 0x00;
+    }
+    for (int b = 0; b < 8; b++) {
+        for (int i = 0; i < 0x1000; i++) MMU->WRAM[b][i] = 0x00;
+    }
+
+    int defaultKeys[8] = {SDLK_UP, SDLK_DOWN, SDLK_LEFT, SDLK_RIGHT, SDLK_z, SDLK_x, SDLK_a, SDLK_s};
     for (int i = 0; i < 8; i++) {
         MMU->GameBoyController[i] = 1;
+        MMU->GameBoyKeyMap[i] = defaultKeys[i];
     }
 }
 void MMUFree(MMU *MMU) {
@@ -61,6 +76,15 @@ void MMULoadFile(MMU *MMU) {
     fseek(romfile, 0, SEEK_SET);
     size_t bytesRead = fread(MMU->ROMFile, 1, fileSize, romfile);
     fclose(romfile);
+
+    // CGB Header Detection (Byte 0x0143)
+    if ((MMU->ROMFile[0x0143] & 0x80) != 0) {
+        MMU->isCGB = 1;
+        printf("[CGB MODE] Game Boy Color ROM Detected! Header Flag: 0x%02X\n", MMU->ROMFile[0x0143]);
+    } else {
+        MMU->isCGB = 0;
+        printf("[DMG MODE] Game Boy Mono ROM Detected.\n");
+    }
 
     //Load the first two banks of ROM into the system memory
     memcpy(MMU->SystemMemory, MMU->ROMFile, 0x8000); //Load ROM Bank 0-1 into the system memory location 0x0000-0x7FFF
@@ -158,11 +182,31 @@ uint8_t MMURead(MMU *MMU, uint16_t address) {
         }
     }
 
+    // CGB VRAM Banking (0x8000 - 0x9FFF)
+    if (address >= 0x8000 && address <= 0x9FFF) {
+        if (MMU->isCGB) return MMU->VRAM[MMU->VBK & 1][address - 0x8000];
+        return MMU->SystemMemory[address];
+    }
+
+    // CGB WRAM Banking (0xD000 - 0xDFFF)
+    if (address >= 0xD000 && address <= 0xDFFF) {
+        if (MMU->isCGB) {
+            uint8_t bank = (MMU->SVBK & 0x07) ? (MMU->SVBK & 0x07) : 1;
+            return MMU->WRAM[bank][address - 0xD000];
+        }
+        return MMU->SystemMemory[address];
+    }
+
     if (address >= 0xE000 && address <= 0xFDFF) {
         return MMU->SystemMemory[address - 0x2000];
     }
 
-    /* PPU Timing too inaccurate to implement MODE 3 Blocking. */
+    // CGB Registers
+    if (MMU->isCGB) {
+        if (address == 0xFF4F) return MMU->VBK | 0xFE;
+        if (address == 0xFF70) return MMU->SVBK | 0xF8;
+        if (address == 0xFF55) return MMU->HDMA5;
+    }
 
     if (address == 0xFF00) {
         uint8_t GamepadState = 0xFF;
@@ -204,7 +248,6 @@ void MMUWrite(MMU *MMU, uint16_t address, uint8_t value) {
 
     if (address >= 0x4000 & address <= 0x5FFF & (MMU->NumRAMBanks > 0)) {
         if (MMU->MBC == 0x10) {
-            //Pokemon Annoyances
             if (value > 0x07) {
                 MMU->RTCMode = value;
                 return; 
@@ -218,8 +261,50 @@ void MMUWrite(MMU *MMU, uint16_t address, uint8_t value) {
     }
 
     if (address >= 0x6000 && address <= 0x7FFF) {
-        if (MMU->MBC == 0x10) {
-            return; //Add support for latching here.
+        return;
+    }
+
+    // CGB VRAM Write (0x8000 - 0x9FFF)
+    if (address >= 0x8000 && address <= 0x9FFF) {
+        MMU->SystemMemory[address] = value;
+        MMU->VRAM[MMU->VBK & 1][address - 0x8000] = value;
+        return;
+    }
+
+    // CGB WRAM Bank Write (0xD000 - 0xDFFF)
+    if (address >= 0xD000 && address <= 0xDFFF) {
+        MMU->SystemMemory[address] = value;
+        if (MMU->isCGB) {
+            uint8_t bank = (MMU->SVBK & 0x07) ? (MMU->SVBK & 0x07) : 1;
+            MMU->WRAM[bank][address - 0xD000] = value;
+        }
+        return;
+    }
+
+    // CGB Registers
+    if (address == 0xFF4F) { // VBK VRAM Bank
+        MMU->VBK = value & 0x01;
+        return;
+    }
+    if (address == 0xFF70) { // SVBK WRAM Bank
+        MMU->SVBK = value & 0x07;
+        return;
+    }
+    if (address == 0xFF51) { MMU->HDMA1 = value; return; }
+    if (address == 0xFF52) { MMU->HDMA2 = value & 0xF0; return; }
+    if (address == 0xFF53) { MMU->HDMA3 = value & 0x1F; return; }
+    if (address == 0xFF54) { MMU->HDMA4 = value & 0xF0; return; }
+    if (address == 0xFF55) { // CGB GDMA/HDMA Trigger
+        MMU->HDMA5 = value;
+        if ((value & 0x80) == 0) { // GDMA Transfer
+            uint16_t src = (MMU->HDMA1 << 8) | MMU->HDMA2;
+            uint16_t dst = 0x8000 | ((MMU->HDMA3 << 8) | MMU->HDMA4);
+            uint16_t length = ((value & 0x7F) + 1) * 16;
+            for (uint16_t i = 0; i < length; i++) {
+                uint8_t val = MMURead(MMU, src + i);
+                MMUWrite(MMU, dst + i, val);
+            }
+            MMU->HDMA5 = 0xFF; // Complete
         }
         return;
     }
@@ -238,8 +323,6 @@ void MMUWrite(MMU *MMU, uint16_t address, uint8_t value) {
     else if (address == 0xFF46) {
         //DMA Transfer
         MMU->DMASource = value * 0x100;
-
-        //Reset Destination and DMA Counter
         MMU->DMADestination = 0xFE00;
         MMU->DMACount = 0xA0;
     }

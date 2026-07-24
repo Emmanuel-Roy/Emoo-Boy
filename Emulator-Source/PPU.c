@@ -322,17 +322,24 @@ void PPUUpdateMap(PPU *PPU, MMU *MMU, uint8_t MODE, uint8_t x, uint8_t y) { //0 
     }
 }
 
+static inline uint32_t RGB555ToARGB(uint16_t color16) {
+    uint8_t r = color16 & 0x1F;
+    uint8_t g = (color16 >> 5) & 0x1F;
+    uint8_t b = (color16 >> 10) & 0x1F;
+
+    uint32_t red = (r << 3) | (r >> 2);
+    uint32_t green = (g << 3) | (g >> 2);
+    uint32_t blue = (b << 3) | (b >> 2);
+
+    return 0xFF000000 | (red << 16) | (green << 8) | blue;
+}
+
 //PPU Draw (Searches for Sprites as well) (works by each pixel)
 void PPUDraw(PPU *PPU, MMU *MMU, int x, int y) {
-    //Gameboy Memory Array-
-    //From Dr Mario ROM during Title Screen.
     uint8_t isWindowPixel = 0;
     uint8_t currentPixel = 0xFF;
     uint8_t spriteDrawn = 0;
-    //Run code in loop,.
-    //Update Background Window Data
-    //Using both of these for loops to observe function speed
-    /**/
+
     if (MMU->SystemMemory[0xFF40] & 0x01) {
         //Draw Background.
         PPUUpdateMap(PPU, MMU, 0, x, y);
@@ -345,18 +352,27 @@ void PPUDraw(PPU *PPU, MMU *MMU, int x, int y) {
         // Check if the window should be drawn on this scanline
         if (y >= MMU->SystemMemory[0xFF4A] && x >= (MMU->SystemMemory[0xFF4B] - 7)) {
             PPUUpdateMap(PPU, MMU, 1, x, y);
-            // Draw the window pixel, overriding the background pixel if visible.
-                currentPixel = PPU->WindowPixel;
-                PPU->GameBoyDisplay[x][y] = currentPixel;
-                isWindowPixel = 1;
+            currentPixel = PPU->WindowPixel;
+            PPU->GameBoyDisplay[x][y] = currentPixel;
+            isWindowPixel = 1;
         }
     }
 
+    // Default ARGB output for DMG or CGB
+    if (MMU->isCGB) {
+        uint8_t palNum = 0; // BG Palette 0 default
+        uint16_t c16 = PPU->BGPRAM[palNum * 8 + (currentPixel & 3) * 2] | (PPU->BGPRAM[palNum * 8 + (currentPixel & 3) * 2 + 1] << 8);
+        PPU->GameBoyDisplayCGB[x][y] = RGB555ToARGB(c16);
+    } else {
+        int palIdx = PPU->GameBoyDisplay[x][y];
+        if (palIdx < 0) palIdx = 0;
+        if (palIdx > 11) palIdx = 11;
+        PPU->GameBoyDisplayCGB[x][y] = DMGPalette[palIdx];
+    }
+
     //Sprite Drawing
-     if (MMU->SystemMemory[0xFF40] & 0x02) {
-        // Check OAM Memory and draw sprites
+    if (MMU->SystemMemory[0xFF40] & 0x02) {
         for (int z = 0; z < PPU->CurrentSpriteNum; z++) {
-            //Bytes 0-3
             uint8_t YPos = PPU->SpriteMap[z].YPos;
             uint8_t XPos = PPU->SpriteMap[z].XPos;
             uint8_t TileIndex = PPU->SpriteMap[z].TileIndex;
@@ -368,48 +384,34 @@ void PPUDraw(PPU *PPU, MMU *MMU, int x, int y) {
             uint8_t pixel;
             uint8_t PaletteColor;
 
-            //Check if SPrite is a duplicate.
-            //if (spriteX < 0 || spriteX >= 8) continue;
             if (spriteX >= 8) continue;
             
-            // Check if the sprite is 8x16 or 8x8
             if (MMU->SystemMemory[0xFF40] & 0x04) {
                 spriteHeight = 16;
                 TileIndex &= 0xFE;
-            }
-            else {
+            } else {
                 spriteHeight = 8;
             }
                         
-            // Check if Sprite needs to be flipped Vertically.
-            if (Flags & 0x40) {
-                spriteY = spriteHeight - 1 - spriteY;
-            }
+            if (Flags & 0x40) spriteY = spriteHeight - 1 - spriteY;
+            if (Flags & 0x20) spriteX = 7 - spriteX;
 
-            // Check if Sprite needs to be flipped horizontally.
-            if (Flags & 0x20) {
-                spriteX = 7 - spriteX;
-            }
-
-            //Long formula that finds the value of each pixel
             pixel = (((MMU->SystemMemory[0x8000 + TileIndex * 16 + spriteY * 2 + 1] >> (7 - spriteX)) & 1) << 1) | ((MMU->SystemMemory[0x8000 + TileIndex * 16 + spriteY * 2] >> (7 - spriteX)) & 1);
                             
-            //Get the proper Palette Color
-            if (Flags & 0x10) {
-                PaletteColor = ((MMU->SystemMemory[0xFF49] >> (pixel * 2)) & 0x03) + 8; // Use OBP1
-            }
-            else {
-                PaletteColor = ((MMU->SystemMemory[0xFF48] >> (pixel * 2)) & 0x03) + 4; // Use OBP0
-            }
-
-            //Draw Sprite over if not transparent.
-            if ((pixel != 0)) {
-                //Check for OAM overlap, SpriteDrawn is just used to account for OAM Priority
+            if (pixel != 0) {
                 if ((!spriteDrawn) || (z == 0 || XPos < PPU->SpriteMap[z - 1].XPos)) {
-                    //Check if Background or Window is Transparent.
                     if ((Flags & 0x80) == 0 || currentPixel == 0) {
-                        PPU->GameBoyDisplay[x][y] = PaletteColor;
-                        currentPixel = PaletteColor;
+                        if (MMU->isCGB) {
+                            uint8_t cgbPal = Flags & 0x07;
+                            uint16_t c16 = PPU->OBPRAM[cgbPal * 8 + pixel * 2] | (PPU->OBPRAM[cgbPal * 8 + pixel * 2 + 1] << 8);
+                            PPU->GameBoyDisplayCGB[x][y] = RGB555ToARGB(c16);
+                        } else {
+                            if (Flags & 0x10) PaletteColor = ((MMU->SystemMemory[0xFF49] >> (pixel * 2)) & 0x03) + 8;
+                            else PaletteColor = ((MMU->SystemMemory[0xFF48] >> (pixel * 2)) & 0x03) + 4;
+                            PPU->GameBoyDisplay[x][y] = PaletteColor;
+                            PPU->GameBoyDisplayCGB[x][y] = DMGPalette[PaletteColor];
+                        }
+                        currentPixel = pixel;
                         spriteDrawn = 1;
                         isWindowPixel = 0;
                     }
@@ -426,6 +428,8 @@ void PPUDraw(PPU *PPU, MMU *MMU, int x, int y) {
 //Render a pixel to the screen, probably update the screen every scanline.
 static uint32_t lastFrameTicks = 0;
 
+extern MMU DMG_MMU;
+
 void PPUPushPixel(PPU *PPU) {
     uint32_t* pixels;
     int pitch;
@@ -434,10 +438,7 @@ void PPUPushPixel(PPU *PPU) {
         int pitchPixels = pitch / sizeof(uint32_t);
         for (int y = 0; y < 144; y++) {
             for (int x = 0; x < 160; x++) {
-                int palIdx = PPU->GameBoyDisplay[x][y];
-                if (palIdx < 0) palIdx = 0;
-                if (palIdx > 11) palIdx = 11;
-                pixels[y * pitchPixels + x] = DMGPalette[palIdx];
+                pixels[y * pitchPixels + x] = PPU->GameBoyDisplayCGB[x][y];
             }
         }
         SDL_UnlockTexture(texture);

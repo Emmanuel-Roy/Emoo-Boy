@@ -27,6 +27,10 @@ typedef struct {
 	
 	//LOG
 	uint8_t LOG;
+
+    // CGB Speed Switch
+    uint8_t KEY1;      // 0xFF4D Speed Switch Register
+    int DoubleSpeed;    // 0 = 1x (4.19MHz), 1 = 2x (8.38MHz)
 	
 } CPU;
 
