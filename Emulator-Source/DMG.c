@@ -61,9 +61,9 @@ void DMGGraphicsInit() {
     texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_STREAMING, 160, 144);
     // Audio initialization
     audio.freq = 44100;
-    audio.format = AUDIO_S32SYS;
+    audio.format = AUDIO_S16SYS;
     audio.channels = 2;
-    audio.samples = 95; //Adjust to user preference, this is about a frames worth of audio.
+    audio.samples = 1024; // Buffer size for smooth playback
     audio.callback = NULL;
     audio.userdata = NULL;
 

@@ -7,13 +7,6 @@
 #include "MMU.h"
 
 typedef struct {
-    /* Audio Registers in MMU
-    0xFF10 - NR10 - Channel 1 Sweep Register (R/W)
-    0xFF11 - NR11 - Channel 1 Sound length/Duty Cycle (R/W)
-    0xFF12 - NR12 - Channel 1 Volume & Envelope (R/W)
-    0xFF13 - NR13 - Channel 1 Frequency lo (Write Only)
-    0xFF14 - NR14 - Channel 1 Frequency hi & control (R/W)
-    */
     uint8_t NR10;
     uint8_t NR11;
     uint8_t NR12;
@@ -25,6 +18,14 @@ typedef struct {
     int EnvelopeDirection;
     int EnvelopeTimer;
     int LengthCounter;
+    int Timer;
+    int DutyStep;
+    int SweepTimer;
+    int SweepPeriod;
+    int SweepShift;
+    int SweepDirection;
+    int ShadowFrequency;
+    int SweepEnabled;
     //Channel on or off
     int ChannelOn;
     //Audio Sample
@@ -32,12 +33,6 @@ typedef struct {
 } PulseWithSweepChannel;
 
 typedef struct {
-    /* Audio Registers in MMU (Same as Channel 1 without Sweep.)
-    0xFF16 - NR21 - Channel 2 Sound Length/Wave Pattern Duty (R/W)
-    0xFF17 - NR22 - Channel 2 Volume Envelope (R/W)
-    0xFF18 - NR23 - Channel 2 Frequency lo data (Write Only)
-    0xFF19 - NR24 - Channel 2 Frequency hi data & control (R/W)
-    */
     uint8_t NR21;
     uint8_t NR22;
     uint8_t NR23;
@@ -48,6 +43,8 @@ typedef struct {
     int EnvelopeDirection;
     int EnvelopeTimer;
     int LengthCounter;
+    int Timer;
+    int DutyStep;
     //Channel on or off
     int ChannelOn;
     //Audio Sample
@@ -55,14 +52,6 @@ typedef struct {
 } PulseChannel;
 
 typedef struct {
-    /* Audio Registers in MMU
-    0xFF1A - NR30 - Channel 3 Sound on/off (R/W)
-    0xFF1B - NR31 - Channel 3 Sound Length (Write Only)
-    0xFF1C - NR32 - Channel 3 Output Level (R/W)
-    0xFF1D - NR33 - Channel 3 Peroid Low (W)
-    0xFF1E - NR34 - Channel 3 Peroid High & Control (R/W) 
-    0xFF30 - 0xFF3F - Wave Pattern RAM
-    */
     uint8_t NR30;
     uint8_t NR31;
     uint8_t NR32;
@@ -75,6 +64,8 @@ typedef struct {
     int EnvelopeDirection;
     int EnvelopeTimer;
     int LengthCounter;
+    int Timer;
+    int Position;
     //Channel on or off
     int ChannelOn;
     //Audio Sample
@@ -82,12 +73,6 @@ typedef struct {
 } WaveChannel;
 
 typedef struct {
-    /* Audio Registers in MMU
-    0xFF20 - NR41 - Channel 4 Sound Length (Write Only)
-    0xFF21 - NR42 - Channel 4 Volume & Envelope (R/W)
-    0xFF22 - NR43 - Channel 4 Frequency and Randomness (R/W)
-    0xFF23 - NR44 - Channel 4 Control (R/W)
-    */
     uint8_t NR41;
     uint8_t NR42;
     uint8_t NR43;
@@ -123,12 +108,13 @@ typedef struct {
     uint8_t NR51;
     uint8_t NR52;
     //Master Audio Sample
-    uint16_t MasterSampleRight;
-    uint16_t MasterSampleLeft;
+    int16_t MasterSampleRight;
+    int16_t MasterSampleLeft;
     int FrameSequencerStep;
     int FrameSequencerCounter;
     int CurrentSample;
-    uint16_t AudioBuffer[200]; //One Frames Worth, including Stereo Sound.
+    int SampleTimer;
+    int16_t AudioBuffer[2048]; // Stereo PCM buffer
     int Ticks;
 } APU;
 
