@@ -419,7 +419,16 @@ void PPUDraw(PPU *PPU, MMU *MMU, int x, int y) {
             if (Flags & 0x40) spriteY = spriteHeight - 1 - spriteY;
             if (Flags & 0x20) spriteX = 7 - spriteX;
 
-            pixel = (((MMU->SystemMemory[0x8000 + TileIndex * 16 + spriteY * 2 + 1] >> (7 - spriteX)) & 1) << 1) | ((MMU->SystemMemory[0x8000 + TileIndex * 16 + spriteY * 2] >> (7 - spriteX)) & 1);
+            uint8_t spriteVramBank = (MMU->isCGB && (Flags & 0x08)) ? 1 : 0;
+            uint8_t lowB, highB;
+            if (MMU->isCGB) {
+                lowB = MMU->VRAM[spriteVramBank][TileIndex * 16 + spriteY * 2];
+                highB = MMU->VRAM[spriteVramBank][TileIndex * 16 + spriteY * 2 + 1];
+            } else {
+                lowB = MMU->SystemMemory[0x8000 + TileIndex * 16 + spriteY * 2];
+                highB = MMU->SystemMemory[0x8000 + TileIndex * 16 + spriteY * 2 + 1];
+            }
+            pixel = (((highB >> (7 - spriteX)) & 1) << 1) | ((lowB >> (7 - spriteX)) & 1);
                             
             if (pixel != 0) {
                 if ((!spriteDrawn) || (z == 0 || XPos < PPU->SpriteMap[z - 1].XPos)) {
