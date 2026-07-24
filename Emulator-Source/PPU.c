@@ -171,11 +171,26 @@ void PPUInit(PPU *PPU, MMU *MMU) {
     PPU->haswindow = 0;
     PPU->ScanlineDelay = 0; //Delay every 9th scanline.
 
+    PPU->BCPS = PPU->BCPD = 0;
+    PPU->OCPS = PPU->OCPD = 0;
+
+    // Default CGB RGB555 Palettes (White, Light Gray, Dark Gray, Black)
+    static const uint16_t defaultPalette[4] = { 0x7FFF, 0x56B5, 0x294A, 0x0000 };
+    for (int p = 0; p < 8; p++) {
+        for (int c = 0; c < 4; c++) {
+            PPU->BGPRAM[p * 8 + c * 2] = defaultPalette[c] & 0xFF;
+            PPU->BGPRAM[p * 8 + c * 2 + 1] = (defaultPalette[c] >> 8) & 0xFF;
+            PPU->OBPRAM[p * 8 + c * 2] = defaultPalette[c] & 0xFF;
+            PPU->OBPRAM[p * 8 + c * 2 + 1] = (defaultPalette[c] >> 8) & 0xFF;
+        }
+    }
+
     for (int i = 0; i < 160; i++)
     {
         for (int j = 0; j < 144; j++)
         {
             PPU->GameBoyDisplay[i][j] = 0;
+            PPU->GameBoyDisplayCGB[i][j] = 0xFFFFFFFF; // White
         }
     }
 
@@ -438,7 +453,8 @@ void PPUPushPixel(PPU *PPU) {
         int pitchPixels = pitch / sizeof(uint32_t);
         for (int y = 0; y < 144; y++) {
             for (int x = 0; x < 160; x++) {
-                pixels[y * pitchPixels + x] = PPU->GameBoyDisplayCGB[x][y];
+                uint32_t color = PPU->GameBoyDisplayCGB[x][y];
+                pixels[y * pitchPixels + x] = 0xFF000000 | (color & 0x00FFFFFF);
             }
         }
         SDL_UnlockTexture(texture);
