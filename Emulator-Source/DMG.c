@@ -44,6 +44,19 @@ void DMGInit(DMG *DMG) {
     MMUInit(&DMG->DMG_MMU);
     //Load ROM
     MMULoadFile(&DMG->DMG_MMU);
+
+    // CGB Hardware Register Boot Initialization
+    if (DMG->DMG_MMU.isCGB) {
+        DMG->DMG_CPU.RegA = 0x11; // CGB hardware identification flag
+        DMG->DMG_CPU.RegF = 0x80;
+        DMG->DMG_CPU.RegB = 0x00;
+        DMG->DMG_CPU.RegC = 0x00;
+        DMG->DMG_CPU.RegD = 0xFF;
+        DMG->DMG_CPU.RegE = 0x56;
+        DMG->DMG_CPU.RegH = 0x00;
+        DMG->DMG_CPU.RegL = 0x0D;
+    }
+
     //Set up PPU, APU and Timers.
     TimerInit(&DMG->DMG_Timer, &DMG->DMG_MMU);
     PPUInit(&DMG->DMG_PPU, &DMG->DMG_MMU);

@@ -294,14 +294,10 @@ void PPUUpdateMap(PPU *PPU, MMU *MMU, uint8_t MODE, uint8_t x, uint8_t y) { //0 
     uint16_t TIleIndexLoc;
 
     if (MODE == 0) {
-        OFFSET = ((32 * (PPU->WindowLineCounter / 8) + (x+7-(BackgroundPortX+7))/8)  & 0x3FFF);
-        TIleIndexLoc = TMAPLocationStart + ((32 * (PPU->WindowLineCounter / 8) + (x+7-(BackgroundPortX+7))/8)  & 0x3FFF);
-        MemLocation = MMU->SystemMemory[TMAPLocationStart  + tileX + tileY * 32];
+        MemLocation = MMURead(MMU, TMAPLocationStart  + tileX + tileY * 32);
     }
     else {
-        OFFSET = ((32 * (PPU->WindowLineCounter / 8) + (x+7-(WindowPortY+7))/8)  & 0x3FFF);
-        TIleIndexLoc = TMAPLocationStart + ((32 * (PPU->WindowLineCounter / 8) + (x+7-(WindowPortY+7))/8)  & 0x3FFF);
-        MemLocation = MMU->SystemMemory[TMAPLocationStart + ((32 * (PPU->WindowLineCounter / 8) + (x+7-(WindowPortX+7))/8)  & 0x3FFF)];
+        MemLocation = MMURead(MMU, TMAPLocationStart + tileX + tileY * 32);
     }
 
     if (TDATALocationStart == 0x8000) {
@@ -315,12 +311,12 @@ void PPUUpdateMap(PPU *PPU, MMU *MMU, uint8_t MODE, uint8_t x, uint8_t y) { //0 
     uint8_t HighByte;
 
     if (MODE == 0) {
-        LowByte = MMU->SystemMemory[TileLocation + (((y + BackgroundPortY) % 8) * 2)];
-        HighByte = MMU->SystemMemory[TileLocation + (((y + BackgroundPortY) % 8) * 2) + 1];
+        LowByte = MMURead(MMU, TileLocation + (((y + BackgroundPortY) % 8) * 2));
+        HighByte = MMURead(MMU, TileLocation + (((y + BackgroundPortY) % 8) * 2) + 1);
     }
     else {
-        LowByte = MMU->SystemMemory[TileLocation + (((PPU->WindowLineCounter) % 8) * 2)];
-        HighByte = MMU->SystemMemory[TileLocation + (((PPU->WindowLineCounter) % 8) * 2) + 1];
+        LowByte = MMURead(MMU, TileLocation + (((PPU->WindowLineCounter) % 8) * 2));
+        HighByte = MMURead(MMU, TileLocation + (((PPU->WindowLineCounter) % 8) * 2) + 1);
     }
     
     //Calculate Color Value based on these bytes
