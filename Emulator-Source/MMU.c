@@ -344,12 +344,11 @@ void MMUWrite(MMU *MMU, uint16_t address, uint8_t value) {
         }
     }
 
-    //Echo RAM
-    if (address >= 0xE000 && address <= 0xFDFF) {
-        MMU->SystemMemory[address - 0x2000] = value;
+    if (address == 0xFF41) {
+        MMU->SystemMemory[0xFF41] = (MMU->SystemMemory[0xFF41] & 0x07) | (value & 0xF8);
         return;
     }
-    
+
     //Reset DIV Register
     else if (address == 0xFF04) {
         MMU->SystemMemory[0xFF04] = 0; 

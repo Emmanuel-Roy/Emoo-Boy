@@ -47,7 +47,7 @@ void PPUTick(PPU *PPU, MMU *MMU) {
         }
     } 
     else {
-        MMU->SystemMemory[0xFF0F] &= ~0x02; //Reset Flag
+        STAT &= ~0x04; //Reset LYC Coincidence Flag
     }
 
 
