@@ -87,6 +87,14 @@ void MMULoadFile(MMU *MMU) {
         printf("[DMG MODE] Game Boy Mono ROM Detected.\n");
     }
 
+    // Auto-detect MBC Type and ROM size from Header (Byte 0x0147)
+    MMU->MBC = MMU->ROMFile[0x0147];
+    ROMSize = fileSize;
+    if (fileSize > 0) {
+        MMU->NumROMBanks = fileSize / 0x4000;
+    }
+    printf("[ROM INFO] Size: %zu bytes (%d banks), MBC Type: 0x%02X\n", fileSize, MMU->NumROMBanks, MMU->MBC);
+
     //Load the first two banks of ROM into the system memory
     memcpy(MMU->SystemMemory, MMU->ROMFile, 0x8000); //Load ROM Bank 0-1 into the system memory location 0x0000-0x7FFF
 

@@ -288,17 +288,22 @@ void PPUUpdateMap(PPU *PPU, MMU *MMU, uint8_t MODE, uint8_t x, uint8_t y) { //0 
     uint8_t DisplaypixelY = pixelY % 8;
 
 
-    //Find tile and memory locations
-    uint8_t MemLocation; 
-    uint16_t OFFSET;
-    uint16_t TIleIndexLoc;
+    uint16_t mapAddr = TMAPLocationStart + tileX + tileY * 32;
+    uint8_t MemLocation;
+    uint8_t tileAttr = 0;
 
-    if (MODE == 0) {
-        MemLocation = MMURead(MMU, TMAPLocationStart  + tileX + tileY * 32);
+    if (MMU->isCGB) {
+        MemLocation = MMU->VRAM[0][mapAddr - 0x8000];
+        tileAttr = MMU->VRAM[1][mapAddr - 0x8000];
+    } else {
+        MemLocation = MMU->SystemMemory[mapAddr];
+        tileAttr = 0;
     }
-    else {
-        MemLocation = MMURead(MMU, TMAPLocationStart + tileX + tileY * 32);
-    }
+
+    uint8_t tileBank = (MMU->isCGB && (tileAttr & 0x08)) ? 1 : 0;
+    uint8_t palNum = MMU->isCGB ? (tileAttr & 0x07) : 0;
+    uint8_t xFlip = (tileAttr & 0x20) ? 1 : 0;
+    uint8_t yFlip = (tileAttr & 0x40) ? 1 : 0;
 
     if (TDATALocationStart == 0x8000) {
         TileLocation = TDATALocationStart + (MemLocation * 16);
@@ -307,22 +312,28 @@ void PPUUpdateMap(PPU *PPU, MMU *MMU, uint8_t MODE, uint8_t x, uint8_t y) { //0 
         TileLocation = 0x9000 + ((int8_t)MemLocation * 16);
     }
 
-    uint8_t LowByte;
-    uint8_t HighByte;
+    uint8_t lineY = (MODE == 0) ? ((y + BackgroundPortY) % 8) : (PPU->WindowLineCounter % 8);
+    if (yFlip) lineY = 7 - lineY;
 
-    if (MODE == 0) {
-        LowByte = MMURead(MMU, TileLocation + (((y + BackgroundPortY) % 8) * 2));
-        HighByte = MMURead(MMU, TileLocation + (((y + BackgroundPortY) % 8) * 2) + 1);
+    uint8_t LowByte, HighByte;
+    if (MMU->isCGB) {
+        LowByte = MMU->VRAM[tileBank][TileLocation - 0x8000 + lineY * 2];
+        HighByte = MMU->VRAM[tileBank][TileLocation - 0x8000 + lineY * 2 + 1];
+    } else {
+        LowByte = MMU->SystemMemory[TileLocation + lineY * 2];
+        HighByte = MMU->SystemMemory[TileLocation + lineY * 2 + 1];
     }
-    else {
-        LowByte = MMURead(MMU, TileLocation + (((PPU->WindowLineCounter) % 8) * 2));
-        HighByte = MMURead(MMU, TileLocation + (((PPU->WindowLineCounter) % 8) * 2) + 1);
-    }
-    
-    //Calculate Color Value based on these bytes
-    uint8_t pixelValue = ((HighByte >> (7 - DisplaypixelX)) & 1) << 1 | ((LowByte >> (7 - DisplaypixelX)) & 1);
 
-    pixelValue = MMU->SystemMemory[0xFF47] >> (pixelValue * 2) & 0x03; //Fix Background Palettes.
+    uint8_t bitPos = DisplaypixelX;
+    if (xFlip) bitPos = 7 - bitPos;
+
+    uint8_t pixelValue = ((HighByte >> (7 - bitPos)) & 1) << 1 | ((LowByte >> (7 - bitPos)) & 1);
+
+    if (MMU->isCGB) {
+        pixelValue = (palNum << 2) | (pixelValue & 3);
+    } else {
+        pixelValue = MMU->SystemMemory[0xFF47] >> (pixelValue * 2) & 0x03;
+    }
 
     //Update the correct map
     if (MODE == 1) {
@@ -371,8 +382,9 @@ void PPUDraw(PPU *PPU, MMU *MMU, int x, int y) {
 
     // Default ARGB output for DMG or CGB
     if (MMU->isCGB) {
-        uint8_t palNum = 0; // BG Palette 0 default
-        uint16_t c16 = PPU->BGPRAM[palNum * 8 + (currentPixel & 3) * 2] | (PPU->BGPRAM[palNum * 8 + (currentPixel & 3) * 2 + 1] << 8);
+        uint8_t palNum = (currentPixel >> 2) & 7;
+        uint8_t colorIdx = currentPixel & 3;
+        uint16_t c16 = PPU->BGPRAM[palNum * 8 + colorIdx * 2] | (PPU->BGPRAM[palNum * 8 + colorIdx * 2 + 1] << 8);
         PPU->GameBoyDisplayCGB[x][y] = RGB555ToARGB(c16);
     } else {
         int palIdx = PPU->GameBoyDisplay[x][y];
