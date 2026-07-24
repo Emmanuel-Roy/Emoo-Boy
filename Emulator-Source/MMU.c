@@ -12,6 +12,7 @@ extern char RAMFilePath[512];
 extern int MBCType;
 extern int Exit;
 extern int RenderingSpeed;
+extern int TargetFPS;
 
 //Memory Management Functions
 void MMUInit(MMU *MMU) {
@@ -283,20 +284,25 @@ void DMGUpdateGamePad(MMU *MMU) {
                 if (event.key.keysym.sym == MMU->GameBoyKeyMap[i]) {
                     MMU->GameBoyController[i] = 0;
                 }
-                if (event.key.keysym.sym == SDLK_ESCAPE) {
-                    MMUSaveFile(MMU);
-                    MMUFree(MMU);
-                    exit(0);
-                }
-                if (event.key.keysym.sym == SDLK_q) {
-                    RenderingSpeed--;
-                }
-                if (event.key.keysym.sym == SDLK_w) {
-                    RenderingSpeed++;
-                }
-                if (event.key.keysym.sym == SDLK_e) {
-                    RenderingSpeed = 13;
-                }
+            }
+            if (event.key.keysym.sym == SDLK_ESCAPE) {
+                MMUSaveFile(MMU);
+                MMUFree(MMU);
+                exit(0);
+            }
+            if (event.key.keysym.sym == SDLK_q) {
+                TargetFPS -= 15;
+                if (TargetFPS < 15) TargetFPS = 15;
+                printf("[EMULATOR SPEED] Slowing Down -> %d FPS (%.2fx speed)\n", TargetFPS, (float)TargetFPS / 60.0f);
+            }
+            if (event.key.keysym.sym == SDLK_w) {
+                TargetFPS += 30;
+                if (TargetFPS > 300) TargetFPS = 300;
+                printf("[EMULATOR SPEED] Fast Forwarding -> %d FPS (%.2fx speed)\n", TargetFPS, (float)TargetFPS / 60.0f);
+            }
+            if (event.key.keysym.sym == SDLK_r || event.key.keysym.sym == SDLK_e) {
+                TargetFPS = 60;
+                printf("[EMULATOR SPEED] Reset Speed -> 60 FPS (1.00x speed)\n");
             }
         }
         if (event.type == SDL_KEYUP) {

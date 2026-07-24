@@ -10,6 +10,7 @@ extern SDL_Texture* texture;
 extern int SCALE;
 extern int DMGPalette[12];
 extern int RenderingSpeed;
+extern int TargetFPS;
 
 /*
     LCDC = MMU->SystemMemory[0xFF40]; //LCD Control Register
@@ -423,6 +424,8 @@ void PPUDraw(PPU *PPU, MMU *MMU, int x, int y) {
 }
 
 //Render a pixel to the screen, probably update the screen every scanline.
+static uint32_t lastFrameTicks = 0;
+
 void PPUPushPixel(PPU *PPU) {
     uint32_t* pixels;
     int pitch;
@@ -443,5 +446,16 @@ void PPUPushPixel(PPU *PPU) {
         SDL_Rect UpscaledImage = {0, 0, (160 * SCALE), (144 * SCALE)};
         SDL_RenderCopy(renderer, texture, NULL, &UpscaledImage);
         SDL_RenderPresent(renderer);
+
+        // Dynamic emulation speed control via TargetFPS
+        if (TargetFPS > 0) {
+            uint32_t frameDelay = 1000 / TargetFPS;
+            uint32_t currentTicks = SDL_GetTicks();
+            uint32_t elapsed = currentTicks - lastFrameTicks;
+            if (elapsed < frameDelay) {
+                SDL_Delay(frameDelay - elapsed);
+            }
+            lastFrameTicks = SDL_GetTicks();
+        }
     }
 }
