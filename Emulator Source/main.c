@@ -4,6 +4,36 @@
 #include <SDL2/SDL.h>
 #include "DMG.h"
 
+#ifdef _WIN32
+#include <windows.h>
+#include <commdlg.h>
+
+static int OpenFileDialog(char *outFilePath, size_t maxLen, const char *title, const char *filter, const char *initialDir) {
+    OPENFILENAMEA ofn;
+    char szFile[MAX_PATH] = {0};
+
+    ZeroMemory(&ofn, sizeof(ofn));
+    ofn.lStructSize = sizeof(ofn);
+    ofn.hwndOwner = NULL;
+    ofn.lpstrFile = szFile;
+    ofn.nMaxFile = sizeof(szFile);
+    ofn.lpstrFilter = filter;
+    ofn.nFilterIndex = 1;
+    ofn.lpstrFileTitle = NULL;
+    ofn.nMaxFileTitle = 0;
+    ofn.lpstrInitialDir = initialDir;
+    ofn.lpstrTitle = title;
+    ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR;
+
+    if (GetOpenFileNameA(&ofn) == TRUE) {
+        strncpy(outFilePath, ofn.lpstrFile, maxLen - 1);
+        outFilePath[maxLen - 1] = '\0';
+        return 1;
+    }
+    return 0;
+}
+#endif
+
 
 
 //We are all gonna make it.
@@ -229,19 +259,31 @@ void GetROMInfo() {
 	unsigned char MBCByte;
 	int RAMChoice = 0;
 
+    printf("\nOpening file dialog to select ROM file...\n");
+#ifdef _WIN32
+    if (!OpenFileDialog(ROMFilePath, sizeof(ROMFilePath), "Select Game Boy ROM", "Game Boy ROMs (*.gb;*.gbc)\0*.gb;*.gbc\0All Files (*.*)\0*.*\0", "ROM")) {
+        printf("No file selected in file dialog. Please enter the ROM file name manually: \n");
+        int FlushInput;
+        while ((FlushInput = getchar()) != '\n' && FlushInput != EOF);
+        fgets(ROMName, sizeof(ROMName), stdin);
+        ROMName[strcspn(ROMName, "\n")] = 0;
+        snprintf(ROMFilePath, sizeof(ROMFilePath), "ROM/%s", ROMName);
+    } else {
+        const char *lastSlash = strrchr(ROMFilePath, '\\');
+        if (!lastSlash) lastSlash = strrchr(ROMFilePath, '/');
+        strncpy(ROMName, lastSlash ? lastSlash + 1 : ROMFilePath, sizeof(ROMName) - 1);
+        ROMName[sizeof(ROMName) - 1] = '\0';
+        printf("Selected ROM: %s\n", ROMFilePath);
+    }
+#else
     printf("\nPlease enter the ROM file name: \n");
-    printf("Note that all ROM files MUST be located in the ROM folder of this emulator. \n");
-	printf("PLEASE REMEMBER TO INCLUDE THE FILE EXTENSION!!! (the .gb) \n \n");
-    // Flush the input buffer
+    printf("PLEASE REMEMBER TO INCLUDE THE FILE EXTENSION!!! (the .gb) \n \n");
     int FlushInput;
     while ((FlushInput = getchar()) != '\n' && FlushInput != EOF);
-
     fgets(ROMName, sizeof(ROMName), stdin);
-	
-    // Remove the newline character
     ROMName[strcspn(ROMName, "\n")] = 0;
-        
     snprintf(ROMFilePath, sizeof(ROMFilePath), "ROM/%s", ROMName);
+#endif
 
     FILE *romFile = fopen(ROMFilePath, "rb");
     
@@ -346,21 +388,27 @@ void GetROMInfo() {
 		scanf("%d", &LoadSaveFile);
 
 		if (LoadSaveFile == 1) {
+			printf("\nOpening file dialog for Save file...\n");
+#ifdef _WIN32
+			if (!OpenFileDialog(RAMFilePath, sizeof(RAMFilePath), "Select or Create Save File", "Game Boy Save Files (*.sav)\0*.sav\0All Files (*.*)\0*.*\0", "Battery")) {
+				char baseName[256] = {0};
+				strncpy(baseName, ROMName, sizeof(baseName) - 1);
+				char *dot = strrchr(baseName, '.');
+				if (dot) *dot = '\0';
+				snprintf(RAMFilePath, sizeof(RAMFilePath), "Battery/%s.sav", baseName);
+				printf("No file selected in dialog. Defaulting save path to: %s\n", RAMFilePath);
+			} else {
+				printf("Save File Path set to: %s\n", RAMFilePath);
+			}
+#else
 			printf("\nPlease enter the Save file name: \n");
-			printf("Note that all Save files MUST be located in the Battery folder of this emulator. \n");
-			printf("PLEASE REMEMBER TO INCLUDE THE FILE EXTENSION!!! (the .sav) \n \n");
-			// Flush the input buffer
 			int FlushInput;
 			while ((FlushInput = getchar()) != '\n' && FlushInput != EOF);
-
 			fgets(RAMName, sizeof(RAMName), stdin);
-			
-			// Remove the newline character
 			RAMName[strcspn(RAMName, "\n")] = 0;
-
 			snprintf(RAMFilePath, sizeof(RAMFilePath), "Battery/%s", RAMName);
-
 			printf("\nSave File Loaded! \n");
+#endif
 		}
 		else {
 			printf("\nNo Save file loaded, proceeding with program. \n");

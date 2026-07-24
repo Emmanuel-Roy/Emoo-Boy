@@ -67,8 +67,13 @@ void MMULoadFile(MMU *MMU) {
     //check if the user wanted to load a ram file, and if so, load the data.
     if ((RAMSize > 0) && (LoadSaveFile == 1)) {
         FILE *ramfile = fopen(RAMFilePath, "rb");
-        size_t ramBytesRead = fread(MMU->RAMFile, 1, RAMSize, ramfile);
-        fclose(ramfile);
+        if (ramfile != NULL) {
+            size_t ramBytesRead = fread(MMU->RAMFile, 1, RAMSize, ramfile);
+            fclose(ramfile);
+        } else {
+            memset(MMU->RAMFile, 0xFF, RAMSize);
+            printf("Save file %s not found. A new save file will be created on exit.\n", RAMFilePath);
+        }
         //Load the first bank of RAM into the system memory
         memcpy(MMU->SystemMemory + 0xA000, MMU->RAMFile, 0x2000); //Load External RAM Bank 0 into the system memory location 0xA000-0xBFFF
     }
