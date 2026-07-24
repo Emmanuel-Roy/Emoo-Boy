@@ -197,6 +197,12 @@ uint8_t MMURead(MMU *MMU, uint16_t address) {
         return MMU->SystemMemory[address];
     }
 
+    // CGB WRAM Bank 0 (0xC000 - 0xCFFF)
+    if (address >= 0xC000 && address <= 0xCFFF) {
+        if (MMU->isCGB) return MMU->WRAM[0][address - 0xC000];
+        return MMU->SystemMemory[address];
+    }
+
     // CGB WRAM Banking (0xD000 - 0xDFFF)
     if (address >= 0xD000 && address <= 0xDFFF) {
         if (MMU->isCGB) {
@@ -206,8 +212,9 @@ uint8_t MMURead(MMU *MMU, uint16_t address) {
         return MMU->SystemMemory[address];
     }
 
+    // Echo RAM (0xE000 - 0xFDFF) -> mirrors 0xC000 - 0xDDFF
     if (address >= 0xE000 && address <= 0xFDFF) {
-        return MMU->SystemMemory[address - 0x2000];
+        return MMURead(MMU, address - 0x2000);
     }
 
     // CGB Registers
@@ -287,13 +294,28 @@ void MMUWrite(MMU *MMU, uint16_t address, uint8_t value) {
         return;
     }
 
-    // CGB WRAM Bank Write (0xD000 - 0xDFFF)
+    // CGB WRAM Bank 0 Write (0xC000 - 0xCFFF)
+    if (address >= 0xC000 && address <= 0xCFFF) {
+        MMU->SystemMemory[address] = value;
+        if (MMU->isCGB) {
+            MMU->WRAM[0][address - 0xC000] = value;
+        }
+        return;
+    }
+
+    // CGB WRAM Bank 1-7 Write (0xD000 - 0xDFFF)
     if (address >= 0xD000 && address <= 0xDFFF) {
         MMU->SystemMemory[address] = value;
         if (MMU->isCGB) {
             uint8_t bank = (MMU->SVBK & 0x07) ? (MMU->SVBK & 0x07) : 1;
             MMU->WRAM[bank][address - 0xD000] = value;
         }
+        return;
+    }
+
+    // Echo RAM Write (0xE000 - 0xFDFF) -> mirrors 0xC000 - 0xDDFF
+    if (address >= 0xE000 && address <= 0xFDFF) {
+        MMUWrite(MMU, address - 0x2000, value);
         return;
     }
 
